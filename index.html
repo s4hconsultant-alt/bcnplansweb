@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)file:///C:/Users/s4hco/Downloads/index.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCN Plans — Barcelona sin filtros</title>
+<meta name="description" content="Barcelona sin filtros. Planes, restaurantes, cultura y arquitectura. Todo lo mejor de la ciudad cada día.">
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link href="./index_files/css2" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;min-height:100vh}
+body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 60px;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(196,168,130,0.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(196,168,130,0.04) 0%,transparent 50%);pointer-events:none}
+.lang-bar{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(8px);display:flex;justify-content:center;gap:4px;padding:8px 16px;z-index:100;border-bottom:1px solid rgba(196,168,130,0.1)}
+.lang-btn{background:transparent;border:1px solid rgba(196,168,130,0.25);color:rgba(245,240,232,0.45);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;padding:5px 14px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
+.lang-btn:hover,.lang-btn.active{background:#c4a882;border-color:#c4a882;color:#0a0a0a}
+[data-lang]{display:none}
+[data-lang].visible{display:flex;flex-direction:column;align-items:center;width:100%;max-width:480px}
+.avatar{width:88px;height:88px;border-radius:50%;border:2px solid #c4a882;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:32px;color:#c4a882;margin-bottom:16px;margin-top:44px;flex-shrink:0}
+.handle{font-size:17px;font-weight:500;letter-spacing:0.5px;margin-bottom:4px;color:#f5f0e8}
+.tagline{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#c4a882;margin-bottom:6px;text-align:center}
+.bio{font-size:13px;color:rgba(245,240,232,0.55);text-align:center;margin-bottom:32px;line-height:1.6;max-width:320px}
+.section-label{width:100%;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,168,130,0.5);margin-bottom:12px;margin-top:28px;padding-left:2px}
+.link-card{width:100%;display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,168,130,0.2);padding:16px 20px;text-decoration:none;color:#f5f0e8;margin-bottom:10px;transition:all 0.2s;position:relative;overflow:hidden}
+.link-card::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(196,168,130,0.06) 0%,transparent 100%);opacity:0;transition:opacity 0.2s}
+.link-card:hover{border-color:rgba(196,168,130,0.5);background:rgba(255,255,255,0.07);transform:translateY(-1px)}
+.link-card:hover::before{opacity:1}
+.link-card.destacado{border-color:#c4a882;background:rgba(196,168,130,0.08)}
+.link-icon{font-size:22px;flex-shrink:0;width:32px;text-align:center}
+.link-content{flex:1}
+.link-title{font-size:14px;font-weight:500;margin-bottom:2px;line-height:1.3}
+.link-sub{font-size:11px;color:rgba(245,240,232,0.45);letter-spacing:0.3px}
+.link-arrow{font-size:14px;color:#c4a882;flex-shrink:0;transition:transform 0.2s}
+.link-card:hover .link-arrow{transform:translateX(3px)}
+.badge-new{position:absolute;top:10px;right:12px;background:#c4a882;color:#0a0a0a;font-size:9px;font-weight:500;padding:2px 8px;letter-spacing:1px;text-transform:uppercase}
+.link-card.soon{opacity:0.4;cursor:default;pointer-events:none;border-color:rgba(255,255,255,0.06);background:rgba(255,255,255,0.02)}
+.link-card.soon .link-arrow{display:none}
+.badge-soon{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(196,168,130,0.6);border:1px solid rgba(196,168,130,0.3);padding:2px 7px;flex-shrink:0;white-space:nowrap}
+.social-row{display:flex;gap:12px;margin-top:36px;margin-bottom:8px}
+.social-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(245,240,232,0.7);text-decoration:none;font-size:12px;letter-spacing:0.5px;padding:10px 18px;transition:all 0.2s}
+.social-btn:hover{background:rgba(255,255,255,0.09);color:#f5f0e8;border-color:rgba(196,168,130,0.3)}
+.divider{width:40px;height:1px;background:rgba(196,168,130,0.2);margin:8px auto 0}
+.footer-text{margin-top:32px;font-size:11px;color:rgba(245,240,232,0.2);letter-spacing:1px;text-align:center}
+.footer-text a{color:rgba(196,168,130,0.4);text-decoration:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.avatar{animation:fadeUp 0.4s ease both}
+.handle{animation:fadeUp 0.4s 0.05s ease both}
+.tagline{animation:fadeUp 0.4s 0.1s ease both}
+.bio{animation:fadeUp 0.4s 0.15s ease both}
+</style>
+<style type="text/css" id="operaUserStyle"></style></head>
+<body>
+
+<div class="lang-bar">
+  <button class="lang-btn active" onclick="setLang(&#39;es&#39;)">ES</button>
+  <button class="lang-btn" onclick="setLang(&#39;en&#39;)">EN</button>
+  <button class="lang-btn" onclick="setLang(&#39;ca&#39;)">CA</button>
+</div>
+
+<!-- ══ CASTELLANO ══ -->
+<div data-lang="es" class="visible">
+  <div class="avatar">B</div>
+  <p class="handle">@bcn_plans</p>
+  <p class="tagline">Barcelona · Plans · Gastronomia · Vida</p>
+  <p class="bio">Barcelona sin filtros 🗺️<br>Todo lo mejor de la ciudad, cada día.</p>
+
+  <p class="section-label">Entradas &amp; Tours</p>
+  <a href="file:///C:/sagrada-familia/" class="link-card destacado">
+    <span class="badge-new">Nuevo</span>
+    <span class="link-icon">🏛️</span>
+    <div class="link-content">
+      <p class="link-title">Sagrada Família sin colas</p>
+      <p class="link-sub">Entradas con acceso prioritario · Desde 34€</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+  <div class="link-card soon">
+    <span class="link-icon">🌿</span>
+    <div class="link-content">
+      <p class="link-title">Park Güell sin colas</p>
+      <p class="link-sub">Entradas y tours guiados</p>
+    </div>
+    <span class="badge-soon">Próximamente</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">🏠</span>
+    <div class="link-content">
+      <p class="link-title">Casa Batlló · La Pedrera</p>
+      <p class="link-sub">Las joyas del modernismo barcelonés</p>
+    </div>
+    <span class="badge-soon">Próximamente</span>
+  </div>
+
+  <p class="section-label">Arquitectura &amp; Cultura</p>
+  <div class="link-card soon">
+    <span class="link-icon">🏗️</span>
+    <div class="link-content">
+      <p class="link-title">Arquitectura · Edificios que visitar</p>
+      <p class="link-sub">Los mejores edificios de Barcelona explicados</p>
+    </div>
+    <span class="badge-soon">Próximamente</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">🎨</span>
+    <div class="link-content">
+      <p class="link-title">Cultura · Museos · Exposiciones</p>
+      <p class="link-sub">Lo mejor de la cultura barcelonesa</p>
+    </div>
+    <span class="badge-soon">Próximamente</span>
+  </div>
+
+  <p class="section-label">Gastronomía &amp; Planes</p>
+  <div class="link-card soon">
+    <span class="link-icon">🍽️</span>
+    <div class="link-content">
+      <p class="link-title">Mejores restaurantes de Barcelona</p>
+      <p class="link-sub">Selección insider por barrios</p>
+    </div>
+    <span class="badge-soon">Próximamente</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">📅</span>
+    <div class="link-content">
+      <p class="link-title">Agenda semanal de planes</p>
+      <p class="link-sub">Lo mejor de cada fin de semana</p>
+    </div>
+    <span class="badge-soon">Próximamente</span>
+  </div>
+
+  <div class="social-row">
+    <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
+  </div>
+  <div class="divider"></div>
+  <p class="footer-text">© 2025 bcnplans.com · <a href="file:///C:/legal/">Aviso legal</a> · <a href="file:///C:/privacidad/">Privacidad</a></p>
+</div>
+
+<!-- ══ ENGLISH ══ -->
+<div data-lang="en">
+  <div class="avatar">B</div>
+  <p class="handle">@bcn_plans</p>
+  <p class="tagline">Barcelona · Plans · Gastronomy · Life</p>
+  <p class="bio">Barcelona unfiltered 🗺️<br>The best of the city, every day.</p>
+
+  <p class="section-label">Tickets &amp; Tours</p>
+  <a href="file:///C:/sagrada-familia/" class="link-card destacado">
+    <span class="badge-new">New</span>
+    <span class="link-icon">🏛️</span>
+    <div class="link-content">
+      <p class="link-title">Sagrada Família skip the line</p>
+      <p class="link-sub">Priority access tickets · From €34</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+  <div class="link-card soon">
+    <span class="link-icon">🌿</span>
+    <div class="link-content">
+      <p class="link-title">Park Güell skip the line</p>
+      <p class="link-sub">Tickets and guided tours</p>
+    </div>
+    <span class="badge-soon">Coming soon</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">🏠</span>
+    <div class="link-content">
+      <p class="link-title">Casa Batlló · La Pedrera</p>
+      <p class="link-sub">The gems of Barcelona modernisme</p>
+    </div>
+    <span class="badge-soon">Coming soon</span>
+  </div>
+
+  <p class="section-label">Architecture &amp; Culture</p>
+  <div class="link-card soon">
+    <span class="link-icon">🏗️</span>
+    <div class="link-content">
+      <p class="link-title">Architecture · Buildings to visit</p>
+      <p class="link-sub">Barcelona's best buildings explained</p>
+    </div>
+    <span class="badge-soon">Coming soon</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">🎨</span>
+    <div class="link-content">
+      <p class="link-title">Culture · Museums · Exhibitions</p>
+      <p class="link-sub">The best of Barcelona's cultural scene</p>
+    </div>
+    <span class="badge-soon">Coming soon</span>
+  </div>
+
+  <p class="section-label">Food &amp; Plans</p>
+  <div class="link-card soon">
+    <span class="link-icon">🍽️</span>
+    <div class="link-content">
+      <p class="link-title">Best restaurants in Barcelona</p>
+      <p class="link-sub">Insider picks by neighbourhood</p>
+    </div>
+    <span class="badge-soon">Coming soon</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">📅</span>
+    <div class="link-content">
+      <p class="link-title">Weekly plans &amp; events</p>
+      <p class="link-sub">The best of every weekend</p>
+    </div>
+    <span class="badge-soon">Coming soon</span>
+  </div>
+
+  <div class="social-row">
+    <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
+  </div>
+  <div class="divider"></div>
+  <p class="footer-text">© 2025 bcnplans.com · <a href="file:///C:/legal/">Legal</a> · <a href="file:///C:/privacy/">Privacy</a></p>
+</div>
+
+<!-- ══ CATALÀ ══ -->
+<div data-lang="ca">
+  <div class="avatar">B</div>
+  <p class="handle">@bcn_plans</p>
+  <p class="tagline">Barcelona · Plans · Gastronomia · Vida</p>
+  <p class="bio">Barcelona sense filtres 🗺️<br>Tot el millor de la ciutat, cada dia.</p>
+
+  <p class="section-label">Entrades &amp; Tours</p>
+  <a href="file:///C:/sagrada-familia/" class="link-card destacado">
+    <span class="badge-new">Nou</span>
+    <span class="link-icon">🏛️</span>
+    <div class="link-content">
+      <p class="link-title">Sagrada Família sense cues</p>
+      <p class="link-sub">Entrades amb accés prioritari · Des de 34€</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+  <div class="link-card soon">
+    <span class="link-icon">🌿</span>
+    <div class="link-content">
+      <p class="link-title">Park Güell sense cues</p>
+      <p class="link-sub">Entrades i tours guiats</p>
+    </div>
+    <span class="badge-soon">Pròximament</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">🏠</span>
+    <div class="link-content">
+      <p class="link-title">Casa Batlló · La Pedrera</p>
+      <p class="link-sub">Les joies del modernisme barceloní</p>
+    </div>
+    <span class="badge-soon">Pròximament</span>
+  </div>
+
+  <p class="section-label">Arquitectura &amp; Cultura</p>
+  <div class="link-card soon">
+    <span class="link-icon">🏗️</span>
+    <div class="link-content">
+      <p class="link-title">Arquitectura · Edificis que visitar</p>
+      <p class="link-sub">Els millors edificis de Barcelona explicats</p>
+    </div>
+    <span class="badge-soon">Pròximament</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">🎨</span>
+    <div class="link-content">
+      <p class="link-title">Cultura · Museus · Exposicions</p>
+      <p class="link-sub">El millor de la cultura barcelonina</p>
+    </div>
+    <span class="badge-soon">Pròximament</span>
+  </div>
+
+  <p class="section-label">Gastronomia &amp; Plans</p>
+  <div class="link-card soon">
+    <span class="link-icon">🍽️</span>
+    <div class="link-content">
+      <p class="link-title">Millors restaurants de Barcelona</p>
+      <p class="link-sub">Selecció insider per barris</p>
+    </div>
+    <span class="badge-soon">Pròximament</span>
+  </div>
+  <div class="link-card soon">
+    <span class="link-icon">📅</span>
+    <div class="link-content">
+      <p class="link-title">Agenda setmanal de plans</p>
+      <p class="link-sub">El millor de cada cap de setmana</p>
+    </div>
+    <span class="badge-soon">Pròximament</span>
+  </div>
+
+  <div class="social-row">
+    <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
+  </div>
+  <div class="divider"></div>
+  <p class="footer-text">© 2025 bcnplans.com · <a href="file:///C:/legal/">Avís legal</a> · <a href="file:///C:/privacitat/">Privacitat</a></p>
+</div>
+
+<script>
+function setLang(lang){
+  document.querySelectorAll('[data-lang]').forEach(el=>el.classList.remove('visible'));
+  document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+  document.querySelector('[data-lang="'+lang+'"]').classList.add('visible');
+  document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]').classList.add('active');
+  document.documentElement.lang=lang;
+  window.scrollTo(0,0);
+}
+window.addEventListener('DOMContentLoaded',function(){
+  var bl=navigator.language.slice(0,2).toLowerCase();
+  if(bl==='ca')setLang('ca');
+  else if(bl==='en')setLang('en');
+  else setLang('es');
+});
+</script>
+
+
+</body></html>
