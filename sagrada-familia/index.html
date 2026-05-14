@@ -692,8 +692,12 @@ function setLang(lang){
   document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]').classList.add('active');
   document.documentElement.lang=lang;
   window.scrollTo(0,0);
+  try{localStorage.setItem('bcnplans_lang',lang);}catch(e){}
 }
 window.addEventListener('DOMContentLoaded',function(){
+  var saved=null;
+  try{saved=localStorage.getItem('bcnplans_lang');}catch(e){}
+  if(saved&&['es','en','ca'].includes(saved)){setLang(saved);return;}
   var bl=navigator.language.slice(0,2).toLowerCase();
   if(bl==='ca')setLang('ca');
   else if(bl==='en')setLang('en');
