@@ -106,7 +106,6 @@ footer a{color:var(--oro);text-decoration:none}
 
 body{visibility:hidden}
 </style>
-<script>window.scrollTo(0,0);</script>
 </head>
 <body>
 
@@ -694,9 +693,9 @@ function setLang(lang){
   document.querySelector('[data-lang="'+lang+'"]').classList.add('visible');
   document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]').classList.add('active');
   document.documentElement.lang=lang;
+  document.body.style.visibility='visible';
   window.scrollTo(0,0);
   try{localStorage.setItem('bcnplans_lang',lang);}catch(e){}
-  document.body.style.visibility='visible';
 }
 window.addEventListener('DOMContentLoaded',function(){
   var saved=null;
