@@ -47,6 +47,13 @@ tbody td{padding:16px;vertical-align:middle}
 .badge{display:inline-block;background:var(--oro);color:var(--negro);font-size:10px;font-weight:500;padding:3px 8px;letter-spacing:1px;text-transform:uppercase;margin-left:6px;vertical-align:middle}
 .precio{font-weight:500}
 .td-link a{color:var(--oro-oscuro);text-decoration:underline;font-weight:500;font-size:13px;white-space:nowrap}
+.td-link{padding:14px 12px;min-width:150px}
+.td-link .booking-btns{display:flex;flex-direction:column;gap:5px}
+.td-link .booking-btn{display:block;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.4px;padding:7px 10px;text-decoration:none;text-align:center;white-space:nowrap;transition:all 0.2s;border:1px solid var(--oro);color:var(--negro);background:var(--oro)}
+.td-link .booking-btn.viator{background:transparent;color:var(--oro-oscuro)}
+.td-link .booking-btn.gyg:hover{background:var(--oro-oscuro);color:var(--crema);border-color:var(--oro-oscuro)}
+.td-link .booking-btn.viator:hover{background:rgba(196,168,130,0.12)}
+.tabla-nota{font-size:12px;color:var(--gris);margin:-20px 0 32px;line-height:1.55;font-style:italic;max-width:680px}
 .cards{display:flex;flex-direction:column;gap:24px;margin:32px 0}
 .card{border:1px solid rgba(0,0,0,0.1);padding:28px;position:relative;background:#fff}
 .card.top{border-color:var(--oro);border-width:2px}
@@ -105,6 +112,17 @@ footer a{color:var(--oro);text-decoration:none}
 .btn-cta{animation-delay:0.3s}
 
 body{visibility:hidden}
+
+/* --- DUAL CTA (GYG + Viator) --- */
+.cta-dual{display:flex;flex-direction:column;align-items:center;gap:10px}
+.cta-dual .btn-cta{margin:0}
+.btn-cta-alt{display:inline-block;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:1px;color:var(--oro-oscuro);text-decoration:none;padding:4px 0;border-bottom:1px solid rgba(196,168,130,0.4);transition:color 0.2s,border-color 0.2s}
+.btn-cta-alt:hover{color:var(--negro);border-bottom-color:var(--negro)}
+.tour-card-btns{display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.tour-card-btn{padding:7px 12px !important}
+.tour-card-btn.alt{background:transparent;border:1px solid var(--oro);color:var(--oro-oscuro)}
+.tour-card-btn.alt:hover{background:rgba(196,168,130,0.12);color:var(--negro)}
+/* --- /DUAL CTA --- */
 </style>
 </head>
 <body>
@@ -150,13 +168,14 @@ body{visibility:hidden}
     <table>
       <thead><tr><th>Entrada</th><th>Duración</th><th>Precio</th><th>Reservar</th></tr></thead>
       <tbody>
-        <tr class="destacada"><td>🥇 Acceso prioritario + guía<span class="badge">Popular</span></td><td>1.5h</td><td class="precio">~56€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reservar →</a></td></tr>
-        <tr><td>🥈 Tour guiado + acceso a la torre</td><td>1.5h</td><td class="precio">~72€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reservar →</a></td></tr>
-        <tr><td>🥉 Ticket de acceso con audioguía</td><td>1 día</td><td class="precio">~34€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reservar →</a></td></tr>
-        <tr><td>Tour guiado con Entrada Exprés</td><td>1.5h</td><td class="precio">~65€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reservar →</a></td></tr>
+        <tr class="destacada"><td>🥇 Acceso prioritario + guía<span class="badge">Popular</span></td><td>1.5h</td><td class="precio">~56€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Ver en GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Ver en Viator</a></div></td></tr>
+        <tr><td>🥈 Tour guiado + acceso a la torre</td><td>1.5h</td><td class="precio">~72€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Ver en GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Ver en Viator</a></div></td></tr>
+        <tr><td>🥉 Ticket de acceso con audioguía</td><td>1 día</td><td class="precio">~34€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Ver en GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Ver en Viator</a></div></td></tr>
+        <tr><td>Tour guiado con Entrada Exprés</td><td>1.5h</td><td class="precio">~65€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Ver en GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Ver en Viator</a></div></td></tr>
       </tbody>
     </table>
   </div>
+  <p class="tabla-nota">Ambas plataformas incluyen cancelación gratuita hasta 24h antes. Los precios pueden variar.</p>
 </div>
 <hr class="divider">
 <div class="seccion">
@@ -170,7 +189,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>1.5h</strong></span><span>💶 Desde <strong>56€</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"La guía nos explicó detalles que jamás habríamos visto solos. El simbolismo de cada fachada, los colores de los vitrales... Merece cada euro."<br><strong style="font-style:normal;color:#333;">— María, Madrid</strong></div>
       <p>El tour en grupo pequeño dura casi el doble que la visita oficial estándar. Entras sin cola y puedes quedarte a explorar después.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar acceso prioritario + guía</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar acceso prioritario + guía</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Ver también en Viator →</a>
+      </div>
     </div>
     <div class="card">
       <div class="card-medal">🥈</div>
@@ -178,7 +200,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>1.5h</strong></span><span>💶 Desde <strong>72€</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"La vista desde las torres es impresionante. Se ve toda la ciudad. Muy recomendable."<br><strong style="font-style:normal;color:#333;">— Jordi, Barcelona</strong></div>
       <p>La entrada general no incluye el acceso a las torres — mucha gente lo descubre al llegar. Reserva esta si quieres subir.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar entrada + torres</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar entrada + torres</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Ver también en Viator →</a>
+      </div>
     </div>
     <div class="card">
       <div class="card-medal">🥉</div>
@@ -186,7 +211,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>Flexible</strong></span><span>💶 Desde <strong>34€</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"La audioguía estaba muy bien. Te permite ir a tu ritmo y detenerte donde quieras."<br><strong style="font-style:normal;color:#333;">— Laura, Sevilla</strong></div>
       <p>La opción más económica con acceso prioritario. Ideal si prefieres explorar sin grupo y a tu propio ritmo. Cancelación gratuita hasta 24h antes.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar ticket con audioguía</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar ticket con audioguía</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Ver también en Viator →</a>
+      </div>
     </div>
   </div>
 </div>
@@ -232,7 +260,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Desde <strong>56€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reservar →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reservar →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -251,7 +282,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Desde <strong>72€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reservar →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reservar →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -270,7 +304,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Desde <strong>34€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reservar →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reservar →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -289,7 +326,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Desde <strong>65€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reservar →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reservar →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -299,7 +339,10 @@ body{visibility:hidden}
   <hr class="divider-oro">
   <h2>¿Listo para entrar<br><em>sin cola</em>?</h2>
   <p>Reserva hoy con cancelación gratuita. Las plazas se agotan rápido.</p>
-  <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Ver disponibilidad y reservar</a>
+  <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Ver disponibilidad y reservar</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Ver también en Viator →</a>
+      </div>
   <div class="garantias"><span>Cancelación gratuita 24h antes</span><span>Precio garantizado</span><span>Confirmación inmediata</span></div>
 </div>
 </div>
@@ -339,13 +382,14 @@ body{visibility:hidden}
     <table>
       <thead><tr><th>Ticket</th><th>Duration</th><th>Price</th><th>Book</th></tr></thead>
       <tbody>
-        <tr class="destacada"><td>🥇 Priority access + guide<span class="badge">Popular</span></td><td>1.5h</td><td class="precio">~€56</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Book →</a></td></tr>
-        <tr><td>🥈 Guided tour + tower access</td><td>1.5h</td><td class="precio">~€72</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Book →</a></td></tr>
-        <tr><td>🥉 Entrance ticket with audio guide</td><td>1 day</td><td class="precio">~€34</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Book →</a></td></tr>
-        <tr><td>Guided tour with Express Entry</td><td>1.5h</td><td class="precio">~€65</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Book →</a></td></tr>
+        <tr class="destacada"><td>🥇 Priority access + guide<span class="badge">Popular</span></td><td>1.5h</td><td class="precio">~€56</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">View on GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">View on Viator</a></div></td></tr>
+        <tr><td>🥈 Guided tour + tower access</td><td>1.5h</td><td class="precio">~€72</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">View on GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">View on Viator</a></div></td></tr>
+        <tr><td>🥉 Entrance ticket with audio guide</td><td>1 day</td><td class="precio">~€34</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">View on GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">View on Viator</a></div></td></tr>
+        <tr><td>Guided tour with Express Entry</td><td>1.5h</td><td class="precio">~€65</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">View on GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">View on Viator</a></div></td></tr>
       </tbody>
     </table>
   </div>
+  <p class="tabla-nota">Both platforms include free cancellation up to 24h before. Prices may vary.</p>
 </div>
 <hr class="divider">
 <div class="seccion">
@@ -359,7 +403,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>1.5h</strong></span><span>💶 From <strong>€56</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"Our guide explained details we would never have noticed on our own. The symbolism behind every façade, the stained glass colours at different times of day... worth every penny."<br><strong style="font-style:normal;color:#333;">— Sarah, London</strong></div>
       <p>This small-group tour lasts almost twice as long as the official standard visit. You skip the queue and can stay to explore on your own after.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Book priority access + guide</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Book priority access + guide</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Also on Viator →</a>
+      </div>
     </div>
     <div class="card">
       <div class="card-medal">🥈</div>
@@ -367,7 +414,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>1.5h</strong></span><span>💶 From <strong>€72</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"The view from the towers is incredible. You can see the whole city. Highly recommended for photographers."<br><strong style="font-style:normal;color:#333;">— James, New York</strong></div>
       <p>General admission does not include tower access — most visitors find this out on arrival. Book this if you want to go up.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Book entry + towers</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Book entry + towers</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Also on Viator →</a>
+      </div>
     </div>
     <div class="card">
       <div class="card-medal">🥉</div>
@@ -375,7 +425,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>Flexible</strong></span><span>💶 From <strong>€34</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"The audio guide was really well done. It lets you go at your own pace and linger wherever you want."<br><strong style="font-style:normal;color:#333;">— Emma, Dublin</strong></div>
       <p>The most affordable skip-the-line option. Perfect if you prefer to explore without a group and at your own pace. Free cancellation up to 24h before.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Book entrance with audio guide</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Book entrance with audio guide</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Also on Viator →</a>
+      </div>
     </div>
   </div>
 </div>
@@ -421,7 +474,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">From <strong>€56</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Book →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Book →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -440,7 +496,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">From <strong>€72</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Book →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Book →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -459,7 +518,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">From <strong>€34</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Book →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Book →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -478,7 +540,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">From <strong>€65</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Book →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Book →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -488,7 +553,10 @@ body{visibility:hidden}
   <hr class="divider-oro">
   <h2>Ready to skip<br><em>the queue</em>?</h2>
   <p>Book today with free cancellation. Spots fill up fast.</p>
-  <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Check availability and book</a>
+  <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Check availability and book</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Also on Viator →</a>
+      </div>
   <div class="garantias"><span>Free cancellation 24h before</span><span>Best price guaranteed</span><span>Instant confirmation</span></div>
 </div>
 </div>
@@ -528,13 +596,14 @@ body{visibility:hidden}
     <table>
       <thead><tr><th>Entrada</th><th>Durada</th><th>Preu</th><th>Reservar</th></tr></thead>
       <tbody>
-        <tr class="destacada"><td>🥇 Accés prioritari + guia<span class="badge">Popular</span></td><td>1.5h</td><td class="precio">~56€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reserva →</a></td></tr>
-        <tr><td>🥈 Tour guiat + accés a la torre</td><td>1.5h</td><td class="precio">~72€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reserva →</a></td></tr>
-        <tr><td>🥉 Ticket d'accés amb audioguia</td><td>1 dia</td><td class="precio">~34€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reserva →</a></td></tr>
-        <tr><td>Tour guiat amb Entrada Exprés</td><td>1.5h</td><td class="precio">~65€</td><td class="td-link"><a href="https://gyg.me/bWHYNpmV" target="_blank">Reserva →</a></td></tr>
+        <tr class="destacada"><td>🥇 Accés prioritari + guia<span class="badge">Popular</span></td><td>1.5h</td><td class="precio">~56€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Veure a GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Veure a Viator</a></div></td></tr>
+        <tr><td>🥈 Tour guiat + accés a la torre</td><td>1.5h</td><td class="precio">~72€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Veure a GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Veure a Viator</a></div></td></tr>
+        <tr><td>🥉 Ticket d'accés amb audioguia</td><td>1 dia</td><td class="precio">~34€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Veure a GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Veure a Viator</a></div></td></tr>
+        <tr><td>Tour guiat amb Entrada Exprés</td><td>1.5h</td><td class="precio">~65€</td><td class="td-link"><div class="booking-btns"><a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="booking-btn gyg">Veure a GetYourGuide</a><a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="booking-btn viator">Veure a Viator</a></div></td></tr>
       </tbody>
     </table>
   </div>
+  <p class="tabla-nota">Ambdues plataformes inclouen cancel·lació gratuïta fins a 24h abans. Els preus poden variar.</p>
 </div>
 <hr class="divider">
 <div class="seccion">
@@ -548,7 +617,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>1.5h</strong></span><span>💶 Des de <strong>56€</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"La guia ens va explicar detalls que mai hauríem vist sols. El simbolisme de cada façana, els colors dels vitralls... Val cada euro."<br><strong style="font-style:normal;color:#333;">— Anna, Barcelona</strong></div>
       <p>El tour en grup petit dura gairebé el doble que la visita oficial estàndard. Entres sense cua i pots quedar-te a explorar després.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar accés prioritari + guia</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar accés prioritari + guia</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Veure també a Viator →</a>
+      </div>
     </div>
     <div class="card">
       <div class="card-medal">🥈</div>
@@ -556,7 +628,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>1.5h</strong></span><span>💶 Des de <strong>72€</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"La vista des de les torres és impressionant. Es veu tota la ciutat. Molt recomanable per als qui volen fotos diferents."<br><strong style="font-style:normal;color:#333;">— Marc, Gràcia</strong></div>
       <p>L'entrada general no inclou l'accés a les torres — molta gent ho descobreix en arribar. Reserva aquesta si vols pujar-hi.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar entrada + torres</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar entrada + torres</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Veure també a Viator →</a>
+      </div>
     </div>
     <div class="card">
       <div class="card-medal">🥉</div>
@@ -564,7 +639,10 @@ body{visibility:hidden}
       <div class="card-meta"><span>⏱ <strong>Flexible</strong></span><span>💶 Des de <strong>34€</strong></span></div>
       <div class="review"><div class="stars">★★★★★</div>"L'audioguia estava molt ben feta. Et permet anar al teu ritme i aturar-te on vulguis."<br><strong style="font-style:normal;color:#333;">— Marta, Girona</strong></div>
       <p>L'opció més econòmica amb accés prioritari. Ideal si prefereixes explorar sense grup i al teu propi ritme. Cancel·lació gratuïta fins 24h abans.</p>
-      <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar ticket amb audioguia</a>
+      <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Reservar ticket amb audioguia</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Veure també a Viator →</a>
+      </div>
     </div>
   </div>
 </div>
@@ -610,7 +688,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Des de <strong>56€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reserva →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reserva →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -629,7 +710,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Des de <strong>72€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reserva →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reserva →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -648,7 +732,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Des de <strong>34€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reserva →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reserva →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -667,7 +754,10 @@ body{visibility:hidden}
         </div>
         <div class="tour-card-footer">
           <div class="tour-card-price">Des de <strong>65€</strong></div>
-          <a href="https://gyg.me/bWHYNpmV" target="_blank" class="tour-card-btn">Reserva →</a>
+          <div class="tour-card-btns">
+            <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="tour-card-btn">Reserva →</a>
+            <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="tour-card-btn alt">Viator</a>
+          </div>
         </div>
       </div>
     </div>
@@ -677,7 +767,10 @@ body{visibility:hidden}
   <hr class="divider-oro">
   <h2>Llest per entrar<br><em>sense cua</em>?</h2>
   <p>Reserva avui amb cancel·lació gratuïta. Les places s'esgoten ràpid.</p>
-  <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Veure disponibilitat i reservar</a>
+  <div class="cta-dual">
+        <a href="https://gyg.me/bWHYNpmV" target="_blank" rel="noopener" class="btn-cta grande">🎟️ Veure disponibilitat i reservar</a>
+        <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="btn-cta-alt">Veure també a Viator →</a>
+      </div>
   <div class="garantias"><span>Cancel·lació gratuïta 24h abans</span><span>Preu garantit</span><span>Confirmació immediata</span></div>
 </div>
 </div>
