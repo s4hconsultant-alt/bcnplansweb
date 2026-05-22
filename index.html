@@ -3,460 +3,546 @@
 <head>
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="icon" type="image/x-icon" href="favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BCN Plans — Barcelona sin filtros</title>
-<meta name="description" content="Barcelona sin filtros. Planes, restaurantes, cultura y arquitectura. Todo lo mejor de la ciudad cada día.">
+<meta name="description" content="Barcelona sin filtros. Entradas sin colas, guías insider y los mejores planes de la ciudad.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+/* ── Reset ── */
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;min-height:100vh}
-body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:48px 20px 60px;position:relative;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(196,168,130,0.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(196,168,130,0.04) 0%,transparent 50%);pointer-events:none}
-.lang-bar{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(8px);display:flex;justify-content:center;gap:4px;padding:8px 16px;z-index:100;border-bottom:1px solid rgba(196,168,130,0.1)}
-.lang-btn{background:transparent;border:1px solid rgba(196,168,130,0.25);color:rgba(245,240,232,0.45);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;padding:5px 14px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
-.lang-btn:hover,.lang-btn.active{background:#c4a882;border-color:#c4a882;color:#0a0a0a}
-[data-lang]{display:none !important}
-[data-lang].visible{display:flex !important;flex-direction:column;align-items:center;width:100%;max-width:480px}
-.avatar{width:88px;height:88px;border-radius:50%;border:2px solid #c4a882;overflow:hidden;margin-bottom:16px;margin-top:44px;flex-shrink:0;display:block}.avatar img{width:100%;height:100%;object-fit:cover}
-.handle{font-size:17px;font-weight:500;letter-spacing:0.5px;margin-bottom:4px;color:#f5f0e8}
-.tagline{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#c4a882;margin-bottom:6px;text-align:center}
-.bio{font-size:13px;color:rgba(245,240,232,0.55);text-align:center;margin-bottom:32px;line-height:1.6;max-width:320px}
-.section-label{width:100%;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,168,130,0.5);margin-bottom:12px;margin-top:28px;padding-left:2px}
-.link-card{width:100%;display:flex;align-items:center;gap:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(196,168,130,0.2);padding:16px 20px;text-decoration:none;color:#f5f0e8;margin-bottom:10px;transition:all 0.2s;position:relative;overflow:hidden}
-.link-card::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(196,168,130,0.06) 0%,transparent 100%);opacity:0;transition:opacity 0.2s}
-.link-card:hover{border-color:rgba(196,168,130,0.5);background:rgba(255,255,255,0.07);transform:translateY(-1px)}
-.link-card:hover::before{opacity:1}
-.link-card.destacado{border-color:#c4a882;background:rgba(196,168,130,0.08)}
-.link-icon{font-size:22px;flex-shrink:0;width:32px;text-align:center}
-.link-content{flex:1}
-.link-title{font-size:14px;font-weight:500;margin-bottom:2px;line-height:1.3}
-.link-sub{font-size:11px;color:rgba(245,240,232,0.45);letter-spacing:0.3px}
-.link-arrow{font-size:14px;color:#c4a882;flex-shrink:0;transition:transform 0.2s}
-.link-card:hover .link-arrow{transform:translateX(3px)}
-.badge-new{position:absolute;top:10px;right:12px;background:#c4a882;color:#0a0a0a;font-size:9px;font-weight:500;padding:2px 8px;letter-spacing:1px;text-transform:uppercase}
-.link-card.soon{opacity:0.4;cursor:default;pointer-events:none;border-color:rgba(255,255,255,0.06);background:rgba(255,255,255,0.02)}
-.link-card.soon .link-arrow{display:none}
-.badge-soon{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:rgba(196,168,130,0.6);border:1px solid rgba(196,168,130,0.3);padding:2px 7px;flex-shrink:0;white-space:nowrap}
-.social-row{display:flex;gap:12px;margin-top:36px;margin-bottom:8px}
-.social-btn{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(245,240,232,0.7);text-decoration:none;font-size:12px;letter-spacing:0.5px;padding:10px 18px;transition:all 0.2s}
-.social-btn:hover{background:rgba(255,255,255,0.09);color:#f5f0e8;border-color:rgba(196,168,130,0.3)}
-.divider{width:40px;height:1px;background:rgba(196,168,130,0.2);margin:8px auto 0}
-.footer-text{margin-top:32px;font-size:11px;color:rgba(245,240,232,0.2);letter-spacing:1px;text-align:center}
-.footer-text a{color:rgba(196,168,130,0.4);text-decoration:none}
+html{scroll-behavior:smooth}
+body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
 
-.collab-strip{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(196,168,130,0.06);border:1px solid rgba(196,168,130,0.22);padding:11px 16px;text-decoration:none;color:#f5f0e8;margin:0 0 28px;transition:all 0.2s}
-.collab-strip:hover{background:rgba(196,168,130,0.12);border-color:rgba(196,168,130,0.5);transform:translateY(-1px)}
-.collab-strip .cs-left{display:flex;align-items:center;gap:9px;min-width:0}
-.collab-strip .cs-icon{font-size:14px;flex-shrink:0}
-.collab-strip .cs-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,0.55);white-space:nowrap}
-.collab-strip .cs-email{font-size:12px;letter-spacing:0.3px;color:#c4a882;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-@media (max-width:380px){
-  .collab-strip{flex-direction:column;align-items:flex-start;gap:4px}
-  .collab-strip .cs-email{font-size:11px}
+/* ── Lang bar ── */
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(to bottom,rgba(5,5,5,0.9) 0%,transparent 100%)}
+.lang-bar-social{display:flex;align-items:center;gap:12px}
+.social-icon{display:flex;align-items:center;color:rgba(245,240,232,0.35);text-decoration:none;transition:color 0.2s,filter 0.2s}
+.social-icon:hover{color:#c4a882;filter:drop-shadow(0 0 6px rgba(196,168,130,0.5))}
+.social-icon svg{width:17px;height:17px;fill:currentColor}
+.lang-bar-langs{display:flex;gap:2px}
+.lang-btn{background:transparent;border:none;color:rgba(245,240,232,0.4);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;padding:4px 10px;cursor:pointer;text-transform:uppercase;transition:color 0.2s;border-bottom:1px solid transparent}
+.lang-btn:hover{color:rgba(245,240,232,0.75)}
+.lang-btn.active{color:#c4a882;border-bottom-color:#c4a882}
+
+/* ── Hero ── */
+.hero{position:relative;width:100%;min-height:100svh;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hero-img{position:absolute;inset:0;background-image:url(imagery/sagrada-interior.avif);background-size:cover;background-position:center 40%;will-change:transform}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,5,0.25) 0%,rgba(5,5,5,0.15) 35%,rgba(5,5,5,0.75) 70%,rgba(5,5,5,0.97) 100%)}
+.hero-brand{position:absolute;top:52px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:2}
+.hero-brand-logo{width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(196,168,130,0.5);overflow:hidden}
+.hero-brand-logo img{width:100%;height:100%;object-fit:cover}
+.hero-brand-handle{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,168,130,0.7)}
+.hero-content{position:relative;z-index:2;padding:0 28px 56px}
+.hero-eyebrow{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(196,168,130,0.65);margin-bottom:14px;display:block}
+.hero-h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(44px,11vw,72px);line-height:1.0;color:#f5f0e8;margin-bottom:16px;letter-spacing:-0.5px}
+.hero-h1 em{font-style:italic;color:#c4a882}
+.hero-sub{font-size:14px;line-height:1.65;color:rgba(245,240,232,0.65);max-width:340px;margin-bottom:32px;font-weight:300}
+.hero-ctas{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.hero-btn{display:inline-block;background:#c4a882;color:#0a0a0a;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:13px 24px;text-decoration:none;transition:all 0.2s}
+.hero-btn:hover{background:#9a7a5a;color:#f5f0e8;transform:translateY(-1px)}
+.hero-scroll{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,0.45);text-decoration:none;transition:color 0.2s}
+.hero-scroll:hover{color:#c4a882}
+.hero-collab{position:absolute;bottom:56px;right:28px;z-index:2;font-size:10px;color:rgba(196,168,130,0.45);text-decoration:none;letter-spacing:0.5px;transition:color 0.2s;text-align:right;line-height:1.6}
+.hero-collab:hover{color:#c4a882}
+.hero-collab span{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(196,168,130,0.3);margin-bottom:2px}
+
+/* Adjust hero-content when collab visible */
+@media (min-width:420px){
+  .hero-content{padding-right:140px}
 }
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.avatar{animation:fadeUp 0.4s ease both}
-.handle{animation:fadeUp 0.4s 0.05s ease both}
-.tagline{animation:fadeUp 0.4s 0.1s ease both}
-.bio{animation:fadeUp 0.4s 0.15s ease both}
+
+/* ── Section base ── */
+.section{width:100%;padding:60px 28px}
+.section-dark{background:#0a0a0a}
+.section-mid{background:#0d0d0d}
+.section-cream{background:#f5f0e8}
+
+/* ── Opener ── */
+.opener{margin-bottom:36px}
+.opener-eyebrow{display:block;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(196,168,130,0.55);margin-bottom:18px}
+.opener-eyebrow-dark{color:rgba(10,10,10,0.35)}
+.opener-quote{font-family:'Playfair Display',serif;font-size:clamp(19px,5vw,25px);color:#f5f0e8;line-height:1.45;font-style:italic;font-weight:400;margin-bottom:10px}
+.opener-quote-dark{color:#0a0a0a}
+.opener-cite{font-size:11px;color:rgba(196,168,130,0.55);letter-spacing:1px}
+.opener-cite-dark{color:rgba(10,10,10,0.35)}
+.opener-body{font-size:14px;color:rgba(0,0,0,0.55);line-height:1.65;font-weight:300}
+
+/* ── Gold rule ── */
+.gold-rule{width:36px;height:2px;background:#c4a882;margin-bottom:22px}
+
+/* ── Feature card (Sagrada — full-width photo) ── */
+.product-feature{width:100%;position:relative;overflow:hidden;margin-bottom:14px;cursor:pointer;display:block;text-decoration:none}
+.product-feature-img{aspect-ratio:4/3;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end;transition:transform 0.6s ease}
+.product-feature:hover .product-feature-img{transform:scale(1.025)}
+.product-feature-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,0.92) 0%,rgba(5,5,5,0.4) 45%,rgba(5,5,5,0.05) 100%)}
+.product-feature-body{position:relative;z-index:1;padding:22px 22px 0;width:100%}
+.product-tag{display:inline-block;font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#c4a882;margin-bottom:8px}
+.product-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(28px,7.5vw,40px);color:#f5f0e8;line-height:1.05;margin-bottom:14px}
+.product-meta{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+.product-price{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(22px,5.5vw,28px);color:#c4a882;line-height:1}
+.product-chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:10px;color:rgba(245,240,232,0.55);letter-spacing:0.3px}
+.product-cta{display:flex;align-items:center;justify-content:space-between;background:#c4a882;padding:15px 20px;transition:background 0.2s}
+.product-feature:hover .product-cta{background:#9a7a5a}
+.product-cta-text{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;color:#0a0a0a;letter-spacing:0.3px}
+.product-feature:hover .product-cta-text{color:#f5f0e8}
+.product-cta-arrow{color:#0a0a0a;font-size:16px;transition:transform 0.2s}
+.product-feature:hover .product-cta-arrow{transform:translateX(4px);color:#f5f0e8}
+
+/* ── Secondary grid (Park Güell + Casa Batlló) ── */
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.product-card-sm{text-decoration:none;color:#f5f0e8;display:flex;flex-direction:column;overflow:hidden;position:relative;transition:transform 0.25s;cursor:pointer}
+.product-card-sm:hover{transform:translateY(-3px)}
+.product-sm-img{aspect-ratio:2/3;background-size:cover;background-position:center;position:relative;display:flex;align-items:flex-end}
+.product-sm-img-dark{background:#080808;background-image:radial-gradient(ellipse at 50% 90%,rgba(196,168,130,0.14) 0%,transparent 65%);border:1px solid rgba(196,168,130,0.1)}
+.product-sm-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,5,0.9) 0%,rgba(5,5,5,0.1) 55%,transparent 100%)}
+.product-sm-body{position:relative;z-index:1;padding:14px 14px 0}
+.product-sm-tag{display:block;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,168,130,0.7);margin-bottom:5px}
+.product-sm-title{font-family:'Playfair Display',serif;font-size:clamp(16px,4.5vw,20px);font-weight:700;color:#f5f0e8;line-height:1.15;margin-bottom:8px}
+.product-sm-price{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(15px,4vw,19px);color:#c4a882}
+.product-sm-cta{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.05);border:1px solid rgba(196,168,130,0.15);border-top:none;padding:12px 14px;transition:all 0.2s}
+.product-card-sm:hover .product-sm-cta{background:rgba(196,168,130,0.1);border-color:rgba(196,168,130,0.35)}
+.product-sm-cta-text{font-size:11px;letter-spacing:0.5px;color:rgba(245,240,232,0.65)}
+.product-sm-cta-arrow{color:#c4a882;font-size:13px;transition:transform 0.2s}
+.product-card-sm:hover .product-sm-cta-arrow{transform:translateX(3px)}
+
+/* ── Guides section (cream) ── */
+.guides-header{margin-bottom:32px}
+.guides-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,7vw,36px);color:#0a0a0a;line-height:1.1;margin-bottom:8px}
+.guides-title em{font-style:italic;color:#9a7a5a}
+.guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.guide-card{background:#fff;padding:22px 18px 20px;text-decoration:none;color:#0a0a0a;position:relative;display:flex;flex-direction:column;border:1px solid rgba(0,0,0,0.07);transition:transform 0.2s,box-shadow 0.2s}
+.guide-card:hover{transform:translateY(-3px);box-shadow:0 8px 32px rgba(0,0,0,0.12)}
+.guide-icon{font-size:26px;margin-bottom:12px}
+.guide-badge{display:inline-block;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;font-weight:500;font-family:'DM Sans',sans-serif;margin-bottom:12px;align-self:flex-start}
+.guide-badge-pop{background:#0a0a0a;color:#c4a882}
+.guide-badge-new{background:#c4a882;color:#0a0a0a}
+.guide-name{font-family:'Playfair Display',serif;font-size:clamp(14px,3.8vw,17px);font-weight:700;color:#0a0a0a;line-height:1.25;margin-bottom:6px}
+.guide-sub{font-size:11px;color:rgba(0,0,0,0.4);line-height:1.5;flex:1;margin-bottom:16px}
+.guide-price{font-family:'Playfair Display',serif;font-size:clamp(20px,5vw,24px);font-weight:900;color:#9a7a5a}
+.guide-arrow{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+.guide-arrow-icon{color:#c4a882;font-size:13px;transition:transform 0.2s}
+.guide-card:hover .guide-arrow-icon{transform:translateX(3px)}
+
+/* ── Instagram section ── */
+.section-insta{background:#050505;padding:70px 28px;text-align:center;border-top:1px solid rgba(196,168,130,0.08)}
+.insta-eyebrow{display:block;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(196,168,130,0.45);margin-bottom:20px}
+.insta-headline{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,7vw,38px);color:#f5f0e8;line-height:1.15;margin-bottom:32px}
+.insta-headline em{font-style:italic;color:#c4a882}
+.btn-outline{display:inline-block;border:1px solid rgba(196,168,130,0.55);color:#c4a882;padding:14px 36px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.5px;text-decoration:none;transition:all 0.2s}
+.btn-outline:hover{background:#c4a882;color:#0a0a0a;border-color:#c4a882}
+
+/* ── Footer ── */
+.footer{background:#050505;padding:44px 28px 40px;border-top:1px solid rgba(196,168,130,0.06)}
+.footer-inner{max-width:480px;margin:0 auto}
+.footer-divider{width:28px;height:1px;background:rgba(196,168,130,0.2);margin-bottom:28px}
+.footer-contacts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.footer-contact-item{display:flex;flex-direction:column;gap:4px}
+.footer-contact-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(196,168,130,0.35)}
+.footer-contact-email{font-size:12px;color:rgba(245,240,232,0.5);text-decoration:none;transition:color 0.2s;letter-spacing:0.2px}
+.footer-contact-email:hover{color:#c4a882}
+.footer-legal{font-size:10px;color:rgba(245,240,232,0.18);letter-spacing:0.5px;line-height:1.8}
+.footer-legal a{color:rgba(196,168,130,0.25);text-decoration:none;transition:color 0.2s}
+.footer-legal a:hover{color:#c4a882}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.hero-eyebrow{animation:fadeUp 0.55s 0.1s ease both}
+.hero-h1{animation:fadeUp 0.55s 0.2s ease both}
+.hero-sub{animation:fadeUp 0.55s 0.3s ease both}
+.hero-ctas{animation:fadeUp 0.55s 0.4s ease both}
+
+/* ── Responsive tweaks ── */
+@media(max-width:360px){
+  .product-grid{grid-template-columns:1fr}
+  .guide-grid{grid-template-columns:1fr}
+  .footer-contacts{grid-template-columns:1fr}
+}
+@media(min-width:600px){
+  body{display:flex;flex-direction:column;align-items:center}
+  .lang-bar{max-width:520px;left:50%;transform:translateX(-50%);right:auto;width:100%;background:rgba(5,5,5,0.92)}
+  .hero,.section,.section-insta,.footer{max-width:520px;width:100%}
+  .hero-collab{right:auto;left:calc(50% + 140px);transform:translateX(0)}
+}
 </style>
 </head>
 <body>
 
+<!-- ── Lang bar ── -->
 <div class="lang-bar">
-  <button class="lang-btn active" onclick="setLang('es')">ES</button>
-  <button class="lang-btn" onclick="setLang('en')">EN</button>
-  <button class="lang-btn" onclick="setLang('ca')">CA</button>
+  <div class="lang-bar-social">
+    <a href="https://www.instagram.com/bcn_plans/" target="_blank" rel="noopener" class="social-icon" title="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://www.tiktok.com/@bcn.plans" target="_blank" rel="noopener" class="social-icon" title="TikTok">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.16 8.16 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
+    </a>
+    <a href="mailto:colaboraciones@bcnplans.com" class="social-icon" title="colaboraciones@bcnplans.com">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    </a>
+  </div>
+  <div class="lang-bar-langs">
+    <button class="lang-btn active" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('ca')">CA</button>
+  </div>
 </div>
 
-<!-- ══ CASTELLANO ══ -->
-<div data-lang="es" class="visible">
-  <a href="index.html" class="avatar"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCADIAMgDASIAAhEBAxEB/8QAHAABAAICAwEAAAAAAAAAAAAAAAYHBQgCAwQB/8QASRAAAQMDAgMEBgcDCQYHAAAAAQACAwQFEQYSBxMhMUFRYQgUFSJxgRYjMkJSkaEkM4IXVJOio7GywdIYJic3RNFicnSSs7TT/8QAGQEBAAMBAQAAAAAAAAAAAAAAAAEDBAIF/8QALhEAAgECAwYFBQADAAAAAAAAAAECAxEEEiETMUFRcfBSYaHB0QUigbHhIzKR/9oADAMBAAIRAxEAPwDWFERVGIIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgCIuTWPcxz2se5rMbnBpIbnsye5AcURfXMe1jXuY4Ndna4tODjtwe9AfEREAREQBERAEREAREQBERAEREAREQBERAEREAREQHutdnut1jqZLbb6mrZSx82oMLC4Rs8T+R/JTDQ9wulPws1tDSQxPpC2n5j3RZPvu2P6+TcEeB6rp4WT3eK36tFrrn0wbZZJXgOaMuDgGnr2HaXjI8fgunSkNe7hnrJ9NTxvpB6pz3ulLXMxISNrcHd59RjzWao810+DX7RpprLZrimQ3vU91tcLpPwu0ZBVQxMpQ2flvbFtJ2O2M6+bSScdvaoGO1S/V0Vezh1o11TBGyldHV8h7ZS5zwZATubgbfLqcjwVlRJyj19mV028sunuiOXW0XS1tp3XK31NGKmPmwGZhbzGeI/ReJTfirNdpabSpudc6qD7JFKzLmnDiTuPTvIDOp8PioQuqcnKN2c1IqMrIIiLs4CIiAIiIAiIgCIiAIiIAiIgCIiAIiIAiIgJpwxt9wrqHVvqPq+1ljlE3NDiS0uBw3H3vd7+im3CqhpqjgTrFz5WAz87eT9zZC0tz8/wC9d/oxUdPPatTvlIzK2OneMdjCx5J/U/kslwaoGv4HXuFuHCoNc0EfeAiDQf0XmYmrrJcnE9PD09Ivmma+EnGcdcZwrq4uW6mp+CGjZGSsJphCGEffD4SXY+YyqUJ+p3d+zP6LYfjbQNZwQs8J90UrqJpP4QYiwn9VoxMrVKfUz4eN6dToVXxOoa+io9J+ver7X2KIQ8prgQwOJw7P3ve7uihqu/0m6Onp7TpZ8ThmJklOwY7WBkZB/T9VSCsws89JPvecYmGSo0ERFeZwiIgCIiAIiIAiIgCIiEsIiIQEREAREQBERCUbDeizTgaXu0xH764NZ8mxj/UpFwYohFwvFMRjfPWt/tXt/wAl4PRkiDOHnMx1kuUp/LYP8lKOGMQj0fBGB09aq/1qZV4OJn98+q9z3MNH7YdH7Gn7Wdkf8P8AktqeNdGJuF0tMBnbPRtH9Kxv+aoJujq8aY+lO48n2lyOTyn7tm795nGMZ+WO/PRbK8TohLpCWMjp65R//ZiWrGVE6lNrg/gy4Sm1TnfivkgPpT0w+jFmmA/c174/kYz/AKVr2tlvSfj38P4n4/d3OI/m14WtKv8Ap7vQRTj1aswiItpiCIiAIiIAiIgCIiAIiIAiIgCIiAIi+HO0/DuQH1MKzrpph9Pxb0xaH0lI1tTBQvkY2maI3Yb9buZ2O6tdnPb3rH6f01PPc9dUppqd0ltoKnAdA0hrxL7uwfdO1rsEdip28bX/ACX7CV7Fx+jg3ZwwpHeNZUO/rj/sptpy3MtdqjoWTidrZZXF4GMl8rnkfLdj5KHejpj+TC3Y7DVTn+0Wd0DI+PRsUjInTOZPVubG0gF5FTLgDPTJ7Oq8LEX2k+vye1Q/0h0+CtRrHVw4c/Sv15nP+kXq/L5LeT6t+75e38O7r25z3q3tR0Edytb6OScQNM0T95APVkrXgdfEtx81Uw09dv5HvZu2jFY6+7NuRywOfy/tY7d33sdqsbXj3S6PdJJC6F7qijc6NxBLD6zESDjpkeS7qqLksvN+xxSzKLzcl7kZ9JNu7hlM7HZXU5/rO/7rWFbRekgN3DKrHhW0/wDjK1qktddHVV1M+ncJaBrnVLc/uw1waT+bgPmvQ+nNbH8mD6gntfweJF3VFLPBT09RLGWxVLXOid+INcWn9QQulegYbBERCAiIgCIiAIiIAiIgCIiAIiIApNwx083U+s6G0unELCTM5xbuy1mHFvzGRlRlTrg6K6luF5vlsglqa6221/qtPFEZHSSykRt6DubncfIKus2oNreW0UnNJk4nu8t0ir9du92osAutK3PR0bnuAphjy5jh/CvdSSS0d4orpTR8z6YXCiLmsIJkgFKef8t7iT8F3T2t8wfZ4LLWspdX86quUrqV37BI+Noia4922UOcfIrlJJcHw1lzh0/XRVOlhNT2KL1N37SySJsTHAY67XtLz5OC8y6tZd8vX0PSUXe777RLuENrfp/RXsmeaN7qGtqo3SN+ydshOevkpDQyWyisTau3ckW9kTqqN0ZyxzTmQuB785J+aiFuulRNwzudc+Cakqqupnj5UrS18cksgjIIPYQXH8l9oKqmn4YVFFb3k07pPZ9IcYPKmkaIv7OVv5LHODlJt8WaoTUUkuREfpPVe1/oVuby/YHPxgbvXtvrec9ue7CtyvmtlZYnVlxMPs90TaqR0pwxrRiQOJ8sA/JQ76P2g3P2cJoPpKyu9vE+LDJy+Xn8HK+rx81zuFTSw8MaeguMhbTsm9nVZ7+VDI4Sf2cR/Nd1FGbjl073nNPNBPNr3uPXxgoTdtJU1Cz3/WrtQs6d4Mwz+mVCazSwqddcTi2L3JrUHRdPvSt5n98am8dS+q0jpuSR2ZY7nRwyH/xRymM/4c/NSRlup21lbVhv1lZFHHL5hgcB+jiuYVXSjl73r4JlSVV373P5NbOJFmFBwu0FXFoa59LKJD5yETD+8quVudPp23T01npZ4Y5YbW5phZIwOacRGIZB6djs/JabVjQysnYBgCV4A/iK9XBV9qmuXu2eZjKGzafP2SOpERbTEEREAREQBERAfAvqIgCIiAIiYPggCleiLjX2yxakntdXUUtaYKcRvpyQ/AlLn4x3BjXE+QUUwfAqzODNZpfT9DctRanne2OdxtsLBA6QYczfJ2eLenwz4qqu7Qely6grz32OFJrfUArdIzyX+7OpnFjK73nlsr21Dt7ez3zscwHGe0BeSDW+p22bUIl1BeBUNmgbTuL3/VfWu3DP3CWjGD24x3KxI6nhrb6W32d9wnc7R8xrJSaV2SS4NJJx1y98Z6fhC+Ok4b3KCvssFxnZNrOdtTA4UrgWu3lrdvTAxIx56/iKxbSHgf8Azzv+jbs5+P18rfs7tENuN+4a2CgqKqQ1lyrKyqkqJiS5zWb/AHz4+85mPgFI7daKCww2O101XzaI1Tqzml4cPV6aJxjcT34DogT2HaCo9xWvEGlrZVQW4tpjS2uK10LWnHLdO4lxHm2KIH+IKGOu9VbODsZmqMym3Mt9KSerGVMz5CB8IYm/JwVCpyqLMtE3u6/Ghc5xpvK9Wl+jBxa+nHFo6yLnch1RtMef+k+xt/8AZ1+KvC72agvrL3a6ur5VD6yyuMgeGtMFRE3mEHuyGSAHu3EqujYLJ/s1C7C3Uvr231j1rYOZv9Y2fa7cbemOxeJ94qbnwbLoaj61tvfbqog9XsppmSAH4xSu+TSrqkVUacNLPKU05Ommp63WYs6miktVrktlVMJBbLvQ1MkwGBynlhMh8BuDyfmpRUajtdPVXOklleJbZTieoGzptIzhv4nD3QQOwub4qvuEd7i1Fb6NtcW1Dqm1yW2saTnmPp3AjP8A5opv0K5PvOh6J5tlZfayWs09M+ouMrqdxdP9Y0Oa8gYcN/JPT8A81inSbk4tarl33c1wqJRUk9GT6DUlqmqLTDHLJvukRlp8swAAM4f+F3RwAPe1w7lp5d4JYLjO2WN8Ze90jQ4Yy1xJa4eRHUFbCOvWha0voYL3WR1GopG1FA9tO4Og2yOxsOPdHMEruve892FX3Get0rqChtl+0vO5zaci2ys5DmANazfH2+AyPgteCWynaz17/hmxf+SF7rTv+lZFEwfBMHwXqnlBERAEREAREQBERAEREAWaobyymo4oHaZsdUWNxzp6SRz3+biHgH8lhVsHw8rayl9HisrqeokZU0sNWYJO10e1x24z4dyoxFTZxTte7saMPT2kmr2simvpHT5P+6mmcjtHqsn/AOiyto15cqKmkorbprTohc/nPiFtdKN2MbsOccdOmVYGu4KbUXAWi1VcqeD2zFDE8VLY2sfITLyyDjtDh1x49i58QfW+G/Dew0Om5zb6ypmHrdVE0cyVwj3OySOwuI6eAws+2hO0cut7b+RfspQvLNpa+7mQkcVdQvfK/wBjacc6YYkd7LBMgyPtdevUDt7wvsfFfUTJYXMs+nBJD+6LbWA6Prn3euR1JPRTSw31l74naEuMMkMb6mzzNq4oSA1r/rC9rmjsy4bsHyK83HmwSW3Wdl1Zbt0Iq6iKGZ8Zxtma4bXZH4mdP4VypUs6hKFro6camRzU72ZF6zi9qaqP7Za9PzHO7663buuMZ6u8Oi4u4s6jmhELrPp2SNpBDDbA5owMDpnA6dPh0WJ4wySS8UNQ8x7n7K10bMn7LQAA0eAHgs96OEkjeIwia9wZJQz72g9HY2kZHfgq2UKUaW0y8LlUalSVXJm42Ot3GHVLaP1J1usDaUjAgNvxH25xt3Y7evYuEXFnUrIDFFZ9PNicSSxlsw05GD0BwenT4dFatkuM174p6v0leY4K+0QRMfDBNC0iPowEA4zg7ifEHsXm4VUzrRpTWVup55Cy3XKsipnF2SwNiyMeBzg/Hqs7qUkneCvp6mhU6jatPn6FaUvF/U1GSKa2aepznOI7ds64xno4dcdF1u4rahkfNM+zace6bpM82sEv6g+8c9eoB6+Cr8OfJh73Oc9/VznHJJPaSVsjwlsUNRwWda5A3m3WnqJnN78SbmsP9Qfkr8QqNGKk47yig6tZ5VIq6PirqEOifHZtOB0PSMttYzH1J6YPTqSenmvBctfV10pm0lZpzTUsLJOa2NtuLAH4xuwxwycdOqzvo3Pli4gTQvkcxjrfLzWE4aS0txkeRys5xJsEtj402C+UW6GnutdCXOZ0xMHtbI3p+JpBx35cocqUKuTLwuSlUlSz5uNitPpDDuDfojpvcewepy5Py5i6q+8xzU01KdM2Oke5uDJFSyMkj8xl5wfiFdfDag9c1LxAvUTY6i+QV81NRPmAdyuj9mM9gJDR8G47FA6vV1xvXDbUdq1LM194pqimLZJmNZO9vNw6N2ACdjgT5AqY1U5WUd1uPMiVJqN299+HIrYoiLaYgiIgCIiAIiIAiIhIWwfDWeCm9HmuqKmjjrYY2VjpKeRxa2UB3VpI6gHyWviubRWqdJU3B6bStyv8dJW1cVQ137NLIIuY44zhvXA7cFZMZFygrLijVg5KMm2+DPbxFp36n4OW3UdonfbrZRRMkktDQ3lNDX8skEAElp7M9MdwK9PpPkHTWnyOw1T/AP4go1qnW2nqDhZFoXTlVPc3Pj5VRWPgMTA0v3vwHdck9B4DvXO5aq05rrQVttGoL17Du1te086WmfLFMAzYSNvXJGOncR3grNCnOLjJrRN9bM0zqQkpRT1aXS6I3wUY5vEm1uLCGvjqMEtwHfUvB696tjh3VQcQ+FAtNfKDXUD44nyHq4PjIdDJ8wMH4OVf2HUmmqLXNgZDcJIrFYqGaBtVPC7fUSSB5e8MaCRlz+gPc1YvhDquDR+snuq6kOtdSx1PUyRtcW4ByyQDGeh8s4cVZXpyq3klqrNepXQqRptRb0d7+hjuLh/4n6jPjXvP6BZ/0cf+Zcf/AKGo/uauyr09adear1FfINW2u2Uz7geSKsbXStLQdwBc047uxe3RlNYeHPEKnq7jqu3VtI+3y/W0rHPw9zg0Mw3d16Z646Luc06Lprfbd+DiEGqyqPdf3M3qvXNi0Vr3Us9us1bV36pcyOaaedop24Y0ja0e9jsJHaSO0L18Damas4caqq6l5knnqqmSRx+850AJP5lVRxUuNvu+vbndbXVsqqSre2SN7WObj3ACCHAHIIU44O6s0xYdC3O13m8spamumlLWCCR+xrowwE4bjtycA9iqqULUFZauxbTrXrNN6K5T0QLo2Nb1cWgNHicLZjRL622cS5LF6rUtoKPT9LSxymJwjMsWHuw7GM5kd+Sq6gj0HbLRa7czU0VdK68QVdfUmhljDIImu9xoLSTk/mXeAWQtPEasZxZkra7VNQ7Thq5n7C6Qw8pwdsAj25yMjpjtBXeIUqyaS4M4w7jRabfFHC1UBtPFHXFCwFjYrZcnR46Ya5oe3HycFZmj6in4i8PbPWVT2+0LfVwSSO721ELmkn4PZ/i8lA7zqPSFVxGu19pr9A2kuFiloy51PMCJ3M2DI2dmADlYDgbrSl0lfKmnu1Q6K11kQ5j2tLwyVn2XYAzgjI7O8KqpSnUhmS+5Jf0sp1IU55W/tbf8O+26quOjeJt/vLaWae0T3WamrWhvuu99zhg9m8DJA7xkd6k/HPTNpvWmo+IFifG8lrH1D4x7tRE4hok8ntJAPl0PUKOQXnRtzterbXd7pLStul8NXQ1DKZ0nLADi2Rw7dpztI7fe7F3ag1VYLNwmboeyXY3qpqHO59SyF0cUbHSb3AbuvcAB8SV24y2kZRTT0T80cqUdnKMmmtX+SqkQovRPOCIiAIiIAiIgCIiALL0T9MikjFbBfHVOPrDBNCIyc/dDmk4+KxCKGrkp2M5zNH/zbUf9PT/6F47m6xmFnsuK6sl3e+aqSJzduO7Y0HOVj0UKNuJLkS+l07apNKUV9dLPipfFQ8sSDIqzPiTu+zycOA8XDqu+4aXtMFrvlzZJUiG0VFZSSsdIMmYPApe7scC7d48s9mVCg52A0OdgHIGegPj8V9L3kOBe8hxy4Fx6nxPiVxkl4jvaR8JKuI+n7fYZoIaKlqgCBummdI4P+ra7A3Rtb2k/Zc7p4Lt+hrnattdujp6yK3VdPTzyVD27WlpgEs215Ab0G7Hh0yolLPPK1rZZ5ZGt+yHyFwHwz2I6oqHMEbqiZzAMBpkcQB2YxlSoSUUrhzi3exJK/TdNDxBpbEah9Pb62eEwzOe15bDLgg7h7riMluR0yF31+nqRkNwnfZ7taDT22Wpjhq5g4lzKhke77Idtw45BA6joSFESSQASSGjABPYPAeS5STTSOL5JpHucNpLnkkjwJPd5JklpqM8ddCxPoLb4tQNo54LjyJbtUU9M3ftdUU7KYytcw7fey7A3AEdcLjadD22su7RVisttNJboZXwVE7Gy01TM8sjjc5wbke6ZNuA4t6Yyq+58+5jufNujGGHmHLB4Dr0HwXF0kjiS6R7tztxy4nJ8T5+a42c/EdbSHhJtBpKl+izamqo7jDVtpK2aer3/AFEEsEhYInNLe12MfazkjoVF7W6yCJ/tWK6Pk3e56pJE1oGO/e0nOfBeN80z2Fj5pXMJ3Frnkgnxx4+a613GDV7s4lJaWRnN+kP5vqP+np/9C6a1+mTSyCigvjajH1ZnmhLAfMNaDj4LEousvmRm8giIujgIiIAiIgCIiEhERAEREICIiAIiIAiIhIREQgIiBAEREAREQBERAEREAREQBERCQiIgCIiEBERCQiIgCIiEBERCbBERAEREAREQBERCAiIhIREQg//Z" alt="BCN Plans"></a>
-  <p class="handle">@bcn_plans</p>
-  <p class="tagline">Barcelona · Plans · Gastronomia · Vida</p>
-  <p class="bio">Barcelona sin filtros 🗺️<br>Todo lo mejor de la ciudad, cada día.</p>
-  <a href="mailto:colaboraciones@bcnplans.com" class="collab-strip">
-    <span class="cs-left"><span class="cs-icon">🤝</span><span class="cs-label">Colaboraciones</span></span>
-    <span class="cs-email">colaboraciones@bcnplans.com</span>
-  </a>
+<!-- ══════════════════════════════════════════════
+     SINGLE HTML STRUCTURE — text swapped via JS
+     ══════════════════════════════════════════════ -->
 
-  <p class="section-label">Entradas & Tours</p>
-  <a href="sagrada-familia/index.html" class="link-card destacado">
-    <span class="badge-new">Nuevo</span>
-    <span class="link-icon">🏛️</span>
-    <div class="link-content">
-      <p class="link-title">Sagrada Família sin colas</p>
-      <p class="link-sub">Entradas con acceso prioritario · Desde 34€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-  <a href="park-guell/index.html" class="link-card">
-    <span class="link-icon">🌿</span>
-    <div class="link-content">
-      <p class="link-title">Park Güell sin colas</p>
-      <p class="link-sub">Entradas y tours guiados · Desde 22€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-  <a href="casa-batllo/index.html" class="link-card">
-    <span class="link-icon">🏠</span>
-    <div class="link-content">
-      <p class="link-title">Casa Batlló como nunca la has visto</p>
-      <p class="link-sub">Entradas y visitas nocturnas · Desde 29€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
+<!-- ── Hero ── -->
+<section class="hero" id="top">
+  <div class="hero-img"></div>
+  <div class="hero-overlay"></div>
 
-  <p class="section-label">Producto Digital</p>
-  <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="link-card destacado">
-    <span class="badge-new">Nuevo · 4,99€</span>
-    <span class="link-icon">🗺️</span>
-    <div class="link-content">
-      <p class="link-title">BCN Plans Map — La Barcelona real</p>
-      <p class="link-sub">50 spots locales · Gastro, miradores, secretos · Mapa interactivo</p>
+  <div class="hero-brand">
+    <div class="hero-brand-logo">
+      <img src="imagery/logo.png" alt="BCN Plans" style="object-position:center;width:100%;height:100%;object-fit:cover">
     </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Guías Descargables</p>
-  <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="link-card destacado">
-    <span class="badge-new">Nuevo · 3,99€</span>
-    <span class="link-icon">🏰</span>
-    <div class="link-content">
-      <p class="link-title">Guía del Barrio Gótico</p>
-      <p class="link-sub">Ruta insider · PDF offline · ES/EN · 3,99€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Arquitectura & Cultura</p>
-  <div class="link-card soon">
-    <span class="link-icon">🏗️</span>
-    <div class="link-content">
-      <p class="link-title">Arquitectura · Edificios que visitar</p>
-      <p class="link-sub">Los mejores edificios de Barcelona explicados</p>
-    </div>
-    <span class="badge-soon">Próximamente</span>
-  </div>
-  <div class="link-card soon">
-    <span class="link-icon">🎨</span>
-    <div class="link-content">
-      <p class="link-title">Cultura · Museos · Exposiciones</p>
-      <p class="link-sub">Lo mejor de la cultura barcelonesa</p>
-    </div>
-    <span class="badge-soon">Próximamente</span>
+    <span class="hero-brand-handle">@bcn_plans</span>
   </div>
 
-  <p class="section-label">Gastronomía & Planes</p>
-  <div class="link-card soon">
-    <span class="link-icon">🍽️</span>
-    <div class="link-content">
-      <p class="link-title">Mejores restaurantes de Barcelona</p>
-      <p class="link-sub">Selección insider por barrios</p>
+  <div class="hero-content">
+    <span class="hero-eyebrow" data-i18n="heroEyebrow"></span>
+    <h1 class="hero-h1" data-i18n-html="heroHeadline"></h1>
+    <p class="hero-sub" data-i18n="heroSub"></p>
+    <div class="hero-ctas">
+      <a href="#tickets" class="hero-btn" data-i18n="heroCta"></a>
+      <a href="#guias" class="hero-scroll" data-i18n="heroScroll"></a>
     </div>
-    <span class="badge-soon">Próximamente</span>
-  </div>
-  <div class="link-card soon">
-    <span class="link-icon">📅</span>
-    <div class="link-content">
-      <p class="link-title">Agenda semanal de planes</p>
-      <p class="link-sub">Lo mejor de cada fin de semana</p>
-    </div>
-    <span class="badge-soon">Próximamente</span>
   </div>
 
-  <p class="section-label">Contacto</p>
-  <a href="mailto:hola@bcnplans.com" class="link-card">
-    <span class="link-icon">✉️</span>
-    <div class="link-content">
-      <p class="link-title">hola@bcnplans.com</p>
-      <p class="link-sub">Escríbenos · Sugerencias, dudas, lo que sea</p>
-    </div>
-    <span class="link-arrow">→</span>
+  <a href="mailto:colaboraciones@bcnplans.com" class="hero-collab">
+    <span data-i18n="collabLabel"></span>
+    colaboraciones@bcnplans.com
   </a>
+</section>
 
-  <div class="social-row">
-    <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
-  </div>
-  <div class="divider"></div>
-  <p class="footer-text">© 2026 bcnplans.com · <a href="#">Aviso legal</a> · <a href="#">Privacidad</a> · <a href="#">Cookies</a></p>
-</div>
-
-<!-- ══ ENGLISH ══ -->
-<div data-lang="en">
-  <a href="index.html" class="avatar"><img src="data:image/jpeg;base64,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" alt="BCN Plans"></a>
-  <p class="handle">@bcn_plans</p>
-  <p class="tagline">Barcelona · Plans · Gastronomy · Life</p>
-  <p class="bio">Barcelona unfiltered 🗺️<br>The best of the city, every day.</p>
-  <a href="mailto:colaboraciones@bcnplans.com" class="collab-strip">
-    <span class="cs-left"><span class="cs-icon">🤝</span><span class="cs-label">Partnerships</span></span>
-    <span class="cs-email">colaboraciones@bcnplans.com</span>
-  </a>
-
-  <p class="section-label">Tickets & Tours</p>
-  <a href="sagrada-familia/index.html" class="link-card destacado">
-    <span class="badge-new">New</span>
-    <span class="link-icon">🏛️</span>
-    <div class="link-content">
-      <p class="link-title">Sagrada Família skip the line</p>
-      <p class="link-sub">Priority access tickets · From €34</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-  <a href="park-guell/index.html" class="link-card">
-    <span class="link-icon">🌿</span>
-    <div class="link-content">
-      <p class="link-title">Park Güell skip the line</p>
-      <p class="link-sub">Tickets and guided tours · From €22</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-  <a href="casa-batllo/index.html" class="link-card">
-    <span class="link-icon">🏠</span>
-    <div class="link-content">
-      <p class="link-title">Casa Batlló like you've never seen it</p>
-      <p class="link-sub">Tickets and night visits · From €29</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Digital Product</p>
-  <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="link-card destacado">
-    <span class="badge-new">New · €4.99</span>
-    <span class="link-icon">🗺️</span>
-    <div class="link-content">
-      <p class="link-title">BCN Plans Map — The real Barcelona</p>
-      <p class="link-sub">50 local spots · Food, viewpoints, secrets · Interactive map</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Downloadable Guides</p>
-  <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="link-card destacado">
-    <span class="badge-new">New · €3.99</span>
-    <span class="link-icon">🏰</span>
-    <div class="link-content">
-      <p class="link-title">Gothic Quarter Guide</p>
-      <p class="link-sub">Insider route · Offline PDF · ES/EN · €3.99</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Architecture & Culture</p>
-  <div class="link-card soon">
-    <span class="link-icon">🏗️</span>
-    <div class="link-content">
-      <p class="link-title">Architecture · Buildings to visit</p>
-      <p class="link-sub">Barcelona's best buildings explained</p>
-    </div>
-    <span class="badge-soon">Coming soon</span>
-  </div>
-  <div class="link-card soon">
-    <span class="link-icon">🎨</span>
-    <div class="link-content">
-      <p class="link-title">Culture · Museums · Exhibitions</p>
-      <p class="link-sub">The best of Barcelona's cultural scene</p>
-    </div>
-    <span class="badge-soon">Coming soon</span>
+<!-- ── Tickets & Tours ── -->
+<section class="section section-dark" id="tickets">
+  <div class="opener">
+    <div class="gold-rule"></div>
+    <span class="opener-eyebrow" data-i18n="ticketsEyebrow"></span>
+    <blockquote class="opener-quote" data-i18n="ticketsQuote"></blockquote>
+    <cite class="opener-cite" data-i18n="ticketsCite"></cite>
   </div>
 
-  <p class="section-label">Food & Plans</p>
-  <div class="link-card soon">
-    <span class="link-icon">🍽️</span>
-    <div class="link-content">
-      <p class="link-title">Best restaurants in Barcelona</p>
-      <p class="link-sub">Insider picks by neighbourhood</p>
+  <!-- Sagrada — featured -->
+  <a href="https://vi.me/k5Pfl" target="_blank" rel="noopener" class="product-feature" id="sagrada-link">
+    <div class="product-feature-img" style="background-image:url(imagery/sagrada-exterior.avif)">
+      <div class="product-feature-overlay"></div>
+      <div class="product-feature-body">
+        <span class="product-tag" data-i18n="sagradaTag"></span>
+        <h2 class="product-title" data-i18n="sagradaTitle"></h2>
+        <div class="product-meta">
+          <span class="product-price" data-i18n="sagradaPrice"></span>
+          <div class="product-chips">
+            <span class="chip" data-i18n="sagradaChip1"></span>
+            <span class="chip">·</span>
+            <span class="chip" data-i18n="sagradaChip2"></span>
+          </div>
+        </div>
+      </div>
     </div>
-    <span class="badge-soon">Coming soon</span>
-  </div>
-  <div class="link-card soon">
-    <span class="link-icon">📅</span>
-    <div class="link-content">
-      <p class="link-title">Weekly plans & events</p>
-      <p class="link-sub">The best of every weekend</p>
+    <div class="product-cta">
+      <span class="product-cta-text" data-i18n="sagradaCta"></span>
+      <span class="product-cta-arrow">→</span>
     </div>
-    <span class="badge-soon">Coming soon</span>
-  </div>
-
-  <p class="section-label">Contact</p>
-  <a href="mailto:hola@bcnplans.com" class="link-card">
-    <span class="link-icon">✉️</span>
-    <div class="link-content">
-      <p class="link-title">hola@bcnplans.com</p>
-      <p class="link-sub">Write to us · Tips, questions, anything</p>
-    </div>
-    <span class="link-arrow">→</span>
   </a>
 
-  <div class="social-row">
-    <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
+  <!-- Park Güell + Casa Batlló — secondary -->
+  <div class="product-grid" style="margin-top:10px">
+
+    <a href="https://vi.me/EFwEc" target="_blank" rel="noopener" class="product-card-sm" id="park-link">
+      <div class="product-sm-img" style="background-image:url(imagery/park-guell-arcos.jpg)">
+        <div class="product-sm-overlay"></div>
+        <div class="product-sm-body">
+          <span class="product-sm-tag" data-i18n="parkTag"></span>
+          <div class="product-sm-title" data-i18n="parkTitle"></div>
+          <div class="product-sm-price" data-i18n="parkPrice"></div>
+        </div>
+      </div>
+      <div class="product-sm-cta">
+        <span class="product-sm-cta-text" data-i18n="parkCta"></span>
+        <span class="product-sm-cta-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="https://vi.me/lhikH" target="_blank" rel="noopener" class="product-card-sm" id="batllo-link">
+      <div class="product-sm-img product-sm-img-dark">
+        <div class="product-sm-body">
+          <span class="product-sm-tag" data-i18n="batlloTag"></span>
+          <div class="product-sm-title" data-i18n="batlloTitle"></div>
+          <div class="product-sm-price" data-i18n="batlloPrice"></div>
+        </div>
+      </div>
+      <div class="product-sm-cta">
+        <span class="product-sm-cta-text" data-i18n="batlloCta"></span>
+        <span class="product-sm-cta-arrow">→</span>
+      </div>
+    </a>
+
   </div>
-  <div class="divider"></div>
-  <p class="footer-text">© 2026 bcnplans.com · <a href="#">Legal notice</a> · <a href="#">Privacy</a> · <a href="#">Cookies</a></p>
-</div>
+</section>
 
-<!-- ══ CATALÀ ══ -->
-<div data-lang="ca">
-  <a href="index.html" class="avatar"><img src="data:image/jpeg;base64,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" alt="BCN Plans"></a>
-  <p class="handle">@bcn_plans</p>
-  <p class="tagline">Barcelona · Plans · Gastronomia · Vida</p>
-  <p class="bio">Barcelona sense filtres 🗺️<br>Tot el millor de la ciutat, cada dia.</p>
-  <a href="mailto:colaboraciones@bcnplans.com" class="collab-strip">
-    <span class="cs-left"><span class="cs-icon">🤝</span><span class="cs-label">Col·laboracions</span></span>
-    <span class="cs-email">colaboraciones@bcnplans.com</span>
-  </a>
-
-  <p class="section-label">Entrades & Tours</p>
-  <a href="sagrada-familia/index.html" class="link-card destacado">
-    <span class="badge-new">Nou</span>
-    <span class="link-icon">🏛️</span>
-    <div class="link-content">
-      <p class="link-title">Sagrada Família sense cues</p>
-      <p class="link-sub">Entrades amb accés prioritari · Des de 34€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-  <a href="park-guell/index.html" class="link-card">
-    <span class="link-icon">🌿</span>
-    <div class="link-content">
-      <p class="link-title">Park Güell sense cues</p>
-      <p class="link-sub">Entrades i tours guiats · Des de 22€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-  <a href="casa-batllo/index.html" class="link-card">
-    <span class="link-icon">🏠</span>
-    <div class="link-content">
-      <p class="link-title">Casa Batlló com mai no l'has vista</p>
-      <p class="link-sub">Entrades i visites nocturnes · Des de 29€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Producte Digital</p>
-  <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="link-card destacado">
-    <span class="badge-new">Nou · 4,99€</span>
-    <span class="link-icon">🗺️</span>
-    <div class="link-content">
-      <p class="link-title">BCN Plans Map — La Barcelona real</p>
-      <p class="link-sub">50 spots locals · Gastro, miradors, secrets · Mapa interactiu</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Guies Descarregables</p>
-  <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="link-card destacado">
-    <span class="badge-new">Nou · 3,99€</span>
-    <span class="link-icon">🏰</span>
-    <div class="link-content">
-      <p class="link-title">Guia del Barri Gòtic</p>
-      <p class="link-sub">Ruta insider · PDF offline · ES/EN · 3,99€</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
-
-  <p class="section-label">Arquitectura & Cultura</p>
-  <div class="link-card soon">
-    <span class="link-icon">🏗️</span>
-    <div class="link-content">
-      <p class="link-title">Arquitectura · Edificis a visitar</p>
-      <p class="link-sub">Els millors edificis de Barcelona explicats</p>
-    </div>
-    <span class="badge-soon">Pròximament</span>
-  </div>
-  <div class="link-card soon">
-    <span class="link-icon">🎨</span>
-    <div class="link-content">
-      <p class="link-title">Cultura · Museus · Exposicions</p>
-      <p class="link-sub">El millor de la cultura barcelonina</p>
-    </div>
-    <span class="badge-soon">Pròximament</span>
+<!-- ── Guías descargables (cream) ── -->
+<section class="section section-cream" id="guias">
+  <div class="guides-header">
+    <div class="gold-rule" style="background:#9a7a5a"></div>
+    <span class="opener-eyebrow opener-eyebrow-dark" data-i18n="guidesEyebrow"></span>
+    <h2 class="guides-title" data-i18n-html="guidesTitle"></h2>
+    <p class="opener-body" data-i18n="guidesSub"></p>
   </div>
 
-  <p class="section-label">Gastronomia & Plans</p>
-  <div class="link-card soon">
-    <span class="link-icon">🍽️</span>
-    <div class="link-content">
-      <p class="link-title">Millors restaurants de Barcelona</p>
-      <p class="link-sub">Selecció insider per barris</p>
-    </div>
-    <span class="badge-soon">Pròximament</span>
-  </div>
-  <div class="link-card soon">
-    <span class="link-icon">📅</span>
-    <div class="link-content">
-      <p class="link-title">Agenda setmanal de plans</p>
-      <p class="link-sub">El millor de cada cap de setmana</p>
-    </div>
-    <span class="badge-soon">Pròximament</span>
-  </div>
+  <div class="guide-grid">
 
-  <p class="section-label">Contacte</p>
-  <a href="mailto:hola@bcnplans.com" class="link-card">
-    <span class="link-icon">✉️</span>
-    <div class="link-content">
-      <p class="link-title">hola@bcnplans.com</p>
-      <p class="link-sub">Escriu-nos · Suggeriments, dubtes, el que sigui</p>
-    </div>
-    <span class="link-arrow">→</span>
-  </a>
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="guide-card">
+      <div class="guide-icon">🗺️</div>
+      <span class="guide-badge guide-badge-pop" data-i18n="mapBadge"></span>
+      <div class="guide-name" data-i18n="mapTitle"></div>
+      <div class="guide-sub" data-i18n="mapSub"></div>
+      <div class="guide-arrow">
+        <span class="guide-price" data-i18n="mapPrice"></span>
+        <span class="guide-arrow-icon">→</span>
+      </div>
+    </a>
 
-  <div class="social-row">
-    <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
+    <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="guide-card">
+      <div class="guide-icon">🏰</div>
+      <span class="guide-badge guide-badge-new" data-i18n="gothicBadge"></span>
+      <div class="guide-name" data-i18n="gothicTitle"></div>
+      <div class="guide-sub" data-i18n="gothicSub"></div>
+      <div class="guide-arrow">
+        <span class="guide-price" data-i18n="gothicPrice"></span>
+        <span class="guide-arrow-icon">→</span>
+      </div>
+    </a>
+
   </div>
-  <div class="divider"></div>
-  <p class="footer-text">© 2026 bcnplans.com · <a href="#">Avís legal</a> · <a href="#">Privacitat</a> · <a href="#">Cookies</a></p>
-</div>
+</section>
+
+<!-- ── Instagram ── -->
+<section class="section-insta">
+  <span class="insta-eyebrow" data-i18n="instaEyebrow"></span>
+  <h2 class="insta-headline" data-i18n-html="instaHeadline"></h2>
+  <a href="https://www.instagram.com/bcn_plans/" target="_blank" rel="noopener" class="btn-outline" data-i18n="instaCta"></a>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-divider"></div>
+    <div class="footer-contacts">
+      <div class="footer-contact-item">
+        <span class="footer-contact-label" data-i18n="contactLabel"></span>
+        <a href="mailto:hola@bcnplans.com" class="footer-contact-email">hola@bcnplans.com</a>
+      </div>
+      <div class="footer-contact-item">
+        <span class="footer-contact-label" data-i18n="collabLabel"></span>
+        <a href="mailto:colaboraciones@bcnplans.com" class="footer-contact-email">colaboraciones@bcnplans.com</a>
+      </div>
+    </div>
+    <div class="footer-legal" data-i18n-html="footerLegal"></div>
+  </div>
+</footer>
 
 <script>
-function _bcnPropagateLang(lang){
-  document.querySelectorAll('a[href]').forEach(function(a){
-    var h=a.getAttribute('href');
-    if(!h) return;
-    if(h.startsWith('http')||h.startsWith('mailto:')||h.startsWith('tel:')||h.startsWith('#')||h.startsWith('javascript:')) return;
-    var hashIdx=h.indexOf('#');
-    var hash=hashIdx>=0?h.slice(hashIdx):'';
-    var base=hashIdx>=0?h.slice(0,hashIdx):h;
-    var qIdx=base.indexOf('?');
-    var path=qIdx>=0?base.slice(0,qIdx):base;
-    var query=qIdx>=0?base.slice(qIdx+1):'';
-    var parts=query?query.split('&').filter(function(p){return !p.startsWith('lang=');}):[];
-    parts.push('lang='+lang);
-    a.setAttribute('href',path+'?'+parts.join('&')+hash);
+/* ──────────────────────────────────────
+   i18n content
+────────────────────────────────────── */
+var T = {
+  es: {
+    heroEyebrow:   'GUÍA INSIDER · BCN_PLANS',
+    heroHeadline:  'Barcelona sin <em>filtros</em>',
+    heroSub:       'Las entradas, los planes y los secretos que los turistas no encuentran solos.',
+    heroCta:       '🎟️ Ver entradas',
+    heroScroll:    'Las guías ↓',
+    collabLabel:   'Colaboraciones',
+    ticketsEyebrow:'ENTRADAS & TOURS',
+    ticketsQuote:  '"Reserva con 3 semanas de antelación o esperas 90 minutos en la calle."',
+    ticketsCite:   '— Equipo @bcn_plans',
+    sagradaTag:    '🏛️ SAGRADA FAMÍLIA',
+    sagradaTitle:  'Sin 2 horas de cola',
+    sagradaPrice:  'Desde 34€',
+    sagradaChip1:  '⏱ 1.5h',
+    sagradaChip2:  '✓ Acceso prioritario',
+    sagradaCta:    '🎟️ Reservar en Viator',
+    parkTag:       '🌿 PARK GÜELL',
+    parkTitle:     'Sin colas',
+    parkPrice:     'Desde 22€',
+    parkCta:       'Ver en Viator',
+    batlloTag:     '🏠 CASA BATLLÓ',
+    batlloTitle:   'Como nunca la has visto',
+    batlloPrice:   'Desde 29€',
+    batlloCta:     'Ver en Viator',
+    guidesEyebrow: 'GUÍAS DESCARGABLES',
+    guidesTitle:   'Llévate Barcelona <em>en el móvil</em>',
+    guidesSub:     'Curadas por nosotros. Offline. Para siempre.',
+    mapBadge:      'Popular',
+    mapTitle:      'BCN Plans Map',
+    mapSub:        '50 spots locales · Mapa interactivo',
+    mapPrice:      '4,99€',
+    gothicBadge:   'Nuevo',
+    gothicTitle:   'Guía del Barrio Gótico',
+    gothicSub:     'Ruta insider · PDF offline · ES/EN',
+    gothicPrice:   '3,99€',
+    instaEyebrow:  'CADA DÍA EN BARCELONA',
+    instaHeadline: 'Lo que no sale <em>en ninguna guía</em>',
+    instaCta:      '📸 Seguir en Instagram',
+    contactLabel:  'Contacto',
+    footerLegal:   '© 2026 bcnplans.com · <a href="aviso-legal/">Aviso legal</a> · <a href="privacidad/">Privacidad</a> · <a href="cookies/">Cookies</a>'
+  },
+  en: {
+    heroEyebrow:   'INSIDER GUIDE · BCN_PLANS',
+    heroHeadline:  'Barcelona <em>unfiltered</em>',
+    heroSub:       'The tickets, plans and secrets tourists don\'t find on their own.',
+    heroCta:       '🎟️ See tickets',
+    heroScroll:    'The guides ↓',
+    collabLabel:   'Partnerships',
+    ticketsEyebrow:'TICKETS & TOURS',
+    ticketsQuote:  '"Book 3 weeks ahead or wait 90 minutes outside."',
+    ticketsCite:   '— Team @bcn_plans',
+    sagradaTag:    '🏛️ SAGRADA FAMÍLIA',
+    sagradaTitle:  'Skip the 2-hour queue',
+    sagradaPrice:  'From €34',
+    sagradaChip1:  '⏱ 1.5h',
+    sagradaChip2:  '✓ Priority access',
+    sagradaCta:    '🎟️ Book on Viator',
+    parkTag:       '🌿 PARK GÜELL',
+    parkTitle:     'Skip the queue',
+    parkPrice:     'From €22',
+    parkCta:       'See on Viator',
+    batlloTag:     '🏠 CASA BATLLÓ',
+    batlloTitle:   'Like you\'ve never seen it',
+    batlloPrice:   'From €29',
+    batlloCta:     'See on Viator',
+    guidesEyebrow: 'DOWNLOADABLE GUIDES',
+    guidesTitle:   'Take Barcelona <em>with you</em>',
+    guidesSub:     'Curated by us. Offline. Forever.',
+    mapBadge:      'Popular',
+    mapTitle:      'BCN Plans Map',
+    mapSub:        '50 local spots · Interactive map',
+    mapPrice:      '€4.99',
+    gothicBadge:   'New',
+    gothicTitle:   'Gothic Quarter Guide',
+    gothicSub:     'Insider route · Offline PDF · ES/EN',
+    gothicPrice:   '€3.99',
+    instaEyebrow:  'BARCELONA EVERY DAY',
+    instaHeadline: 'What no guidebook <em>ever shows you</em>',
+    instaCta:      '📸 Follow on Instagram',
+    contactLabel:  'Contact',
+    footerLegal:   '© 2026 bcnplans.com · <a href="aviso-legal/">Legal notice</a> · <a href="privacidad/">Privacy</a> · <a href="cookies/">Cookies</a>'
+  },
+  ca: {
+    heroEyebrow:   'GUIA INSIDER · BCN_PLANS',
+    heroHeadline:  'Barcelona sense <em>filtres</em>',
+    heroSub:       'Les entrades, els plans i els secrets que els turistes no troben sols.',
+    heroCta:       '🎟️ Veure entrades',
+    heroScroll:    'Les guies ↓',
+    collabLabel:   'Col·laboracions',
+    ticketsEyebrow:'ENTRADES & TOURS',
+    ticketsQuote:  '"Reserva amb 3 setmanes d\'antelació o esperes 90 minuts al carrer."',
+    ticketsCite:   '— Equip @bcn_plans',
+    sagradaTag:    '🏛️ SAGRADA FAMÍLIA',
+    sagradaTitle:  'Sense 2 hores de cua',
+    sagradaPrice:  'Des de 34€',
+    sagradaChip1:  '⏱ 1.5h',
+    sagradaChip2:  '✓ Accés prioritari',
+    sagradaCta:    '🎟️ Reservar a Viator',
+    parkTag:       '🌿 PARK GÜELL',
+    parkTitle:     'Sense cues',
+    parkPrice:     'Des de 22€',
+    parkCta:       'Veure a Viator',
+    batlloTag:     '🏠 CASA BATLLÓ',
+    batlloTitle:   'Com mai no l\'has vista',
+    batlloPrice:   'Des de 29€',
+    batlloCta:     'Veure a Viator',
+    guidesEyebrow: 'GUIES DESCARREGABLES',
+    guidesTitle:   'Endú-te Barcelona <em>al mòbil</em>',
+    guidesSub:     'Curades per nosaltres. Offline. Per sempre.',
+    mapBadge:      'Popular',
+    mapTitle:      'BCN Plans Map',
+    mapSub:        '50 spots locals · Mapa interactiu',
+    mapPrice:      '4,99€',
+    gothicBadge:   'Nou',
+    gothicTitle:   'Guia del Barri Gòtic',
+    gothicSub:     'Ruta insider · PDF offline · ES/EN',
+    gothicPrice:   '3,99€',
+    instaEyebrow:  'CADA DIA A BARCELONA',
+    instaHeadline: 'El que no surt <em>a cap guia</em>',
+    instaCta:      '📸 Seguir a Instagram',
+    contactLabel:  'Contacte',
+    footerLegal:   '© 2026 bcnplans.com · <a href="aviso-legal/">Avís legal</a> · <a href="privacidad/">Privacitat</a> · <a href="cookies/">Cookies</a>'
+  }
+};
+
+/* ──────────────────────────────────────
+   Lang switch
+────────────────────────────────────── */
+function _propagateLang(lang) {
+  document.querySelectorAll('a[href]').forEach(function(a) {
+    var h = a.getAttribute('href');
+    if (!h || h.startsWith('http') || h.startsWith('mailto:') || h.startsWith('#') || h.startsWith('javascript:')) return;
+    var qi = h.indexOf('?'), hi = h.indexOf('#');
+    var path = qi >= 0 ? h.slice(0, qi) : (hi >= 0 ? h.slice(0, hi) : h);
+    var hash = hi >= 0 ? h.slice(hi) : '';
+    var query = qi >= 0 ? h.slice(qi + 1, hi >= 0 ? hi : undefined) : '';
+    var parts = query ? query.split('&').filter(function(p){ return !p.startsWith('lang='); }) : [];
+    parts.push('lang=' + lang);
+    a.setAttribute('href', path + '?' + parts.join('&') + hash);
   });
 }
-function setLang(lang){
-  document.querySelectorAll('[data-lang]').forEach(function(el){el.classList.remove('visible');});
-  document.querySelectorAll('.lang-btn').forEach(function(btn){btn.classList.remove('active');});
-  document.querySelectorAll('[data-lang="'+lang+'"]').forEach(function(t){t.classList.add('visible');});
-  var btn=document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]');
-  if(btn)btn.classList.add('active');
-  document.documentElement.lang=lang;
-  if(document.body)document.body.style.visibility='visible';
-  window.scrollTo(0,0);
-  try{localStorage.setItem('bcnplans_lang',lang);}catch(e){}
-  try{
-    var u=new URL(window.location.href);
-    u.searchParams.set('lang',lang);
-    window.history.replaceState({},'',u.toString());
-  }catch(e){}
-  _bcnPropagateLang(lang);
+
+function setLang(lang) {
+  var t = T[lang] || T.es;
+
+  document.querySelectorAll('[data-i18n]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n');
+    if (t[k] !== undefined) el.textContent = t[k];
+  });
+  document.querySelectorAll('[data-i18n-html]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n-html');
+    if (t[k] !== undefined) el.innerHTML = t[k];
+  });
+
+  document.querySelectorAll('.lang-btn').forEach(function(btn) { btn.classList.remove('active'); });
+  var ab = document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]');
+  if (ab) ab.classList.add('active');
+
+  document.documentElement.lang = lang;
+  try { localStorage.setItem('bcnplans_lang', lang); } catch(e) {}
+  try {
+    var u = new URL(window.location.href);
+    u.searchParams.set('lang', lang);
+    window.history.replaceState({}, '', u.toString());
+  } catch(e) {}
+  _propagateLang(lang);
 }
-(function(){
-  function init(){
-    var lang=null;
-    try{
-      var u=new URL(window.location.href);
-      var q=u.searchParams.get('lang');
-      if(q&&['es','en','ca'].indexOf(q)>-1)lang=q;
-    }catch(e){}
-    if(!lang){try{var s=localStorage.getItem('bcnplans_lang');if(s&&['es','en','ca'].indexOf(s)>-1)lang=s;}catch(e){}}
-    if(!lang){var bl=(navigator.language||'es').slice(0,2).toLowerCase();lang=bl==='ca'?'ca':(bl==='en'?'en':'es');}
+
+/* ──────────────────────────────────────
+   Init
+────────────────────────────────────── */
+(function() {
+  function init() {
+    var lang = null;
+    try { var u = new URL(window.location.href); var q = u.searchParams.get('lang'); if (q && T[q]) lang = q; } catch(e) {}
+    if (!lang) { try { var s = localStorage.getItem('bcnplans_lang'); if (s && T[s]) lang = s; } catch(e) {} }
+    if (!lang) { var bl = (navigator.language || 'es').slice(0, 2).toLowerCase(); lang = T[bl] ? bl : 'es'; }
     setLang(lang);
+
+    /* subtle hero parallax on scroll */
+    var heroImg = document.querySelector('.hero-img');
+    if (heroImg && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      window.addEventListener('scroll', function() {
+        var s = window.scrollY;
+        heroImg.style.transform = 'translateY(' + (s * 0.3) + 'px)';
+      }, { passive: true });
+    }
   }
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
 </script>

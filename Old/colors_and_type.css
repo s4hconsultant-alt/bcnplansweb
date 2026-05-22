@@ -1,0 +1,235 @@
+/* ============================================================
+   BCN PLANS — Design Tokens
+   Source of truth for colors, type, spacing, and base resets
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;700&display=swap');
+
+:root {
+  /* ── Color: Brand ──────────────────────────── */
+  --negro:        #0a0a0a;    /* primary background — editorial black */
+  --negro-deep:   #050505;    /* footer / deepest surface */
+  --crema:        #f5f0e8;    /* primary text on dark, light surface */
+  --oro:          #c4a882;    /* signature gold — CTAs, accents */
+  --oro-oscuro:   #9a7a5a;    /* hover state for gold, secondary links */
+  --gris:         #888888;    /* meta text */
+  --gris-claro:   #f0ece4;    /* warm light surface for quotes / review */
+  --urgencia-bg:  #1a0f00;    /* warning stripe background */
+  --rojo:         #e03131;    /* "agotándose" / urgent badge */
+  --amarillo:     #f59f00;    /* review stars (yellow gold) */
+
+  /* ── Color: Semantic ───────────────────────── */
+  --bg-page:           var(--crema);
+  --bg-page-dark:      var(--negro);
+  --bg-surface:        #ffffff;             /* cards on cream */
+  --bg-surface-dark:   var(--negro);
+  --bg-surface-warm:   var(--gris-claro);
+
+  --fg-on-dark:        var(--crema);
+  --fg-on-dark-muted:  rgba(245,240,232,0.7);
+  --fg-on-dark-faint:  rgba(245,240,232,0.45);
+
+  --fg-primary:        var(--negro);
+  --fg-secondary:      #444444;
+  --fg-muted:          var(--gris);
+
+  --accent:            var(--oro);
+  --accent-hover:      var(--oro-oscuro);
+
+  --border-subtle:     rgba(0,0,0,0.08);
+  --border-line:       rgba(0,0,0,0.1);
+  --border-on-dark:    rgba(196,168,130,0.25);
+  --border-on-dark-strong: rgba(196,168,130,0.5);
+
+  /* ── Typography: Families ──────────────────── */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* ── Typography: Weights ───────────────────── */
+  --w-light:    300;   /* body default — gives editorial feel */
+  --w-regular:  400;
+  --w-medium:   500;   /* CTAs, badges, table headers */
+  --w-bold:     700;
+  --w-black:    900;   /* display headlines */
+
+  /* ── Typography: Scale ─────────────────────── */
+  /* Hero/section headings use fluid clamp(); these are base sizes */
+  --fs-hero-h1:   clamp(32px, 7vw, 56px);   /* display, black */
+  --fs-h1:        clamp(26px, 5vw, 40px);   /* display, bold */
+  --fs-h2:        clamp(24px, 5vw, 36px);   /* section title */
+  --fs-h3:        20px;                     /* card title */
+  --fs-h4:        17px;                     /* faq question */
+  --fs-quote:     20px;                     /* display, on dark */
+  --fs-body:      15px;
+  --fs-body-sm:   14px;
+  --fs-meta:      13px;
+  --fs-caption:   12px;
+  --fs-eyebrow:   11px;                     /* uppercase tag/eyebrow */
+  --fs-tag:       10px;                     /* badges, micro labels */
+  --fs-mini:      9px;
+
+  /* ── Typography: Line-height & tracking ────── */
+  --lh-tight:     1.1;     /* display headlines */
+  --lh-snug:      1.2;
+  --lh-normal:    1.4;
+  --lh-relaxed:   1.7;     /* body — generous, editorial */
+  --lh-loose:     1.8;     /* insider quote blocks */
+
+  --ls-display:    -0.01em;
+  --ls-eyebrow:    3px;    /* heavily tracked uppercase eyebrows */
+  --ls-caps-sm:    2px;    /* small caps tags */
+  --ls-caps-xs:    1px;    /* micro labels */
+  --ls-tight:      0.5px;
+
+  /* ── Spacing scale (8px-ish) ───────────────── */
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  20px;
+  --s-6:  24px;
+  --s-7:  28px;
+  --s-8:  32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-14: 56px;
+  --s-16: 60px;
+
+  /* Section paddings used across landing pages */
+  --section-pad-y: 60px;
+  --section-pad-x: 24px;
+  --section-max:   680px;
+
+  /* ── Radii — minimal: sharp edges are signature ── */
+  --r-none:   0;
+  --r-xs:     2px;     /* tour cards */
+  --r-pill:   999px;
+  --r-circle: 50%;     /* avatar only */
+
+  /* ── Shadows ──────────────────────────────── */
+  --shadow-card-hover: 0 4px 20px rgba(0,0,0,0.12);
+  --shadow-lift:       0 2px 8px rgba(0,0,0,0.06);
+
+  /* ── Motion ───────────────────────────────── */
+  --t-fast:   0.15s;
+  --t-base:   0.2s;
+  --t-slow:   0.4s;
+  --easing:   ease;
+
+  /* ── Component primitives ─────────────────── */
+  --hero-radial: radial-gradient(ellipse at 50% 80%, rgba(196,168,130,0.15) 0%, transparent 70%);
+  --linea-oro-w: 48px;
+  --linea-oro-h: 3px;
+}
+
+/* ============================================================
+   BASE RESET (matches BCN Plans landing pages)
+   ============================================================ */
+*,
+*::before,
+*::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; min-height: 100vh; }
+
+body {
+  background: var(--bg-page);
+  color: var(--fg-primary);
+  font-family: var(--font-sans);
+  font-weight: var(--w-light);
+  line-height: var(--lh-relaxed);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================================
+   SEMANTIC TEXT STYLES
+   Apply with classes — works on dark or cream surface
+   ============================================================ */
+
+.t-hero {
+  font-family: var(--font-display);
+  font-size: var(--fs-hero-h1);
+  font-weight: var(--w-black);
+  line-height: var(--lh-tight);
+}
+
+.t-h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--w-bold);
+  line-height: var(--lh-snug);
+}
+
+.t-h2,
+.seccion-titulo {
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: var(--w-bold);
+  line-height: var(--lh-snug);
+}
+
+.t-h3 {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--w-bold);
+  line-height: var(--lh-normal);
+}
+
+.t-quote {
+  font-family: var(--font-display);
+  font-size: var(--fs-quote);
+  font-weight: var(--w-regular);
+  color: var(--oro);
+  line-height: var(--lh-normal);
+}
+
+.t-body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: var(--w-light);
+  line-height: var(--lh-relaxed);
+}
+
+.t-meta {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+}
+
+/* Eyebrow: small, tracked, uppercase, gold — the signature BCN label */
+.t-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--w-regular);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--oro);
+}
+
+/* Tag: tiny pill of metadata (Nuevo, Popular, Próximamente) */
+.t-tag {
+  font-family: var(--font-sans);
+  font-size: var(--fs-tag);
+  font-weight: var(--w-medium);
+  letter-spacing: var(--ls-caps-xs);
+  text-transform: uppercase;
+}
+
+/* Italic em inside titles → gold accent, not real italic */
+.t-h1 em,
+.t-h2 em,
+.t-hero em,
+.seccion-titulo em { font-style: normal; color: var(--oro-oscuro); }
+
+.on-dark .t-h1 em,
+.on-dark .t-h2 em,
+.on-dark .t-hero em,
+.hero h1 em,
+.cta-final h2 em { color: var(--oro); }
+
+/* The signature 48px gold underline used to "open" a section */
+.linea-oro {
+  width: var(--linea-oro-w);
+  height: var(--linea-oro-h);
+  background: var(--oro);
+  margin-bottom: var(--s-6);
+}
