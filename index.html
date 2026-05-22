@@ -17,8 +17,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .lang-bar{position:fixed;top:0;left:0;right:0;background:rgba(10,10,10,0.95);backdrop-filter:blur(8px);display:flex;justify-content:center;gap:4px;padding:8px 16px;z-index:100;border-bottom:1px solid rgba(196,168,130,0.1)}
 .lang-btn{background:transparent;border:1px solid rgba(196,168,130,0.25);color:rgba(245,240,232,0.45);font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:2px;padding:5px 14px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
 .lang-btn:hover,.lang-btn.active{background:#c4a882;border-color:#c4a882;color:#0a0a0a}
-[data-lang]{display:none}
-[data-lang].visible{display:flex;flex-direction:column;align-items:center;width:100%;max-width:480px}
+[data-lang]{display:none !important}
+[data-lang].visible{display:flex !important;flex-direction:column;align-items:center;width:100%;max-width:480px}
 .avatar{width:88px;height:88px;border-radius:50%;border:2px solid #c4a882;overflow:hidden;margin-bottom:16px;margin-top:44px;flex-shrink:0;display:block}.avatar img{width:100%;height:100%;object-fit:cover}
 .handle{font-size:17px;font-weight:500;letter-spacing:0.5px;margin-bottom:4px;color:#f5f0e8}
 .tagline{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#c4a882;margin-bottom:6px;text-align:center}
@@ -45,6 +45,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .divider{width:40px;height:1px;background:rgba(196,168,130,0.2);margin:8px auto 0}
 .footer-text{margin-top:32px;font-size:11px;color:rgba(245,240,232,0.2);letter-spacing:1px;text-align:center}
 .footer-text a{color:rgba(196,168,130,0.4);text-decoration:none}
+
+.collab-strip{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(196,168,130,0.06);border:1px solid rgba(196,168,130,0.22);padding:11px 16px;text-decoration:none;color:#f5f0e8;margin:0 0 28px;transition:all 0.2s}
+.collab-strip:hover{background:rgba(196,168,130,0.12);border-color:rgba(196,168,130,0.5);transform:translateY(-1px)}
+.collab-strip .cs-left{display:flex;align-items:center;gap:9px;min-width:0}
+.collab-strip .cs-icon{font-size:14px;flex-shrink:0}
+.collab-strip .cs-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,0.55);white-space:nowrap}
+.collab-strip .cs-email{font-size:12px;letter-spacing:0.3px;color:#c4a882;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+@media (max-width:380px){
+  .collab-strip{flex-direction:column;align-items:flex-start;gap:4px}
+  .collab-strip .cs-email{font-size:11px}
+}
 @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 .avatar{animation:fadeUp 0.4s ease both}
 .handle{animation:fadeUp 0.4s 0.05s ease both}
@@ -66,6 +77,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <p class="handle">@bcn_plans</p>
   <p class="tagline">Barcelona · Plans · Gastronomia · Vida</p>
   <p class="bio">Barcelona sin filtros 🗺️<br>Todo lo mejor de la ciudad, cada día.</p>
+  <a href="mailto:colaboraciones@bcnplans.com" class="collab-strip">
+    <span class="cs-left"><span class="cs-icon">🤝</span><span class="cs-label">Colaboraciones</span></span>
+    <span class="cs-email">colaboraciones@bcnplans.com</span>
+  </a>
 
   <p class="section-label">Entradas & Tours</p>
   <a href="sagrada-familia/index.html" class="link-card destacado">
@@ -101,6 +116,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="link-content">
       <p class="link-title">BCN Plans Map — La Barcelona real</p>
       <p class="link-sub">50 spots locales · Gastro, miradores, secretos · Mapa interactivo</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+
+  <p class="section-label">Guías Descargables</p>
+  <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="link-card destacado">
+    <span class="badge-new">Nuevo · 3,99€</span>
+    <span class="link-icon">🏰</span>
+    <div class="link-content">
+      <p class="link-title">Guía del Barrio Gótico</p>
+      <p class="link-sub">Ruta insider · PDF offline · ES/EN · 3,99€</p>
     </div>
     <span class="link-arrow">→</span>
   </a>
@@ -141,6 +167,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <span class="badge-soon">Próximamente</span>
   </div>
 
+  <p class="section-label">Contacto</p>
+  <a href="mailto:hola@bcnplans.com" class="link-card">
+    <span class="link-icon">✉️</span>
+    <div class="link-content">
+      <p class="link-title">hola@bcnplans.com</p>
+      <p class="link-sub">Escríbenos · Sugerencias, dudas, lo que sea</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+
   <div class="social-row">
     <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
   </div>
@@ -154,6 +190,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <p class="handle">@bcn_plans</p>
   <p class="tagline">Barcelona · Plans · Gastronomy · Life</p>
   <p class="bio">Barcelona unfiltered 🗺️<br>The best of the city, every day.</p>
+  <a href="mailto:colaboraciones@bcnplans.com" class="collab-strip">
+    <span class="cs-left"><span class="cs-icon">🤝</span><span class="cs-label">Partnerships</span></span>
+    <span class="cs-email">colaboraciones@bcnplans.com</span>
+  </a>
 
   <p class="section-label">Tickets & Tours</p>
   <a href="sagrada-familia/index.html" class="link-card destacado">
@@ -189,6 +229,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <div class="link-content">
       <p class="link-title">BCN Plans Map — The real Barcelona</p>
       <p class="link-sub">50 local spots · Food, viewpoints, secrets · Interactive map</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+
+  <p class="section-label">Downloadable Guides</p>
+  <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="link-card destacado">
+    <span class="badge-new">New · €3.99</span>
+    <span class="link-icon">🏰</span>
+    <div class="link-content">
+      <p class="link-title">Gothic Quarter Guide</p>
+      <p class="link-sub">Insider route · Offline PDF · ES/EN · €3.99</p>
     </div>
     <span class="link-arrow">→</span>
   </a>
@@ -229,6 +280,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <span class="badge-soon">Coming soon</span>
   </div>
 
+  <p class="section-label">Contact</p>
+  <a href="mailto:hola@bcnplans.com" class="link-card">
+    <span class="link-icon">✉️</span>
+    <div class="link-content">
+      <p class="link-title">hola@bcnplans.com</p>
+      <p class="link-sub">Write to us · Tips, questions, anything</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+
   <div class="social-row">
     <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
   </div>
@@ -242,6 +303,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   <p class="handle">@bcn_plans</p>
   <p class="tagline">Barcelona · Plans · Gastronomia · Vida</p>
   <p class="bio">Barcelona sense filtres 🗺️<br>Tot el millor de la ciutat, cada dia.</p>
+  <a href="mailto:colaboraciones@bcnplans.com" class="collab-strip">
+    <span class="cs-left"><span class="cs-icon">🤝</span><span class="cs-label">Col·laboracions</span></span>
+    <span class="cs-email">colaboraciones@bcnplans.com</span>
+  </a>
 
   <p class="section-label">Entrades & Tours</p>
   <a href="sagrada-familia/index.html" class="link-card destacado">
@@ -281,7 +346,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <span class="link-arrow">→</span>
   </a>
 
+  <p class="section-label">Guies Descarregables</p>
+  <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="link-card destacado">
+    <span class="badge-new">Nou · 3,99€</span>
+    <span class="link-icon">🏰</span>
+    <div class="link-content">
+      <p class="link-title">Guia del Barri Gòtic</p>
+      <p class="link-sub">Ruta insider · PDF offline · ES/EN · 3,99€</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
+
   <p class="section-label">Arquitectura & Cultura</p>
+  <div class="link-card soon">
+    <span class="link-icon">🏗️</span>
+    <div class="link-content">
+      <p class="link-title">Arquitectura · Edificis a visitar</p>
       <p class="link-sub">Els millors edificis de Barcelona explicats</p>
     </div>
     <span class="badge-soon">Pròximament</span>
@@ -312,6 +392,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     </div>
     <span class="badge-soon">Pròximament</span>
   </div>
+
+  <p class="section-label">Contacte</p>
+  <a href="mailto:hola@bcnplans.com" class="link-card">
+    <span class="link-icon">✉️</span>
+    <div class="link-content">
+      <p class="link-title">hola@bcnplans.com</p>
+      <p class="link-sub">Escriu-nos · Suggeriments, dubtes, el que sigui</p>
+    </div>
+    <span class="link-arrow">→</span>
+  </a>
 
   <div class="social-row">
     <a href="https://instagram.com/bcn_plans" target="_blank" class="social-btn">📸 Instagram</a>
