@@ -15,7 +15,12 @@ html{scroll-behavior:smooth}
 body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
 
 /* ── Lang bar ── */
-.lang-bar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(to bottom,rgba(5,5,5,0.9) 0%,transparent 100%)}
+.lang-bar{position:fixed;top:0;left:0;right:0;z-index:200;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:8px 16px;background:linear-gradient(to bottom,rgba(5,5,5,0.9) 0%,transparent 100%)}
+.lang-bar-logo{display:flex;justify-content:center}
+.lang-bar-logo a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;overflow:hidden;border:1px solid rgba(196,168,130,0.35);transition:border-color 0.2s,transform 0.2s}
+.lang-bar-logo a:hover{border-color:#c4a882;transform:scale(1.07)}
+.lang-bar-logo img{width:100%;height:100%;object-fit:cover}
+.lang-bar-langs{display:flex;gap:2px;justify-content:flex-end}
 .lang-bar-social{display:flex;align-items:center;gap:12px}
 .social-icon{display:flex;align-items:center;color:rgba(245,240,232,0.35);text-decoration:none;transition:color 0.2s,filter 0.2s}
 .social-icon:hover{color:#c4a882;filter:drop-shadow(0 0 6px rgba(196,168,130,0.5))}
@@ -182,6 +187,11 @@ body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weig
       <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
     </a>
   </div>
+  <div class="lang-bar-logo">
+    <a href="#top" title="BCN Plans — inicio">
+      <img src="imagery/logo.png" alt="BCN Plans">
+    </a>
+  </div>
   <div class="lang-bar-langs">
     <button class="lang-btn active" onclick="setLang('es')">ES</button>
     <button class="lang-btn" onclick="setLang('en')">EN</button>
@@ -198,14 +208,7 @@ body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weig
   <div class="hero-img"></div>
   <div class="hero-overlay"></div>
 
-  <div class="hero-brand">
-    <div class="hero-brand-logo">
-      <img src="imagery/logo.png" alt="BCN Plans" style="object-position:center;width:100%;height:100%;object-fit:cover">
-    </div>
-    <span class="hero-brand-handle">@bcn_plans</span>
-  </div>
-
-  <div class="hero-content">
+<div class="hero-content">
     <span class="hero-eyebrow" data-i18n="heroEyebrow"></span>
     <h1 class="hero-h1" data-i18n-html="heroHeadline"></h1>
     <p class="hero-sub" data-i18n="heroSub"></p>
@@ -393,7 +396,7 @@ var T = {
     instaHeadline: 'Lo que no sale <em>en ninguna guía</em>',
     instaCta:      '📸 Seguir en Instagram',
     contactLabel:  'Contacto',
-    footerLegal:   '© 2026 bcnplans.com · <a href="aviso-legal/">Aviso legal</a> · <a href="privacidad/">Privacidad</a> · <a href="cookies/">Cookies</a>'
+    footerLegal:   '© 2026 bcnplans.com · <a href="#">Aviso legal</a> · <a href="#">Privacidad</a> · <a href="#">Cookies</a>'
   },
   en: {
     heroEyebrow:   'INSIDER GUIDE · BCN_PLANS',
@@ -434,7 +437,7 @@ var T = {
     instaHeadline: 'What no guidebook <em>ever shows you</em>',
     instaCta:      '📸 Follow on Instagram',
     contactLabel:  'Contact',
-    footerLegal:   '© 2026 bcnplans.com · <a href="aviso-legal/">Legal notice</a> · <a href="privacidad/">Privacy</a> · <a href="cookies/">Cookies</a>'
+    footerLegal:   '© 2026 bcnplans.com · <a href="#">Legal notice</a> · <a href="#">Privacy</a> · <a href="#">Cookies</a>'
   },
   ca: {
     heroEyebrow:   'GUIA INSIDER · BCN_PLANS',
@@ -475,7 +478,7 @@ var T = {
     instaHeadline: 'El que no surt <em>a cap guia</em>',
     instaCta:      '📸 Seguir a Instagram',
     contactLabel:  'Contacte',
-    footerLegal:   '© 2026 bcnplans.com · <a href="aviso-legal/">Avís legal</a> · <a href="privacidad/">Privacitat</a> · <a href="cookies/">Cookies</a>'
+    footerLegal:   '© 2026 bcnplans.com · <a href="#">Avís legal</a> · <a href="#">Privacitat</a> · <a href="#">Cookies</a>'
   }
 };
 
