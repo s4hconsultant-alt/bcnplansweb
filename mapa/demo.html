@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCN Plans Map — La Barcelona que no sale en Google</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --cream: #F5F0E8;
+    --dark: #1A1612;
+    --dark-mid: #2C2520;
+    --red: #C0392B;
+    --text-muted: #8A7D6B;
+    --panel-w: 380px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--dark);
+    color: var(--cream);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    position: relative;
+    z-index: 100;
+    background: var(--dark);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 0 20px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--cream);
+  }
+  .logo span { color: var(--gold); }
+
+  .header-right { display: flex; align-items: center; gap: 12px; }
+
+  .header-badge {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.4);
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  .header-count {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .header-count strong { color: var(--gold); }
+
+  .app-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .sidebar {
+    width: var(--panel-w);
+    background: var(--dark-mid);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    border-right: 1px solid rgba(201,168,76,0.15);
+    overflow: hidden;
+  }
+
+  .sidebar-top {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+  .sidebar-title em { color: var(--gold); font-style: italic; }
+
+  .sidebar-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .filters {
+    padding: 12px 20px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .filter-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    padding: 5px 11px;
+    border-radius: 2px;
+    border: 1px solid rgba(201,168,76,0.3);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .filter-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--dark);
+    font-weight: 600;
+  }
+
+  .spots-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 0;
+  }
+  .spots-list::-webkit-scrollbar { width: 3px; }
+  .spots-list::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.25); border-radius: 2px; }
+
+  .spot-card {
+    padding: 12px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.15s;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .spot-card:hover { background: rgba(201,168,76,0.06); }
+  .spot-card.active { background: rgba(201,168,76,0.1); border-left: 2px solid var(--gold); padding-left: 18px; }
+
+  .spot-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .spot-info { flex: 1; min-width: 0; }
+
+  .spot-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .spot-barrio {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 4px;
+  }
+
+  .spot-tags { display: flex; gap: 3px; flex-wrap: wrap; }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    padding: 2px 5px;
+    border-radius: 1px;
+    font-weight: 600;
+  }
+  .tag-gratis { background: rgba(39,174,96,0.18); color: #2ecc71; }
+  .tag-local  { background: rgba(201,168,76,0.18); color: var(--gold); }
+  .tag-secreto{ background: rgba(192,57,43,0.18); color: #e74c3c; }
+  .tag-gastro { background: rgba(155,89,182,0.18); color: #a569bd; }
+  .tag-vista  { background: rgba(41,128,185,0.18); color: #5dade2; }
+  .tag-noche  { background: rgba(100,100,120,0.3); color: #aab; }
+  .tag-verano { background: rgba(230,126,34,0.18); color: #f39c12; }
+  .tag-cultura{ background: rgba(26,188,156,0.18); color: #1abc9c; }
+
+  .spot-meta { text-align: right; flex-shrink: 0; }
+  .spot-price { font-size: 11px; color: var(--cream); font-weight: 500; }
+
+  .sidebar-footer {
+    padding: 12px 20px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    background: rgba(201,168,76,0.04);
+  }
+  .footer-count {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 9px;
+  }
+  .footer-count strong { color: var(--gold); }
+  .btn-maps {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: var(--gold);
+    color: var(--dark);
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .btn-maps:hover { background: var(--gold-light); }
+
+  #map {
+    flex: 1;
+    position: relative;
+  }
+
+  .detail-panel {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--dark-mid);
+    border-top: 1px solid rgba(201,168,76,0.3);
+    padding: 18px 22px 20px;
+    transform: translateY(100%);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    z-index: 10;
+    max-height: 52%;
+    overflow-y: auto;
+  }
+  .detail-panel.open { transform: translateY(0); }
+  .detail-panel::-webkit-scrollbar { width: 3px; }
+  .detail-panel::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.2); }
+
+  .detail-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+  .detail-close:hover { color: var(--cream); }
+
+  .detail-cat {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 5px;
+  }
+  .detail-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    margin-bottom: 3px;
+    line-height: 1.15;
+    padding-right: 30px;
+  }
+  .detail-barrio {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .detail-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(245,240,232,0.82);
+    margin-bottom: 12px;
+  }
+  .detail-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+  .info-item {
+    background: rgba(255,255,255,0.04);
+    padding: 9px 11px;
+    border-radius: 2px;
+  }
+  .info-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .info-value { font-size: 12px; font-weight: 500; color: var(--cream); }
+
+  .detail-tip {
+    background: rgba(201,168,76,0.08);
+    border-left: 2px solid var(--gold);
+    padding: 9px 12px;
+    border-radius: 0 2px 2px 0;
+    font-size: 12px;
+    color: rgba(245,240,232,0.75);
+    line-height: 1.5;
+    margin-bottom: 14px;
+    font-style: italic;
+  }
+  .detail-tip strong { color: var(--gold); font-style: normal; }
+
+  .detail-actions { display: flex; gap: 8px; }
+  .btn-action {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary { background: var(--gold); color: var(--dark); }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-secondary { background: rgba(255,255,255,0.07); color: var(--cream); }
+  .btn-secondary:hover { background: rgba(255,255,255,0.12); }
+
+  @media (max-width: 700px) {
+    :root { --panel-w: 100vw; }
+    .app-body { flex-direction: column; }
+    .sidebar { width: 100%; height: 42vh; border-right: none; border-bottom: 1px solid rgba(201,168,76,0.15); }
+    #map { height: 58vh; flex: none; }
+    .header-count { display: none; }
+  }
+
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">BCN<span>Plans</span> Map</div>
+  <div class="header-right">
+    <div class="header-count">Mostrando <strong id="headerCount">50</strong> spots</div>
+    <div class="header-badge">Edición Local 2026</div>
+  </div>
+</header>
+
+<div class="app-body">
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <div class="sidebar-title">La Barcelona <em>real</em></div>
+      <div class="sidebar-sub">50 spots — seleccionados por locales, no por algoritmos</div>
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterSpots('todos',this)">Todos</button>
+      <button class="filter-btn" onclick="filterSpots('gastro',this)">🍽 Gastro</button>
+      <button class="filter-btn" onclick="filterSpots('mirador',this)">🌅 Miradores</button>
+      <button class="filter-btn" onclick="filterSpots('secreto',this)">🔍 Secretos</button>
+      <button class="filter-btn" onclick="filterSpots('gratis',this)">✨ Gratis</button>
+      <button class="filter-btn" onclick="filterSpots('noche',this)">🌙 Noche</button>
+    </div>
+    <div class="spots-list" id="spotsList"></div>
+    <div class="sidebar-footer">
+      <div class="footer-count">Mostrando <strong id="countShown">50</strong> de <strong>50</strong> spots</div>
+      <a class="btn-maps" href="https://maps.google.com/?q=barcelona" target="_blank">Abrir en Google Maps →</a>
+    </div>
+  </aside>
+
+  <div id="map">
+    <div class="detail-panel" id="detailPanel">
+      <button class="detail-close" onclick="closeDetail()">✕</button>
+      <div class="detail-cat" id="dCat"></div>
+      <div class="detail-name" id="dName"></div>
+      <div class="detail-barrio" id="dBarrio"></div>
+      <div class="detail-desc" id="dDesc"></div>
+      <div class="detail-tip" id="dTip"></div>
+      <div class="detail-info" id="dInfo"></div>
+      <div class="detail-actions" id="dActions"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+
+// ── 50 SPOTS ──
+const spots = [
+
+  // GASTRO (16 spots)
+  { id:1,  name:'Bar El Xampanyet',        barrio:'El Born',             cat:'gastro',  lat:41.3838, lng:2.1815, emoji:'🥂', tags:['local','gastro'],
+    desc:'Cava de la casa a 2€ la copa. 90 años en la misma calle, frecuentado por los del barrio. El jamón con pan con tomate es de los mejores de la ciudad.',
+    tip:'Llega antes de las 13h o después de las 20h. A mediodía y en verano la cola se dispara.',
+    horario:'Mar–Sáb 12–15h / 19–23h', precio:'~15€/persona', tipo:'Bar de tapas',
+    maps:'https://maps.google.com/?q=Bar+El+Xampanyet+Barcelona' },
+
+  { id:2,  name:'Bar Calders',             barrio:'Sant Antoni',         cat:'gastro',  lat:41.3771, lng:2.1617, emoji:'🍻', tags:['local','gastro'],
+    desc:'El bar perfecto de Sant Antoni. Terraza pequeña y muy codiciada. Vermut y anchoas los domingos con los locales.',
+    tip:'El domingo por la mañana antes de las 12h es el momento dorado — solo vecinos del barrio.',
+    horario:'Lun–Dom 10–02h', precio:'~10€/persona', tipo:'Bar de barrio',
+    maps:'https://maps.google.com/?q=Bar+Calders+Barcelona' },
+
+  { id:3,  name:'La Pepita',               barrio:'Gràcia',              cat:'gastro',  lat:41.4020, lng:2.1570, emoji:'🥙', tags:['local','gastro'],
+    desc:'Los mejores montaditos de Barcelona. Sin reservas. Los del barrio van antes de las 13h para evitar esperas de 45 minutos.',
+    tip:'Pide la patata brava con alioli casero — no sale en ninguna lista pero es lo mejor que sirven.',
+    horario:'Mar–Dom 13–16h / 20–23h', precio:'~18€/persona', tipo:'Montaditos',
+    maps:'https://maps.google.com/?q=La+Pepita+Barcelona' },
+
+  { id:4,  name:'Bodega Sepúlveda',        barrio:'Eixample Esquerra',   cat:'gastro',  lat:41.3811, lng:2.1567, emoji:'🍷', tags:['local','gastro'],
+    desc:'Bodega de barrio auténtica. Vino a granel, conservas y quesos. Los del Eixample llevan aquí toda la vida. Sin carta, sin pretensiones.',
+    tip:'El vino blanco a granel es imbatible. Llevan botella propia los que saben.',
+    horario:'Lun–Sáb 9–21h', precio:'~8€/persona', tipo:'Bodega local',
+    maps:'https://maps.google.com/?q=Bodega+Sepúlveda+Barcelona' },
+
+  { id:5,  name:'Bar Marsella',            barrio:'El Raval',            cat:'gastro',  lat:41.3797, lng:2.1735, emoji:'🫙', tags:['local','secreto','noche'],
+    desc:'El bar más antiguo de Barcelona (1820). Absenta y vermut. Las botellas originales llevan décadas en los estantes. Picasso y Dalí bebían aquí.',
+    tip:'Pide la absenta con azúcar y agua fría — el ritual es parte de la experiencia.',
+    horario:'Lun–Sáb 20h–02h', precio:'~6€ copa', tipo:'Bar histórico',
+    maps:'https://maps.google.com/?q=Bar+Marsella+Barcelona' },
+
+  { id:6,  name:'Parking Pizza',           barrio:'Eixample',            cat:'gastro',  lat:41.3887, lng:2.1608, emoji:'🍕', tags:['local','gastro'],
+    desc:'La pizza favorita de los barceloneses que no van a La Boqueria. Cola inevitable pero merece la pena. Pide la burrata antes de que se agote.',
+    tip:'Llega 10 min antes de que abra. Si esperas más de 20 min, te traen pan con aceite gratis.',
+    horario:'Mar–Dom 13–16h / 20–23h', precio:'~20€/persona', tipo:'Pizzería',
+    maps:'https://maps.google.com/?q=Parking+Pizza+Barcelona' },
+
+  { id:7,  name:'Cervecería Catalana',     barrio:'Eixample',            cat:'gastro',  lat:41.3897, lng:2.1628, emoji:'🦐', tags:['local','gastro'],
+    desc:'Tapas de alto nivel sin precio de turista. Los patatas bravas y los calamares son referencia. Barra larga, servicio rápido y sin reservas.',
+    tip:'La barra es mejor que las mesas — sirven antes y puedes ver trabajar a la cocina.',
+    horario:'Lun–Dom 8–01h', precio:'~22€/persona', tipo:'Tapas',
+    maps:'https://maps.google.com/?q=Cervecería+Catalana+Barcelona' },
+
+  { id:8,  name:'El 58',                  barrio:'El Born',             cat:'gastro',  lat:41.3845, lng:2.1823, emoji:'🥗', tags:['local','gastro'],
+    desc:'Cocina de mercado en el corazón del Born. Menú del día a 13€ que cambia cada semana según lo que traiga el Mercat de Santa Caterina.',
+    tip:'El menú del mediodía es el secreto — por la noche el precio se dobla y la calidad es la misma.',
+    horario:'Lun–Dom 12–24h', precio:'13€ menú / ~28€ noche', tipo:'Cocina de mercado',
+    maps:'https://maps.google.com/?q=El+58+Barcelona+Born' },
+
+  { id:9,  name:'Bar Brutal',             barrio:'El Born',             cat:'gastro',  lat:41.3843, lng:2.1830, emoji:'🫙', tags:['local','gastro'],
+    desc:'Vinos naturales y cocina sin pretensiones. Muy frecuentado por hosteleros de la ciudad los lunes. Carta de vinos impresionante a precios honestos.',
+    tip:'Los lunes es cuando más gente del sector va — si quieres saber qué beber, pregunta quién tienes al lado.',
+    horario:'Lun–Dom 12–24h', precio:'~25€/persona', tipo:'Vinos naturales',
+    maps:'https://maps.google.com/?q=Bar+Brutal+Barcelona' },
+
+  { id:10, name:'La Cova Fumada',         barrio:'La Barceloneta',      cat:'gastro',  lat:41.3793, lng:2.1906, emoji:'🐙', tags:['local','gastro'],
+    desc:'Aquí se inventó el bombón de patata y el pulpo a la barceloneta. Sin carta, sin reservas, sin rótulo. Cierran cuando se acaba la comida.',
+    tip:'Abre a las 9h y cierra antes del mediodía muchos días. Ven pronto o no hay nada.',
+    horario:'Lun–Sáb 9–15h (aprox)', precio:'~18€/persona', tipo:'Bar de pescado',
+    maps:'https://maps.google.com/?q=La+Cova+Fumada+Barcelona' },
+
+  { id:11, name:'Quimet & Quimet',        barrio:'Poble Sec',           cat:'gastro',  lat:41.3740, lng:2.1618, emoji:'🥫', tags:['local','gastro'],
+    desc:'Taberna de conservas desde 1914. Las montaditas con anchoa y mayonesa de trufa son legendarias. Solo de pie, solo de día, solo entre semana.',
+    tip:'Aparecen en todas las guías pero siguen siendo auténticos — la diferencia es llegar a las 12h en punto.',
+    horario:'Lun–Vie 12–16h / 19–22h, Sáb 12–16h', precio:'~20€/persona', tipo:'Taberna conservas',
+    maps:'https://maps.google.com/?q=Quimet+Quimet+Barcelona' },
+
+  { id:12, name:'Bar del Pla',            barrio:'Barri Gòtic',         cat:'gastro',  lat:41.3835, lng:2.1768, emoji:'🍖', tags:['local','gastro'],
+    desc:'Croquetas caseras y huevos rotos que los barceloneses defienden como los mejores de la ciudad. Precio honesto en pleno centro.',
+    tip:'Las croquetas de jamón son las más pedidas, pero las de bacallà son el verdadero secreto.',
+    horario:'Lun–Dom 12–23h', precio:'~20€/persona', tipo:'Tapas tradicionales',
+    maps:'https://maps.google.com/?q=Bar+del+Pla+Barcelona' },
+
+  { id:13, name:'Mercat de Santa Caterina',barrio:'El Born',            cat:'gastro',  lat:41.3853, lng:2.1804, emoji:'🛒', tags:['local','gastro'],
+    desc:'El mercado alternativo a La Boqueria que usan los locales. Techo de mosaico diseñado por Miralles, precios de barrio, cero turistas masificados.',
+    tip:'Los puestos de la parte trasera tienen los mejores precios. La fruta del fondo no sale en fotos pero es la más fresca.',
+    horario:'Lun–Sáb 7:30–15:30h / Jue–Vie 17:30–20:30h', precio:'—', tipo:'Mercado municipal',
+    maps:'https://maps.google.com/?q=Mercat+de+Santa+Caterina+Barcelona' },
+
+  { id:14, name:'Bar Tomas',              barrio:'Sarrià',              cat:'gastro',  lat:41.3998, lng:2.1197, emoji:'🥔', tags:['local','gastro'],
+    desc:'Las bravas más famosas de Barcelona entre los barceloneses. Salsa secreta de la casa, aceite de oliva, crujientes. Un taxi hasta Sarrià vale la pena.',
+    tip:'Solo sirven bravas y calamares. Nada más. Y así llevan décadas siendo referencia absoluta.',
+    horario:'Jue–Mar 12–21:30h', precio:'~8€ ración', tipo:'Bar de bravas',
+    maps:'https://maps.google.com/?q=Bar+Tomas+Sarrià+Barcelona' },
+
+  { id:15, name:'Federal Café',           barrio:'Sant Antoni',         cat:'gastro',  lat:41.3775, lng:2.1628, emoji:'☕', tags:['local','gastro'],
+    desc:'El café de especialidad que puso a Barcelona en el mapa del café de tercera ola. Brunch con aguacate y huevos benedictinos antes de que se pusiera de moda.',
+    tip:'El patio interior del fondo casi nadie lo conoce — pide mesa allí y desapareces del mundo.',
+    horario:'Lun–Vie 8–17h / Finde 9–17h', precio:'~15€ brunch', tipo:'Café de especialidad',
+    maps:'https://maps.google.com/?q=Federal+Café+Barcelona' },
+
+  { id:16, name:'HolyMadre Gelateria',    barrio:'Poblenou',            cat:'gastro',  lat:41.3996, lng:2.1970, emoji:'🍦', tags:['local','gastro','secreto'],
+    desc:'Los mejores helados artesanales de Barcelona. Receta argentina, ingredientes de temporada, sin colorantes ni conservantes. El Poblenou los ha convertido en culto.',
+    tip:'La fila avanza rápido pero merece esperar. Pide el de dulce de leche con almendra — no sale en la carta pero siempre hay.',
+    horario:'Mar–Dom 13–22h (verano hasta 23h)', precio:'~4€ cucurucho', tipo:'Gelateria artesanal',
+    maps:'https://maps.google.com/?q=HolyMadre+Gelateria+Poblenou+Barcelona' },
+
+  // MIRADORES (9 spots)
+  { id:17, name:'Bunkers del Carmel',     barrio:'El Carmel',           cat:'mirador', lat:41.4184, lng:2.1693, emoji:'🌅', tags:['gratis','vista'],
+    desc:'Las mejores vistas de Barcelona. 360º sobre toda la ciudad. Al atardecer los locales suben con cerveza y bocadillo. Evitar domingos en verano.',
+    tip:'La hora dorada (1h antes del ocaso) es mágica. Comprueba el horario de puesta de sol ese día.',
+    horario:'Siempre abierto', precio:'Gratis', tipo:'Mirador histórico',
+    maps:'https://maps.google.com/?q=Bunkers+del+Carmel+Barcelona' },
+
+  { id:18, name:'Mirador del Migdia',     barrio:'Montjuïc',            cat:'mirador', lat:41.3610, lng:2.1462, emoji:'🌅', tags:['gratis','vista','secreto'],
+    desc:'El mirador secreto de Montjuïc que los barceloneses protegen. Vistas al mar y al delta del Llobregat. Chiringuito con música los fines de semana en verano.',
+    tip:'Accessible en bicicleta o a pie desde el Jardí Botànic — 20 min de caminata que casi nadie hace.',
+    horario:'Siempre abierto', precio:'Gratis', tipo:'Mirador',
+    maps:'https://maps.google.com/?q=Mirador+del+Migdia+Montjuïc+Barcelona' },
+
+  { id:19, name:'Turó de la Rovira',      barrio:'El Carmel',           cat:'mirador', lat:41.4175, lng:2.1671, emoji:'🏔️', tags:['gratis','vista'],
+    desc:'Menos conocido que los Bunkers pero igual de impresionante. Restos de baterías antiaéreas. Vista perfecta al Tibidabo y al mar.',
+    tip:'A 5 min a pie de los Bunkers pero casi nadie llega — suele estar vacío incluso cuando los Bunkers están llenos.',
+    horario:'Siempre abierto', precio:'Gratis', tipo:'Mirador histórico',
+    maps:'https://maps.google.com/?q=Turó+de+la+Rovira+Barcelona' },
+
+  { id:20, name:'Terraza del MNAC',       barrio:'Montjuïc',            cat:'mirador', lat:41.3685, lng:2.1531, emoji:'🎨', tags:['vista','cultura'],
+    desc:'La terraza del museo nacional tiene vistas directas a la Sagrada Família desde Montjuïc. Incluida en la entrada al museo.',
+    tip:'El sábado de 15h a 20h la entrada es gratuita — puedes subir solo por las vistas sin pagar.',
+    horario:'Mar–Sáb 10–20h / Dom 10–15h', precio:'Gratis sáb tarde / 12€ resto', tipo:'Terraza museo',
+    maps:'https://maps.google.com/?q=MNAC+Barcelona' },
+
+  { id:21, name:'Park Güell — Zona libre',barrio:'Gràcia Alta',         cat:'mirador', lat:41.4145, lng:2.1527, emoji:'🌿', tags:['gratis','vista'],
+    desc:'El 80% del Park Güell es gratuito y las vistas son igual de impresionantes. Sube por la Travessera de Dalt — sin colas, sin entrada.',
+    tip:'La entrada de la calle Olot es la más masificada. La entrada por la calle Larrard casi nadie la conoce.',
+    horario:'8h–20:30h (varía por temporada)', precio:'Gratis (zona libre)', tipo:'Parque',
+    maps:'https://maps.google.com/?q=Park+Güell+Barcelona' },
+
+  { id:22, name:'Pont del Bisbe (noche)', barrio:'Barri Gòtic',         cat:'mirador', lat:41.3817, lng:2.1758, emoji:'🌉', tags:['secreto','vista'],
+    desc:'El puente neogótico del Gòtic fotografiado desde abajo de noche. Una de las imágenes más icónicas de Barcelona que casi ningún turista hace bien.',
+    tip:'El mejor ángulo es desde el Carrer del Bisbe mirando hacia arriba con el puente iluminado — a las 23h hay poca gente.',
+    horario:'Siempre visible', precio:'Gratis', tipo:'Arquitectura icónica',
+    maps:'https://maps.google.com/?q=Pont+del+Bisbe+Barcelona' },
+
+  { id:23, name:'Mirador del Poble Sec',  barrio:'Poble Sec',           cat:'mirador', lat:41.3692, lng:2.1573, emoji:'🏙️', tags:['gratis','vista'],
+    desc:'Vistas al puerto y a la Barceloneta desde Montjuïc sin subir hasta arriba. Banco de piedra, sin turistas, perfecta para una cerveza al atardecer.',
+    tip:'Lleva algo de beber — no hay tiendas cerca y las vistas merecen quedarse un rato.',
+    horario:'Siempre abierto', precio:'Gratis', tipo:'Mirador',
+    maps:'https://maps.google.com/?q=Mirador+Poble+Sec+Barcelona' },
+
+  { id:24, name:'Terraza Hotel 1898',     barrio:'Las Ramblas',         cat:'mirador', lat:41.3803, lng:2.1729, emoji:'🍸', tags:['vista','noche'],
+    desc:'Terraza de hotel en plena Rambla con vistas a la Barcelona iluminada. Acceso libre al bar — no hace falta ser huésped. Cóctel: 14€.',
+    tip:'Llega antes de las 20h para conseguir sitio en la terraza exterior. Después solo quedan sitios interiores.',
+    horario:'Lun–Dom 18h–01h', precio:'14€ cóctel / consumición mínima', tipo:'Rooftop bar',
+    maps:'https://maps.google.com/?q=Hotel+1898+Barcelona' },
+
+  { id:25, name:'Piscina Olímpica Montjuïc',barrio:'Montjuïc',         cat:'mirador', lat:41.3647, lng:2.1502, emoji:'🏊', tags:['vista','verano'],
+    desc:'La piscina olímpica del 92 con vistas a la ciudad. Abierta al público en verano. La mitad de precio que cualquier piscina de hotel en Barcelona.',
+    tip:'Las vistas desde el trampolín son mejores que desde muchos miradores — y te puedes bañar.',
+    horario:'Jun–Sep: 10–19h', precio:'6€/entrada', tipo:'Piscina olímpica',
+    maps:'https://maps.google.com/?q=Piscina+Municipal+Montjuïc+Barcelona' },
+
+  // SECRETOS (12 spots)
+  { id:26, name:'Templo de Augusto',      barrio:'Barri Gòtic',         cat:'secreto', lat:41.3831, lng:2.1762, emoji:'🏛️', tags:['gratis','secreto','cultura'],
+    desc:'Columnas romanas del siglo I a.C. escondidas en el patio interior de un edificio medieval. Completamente gratis. Completamente ignorado.',
+    tip:'La entrada es discreta — busca el Centre Excursionista de Catalunya en el Carrer del Paradís nº 10.',
+    horario:'Mar–Sáb 10–19h', precio:'Gratis', tipo:'Monumento romano',
+    maps:'https://maps.google.com/?q=Temple+d+August+Barcelona' },
+
+  { id:27, name:'Passeig de Permanyer',   barrio:'Eixample',            cat:'secreto', lat:41.3906, lng:2.1698, emoji:'🌳', tags:['secreto'],
+    desc:'El callejón más bonito de Barcelona. Jardines privados visibles desde la calle, arquitectura victoriana. Nadie sabe que existe y está en pleno Eixample.',
+    tip:'No hay ningún cartel — busca el Passatge de la Concepció entre los bloques del Eixample.',
+    horario:'Siempre visible (exterior)', precio:'Gratis', tipo:'Rincón urbano',
+    maps:'https://maps.google.com/?q=Passatge+de+la+Concepció+Barcelona' },
+
+  { id:28, name:'Mercat de l\'Abaceria',  barrio:'Gràcia',              cat:'secreto', lat:41.4023, lng:2.1569, emoji:'🛒', tags:['local','secreto'],
+    desc:'El mercado real de Gràcia. Fruterías, carnicerías, bares de bocadillos. Los vecinos hacen la compra aquí mientras los turistas están en La Boqueria.',
+    tip:'El bar del fondo del mercado sirve desayunos de obra a 2,50€ — lo mejor de la ciudad al mejor precio.',
+    horario:'Lun–Sáb 8–14h (bares hasta más tarde)', precio:'—', tipo:'Mercado local',
+    maps:'https://maps.google.com/?q=Mercat+de+l+Abaceria+Barcelona' },
+
+  { id:29, name:'El Born — Yacimiento',   barrio:'El Born',             cat:'secreto', lat:41.3847, lng:2.1845, emoji:'🏺', tags:['secreto','gratis','cultura'],
+    desc:'Bajo el Mercat del Born hay una ciudad entera del siglo XVIII destruida por Felipe V. Se puede ver gratis desde la pasarela.',
+    tip:'El acceso gratuito es desde el exterior del mercado. La visita guiada interior cuesta 7€ y dura 90 min.',
+    horario:'Mar–Dom 10–19h', precio:'Gratis (exterior) / 7€ visita', tipo:'Yacimiento arqueológico',
+    maps:'https://maps.google.com/?q=El+Born+Centre+Cultural+Barcelona' },
+
+  { id:30, name:'Jardins de Laribal',     barrio:'Montjuïc',            cat:'secreto', lat:41.3662, lng:2.1516, emoji:'🌸', tags:['gratis','secreto'],
+    desc:'Jardines escalonados con fuentes y pérgolas en Montjuïc. El secreto mejor guardado de la montaña. Completamente vacíos incluso en temporada alta.',
+    tip:'Nadie sube hasta aquí — están a 10 min del Fundació Miró pero nadie los visita.',
+    horario:'Mar–Dom 10–18h (invierno) / 10–20h (verano)', precio:'Gratis', tipo:'Jardines históricos',
+    maps:'https://maps.google.com/?q=Jardins+de+Laribal+Barcelona' },
+
+  { id:31, name:'Refugio 307',            barrio:'Poble Sec',           cat:'secreto', lat:41.3727, lng:2.1601, emoji:'🔦', tags:['secreto','cultura'],
+    desc:'Bunker antiaéreo de la Guerra Civil bajo el Poble Sec. Uno de los refugios mejor conservados de España. Visitas guiadas de 60 min.',
+    tip:'Reservar online con antelación — las plazas se agotan semanas antes. Temperatura interior: 18º siempre.',
+    horario:'Visitas guiadas — reserva online obligatoria', precio:'8€/persona', tipo:'Patrimonio histórico',
+    maps:'https://maps.google.com/?q=Refugi+307+Barcelona' },
+
+  { id:32, name:'Pavillon Mies van der Rohe',barrio:'Montjuïc',        cat:'secreto', lat:41.3713, lng:2.1497, emoji:'🏗️', tags:['secreto','cultura'],
+    desc:'El pabellón de la Exposición Universal de 1929 reconstruido. Mármol, agua y luz. Uno de los edificios más influyentes del siglo XX. Solo 5€.',
+    tip:'Entra y siéntate 15 minutos en silencio mirando el estanque. La mayoría de visitantes pasan demasiado rápido.',
+    horario:'Lun–Dom 10–18h', precio:'5€/persona', tipo:'Arquitectura icónica',
+    maps:'https://maps.google.com/?q=Mies+van+der+Rohe+Pavillon+Barcelona' },
+
+  { id:33, name:'Jardí Botànic Històric',  barrio:'Montjuïc',           cat:'secreto', lat:41.3669, lng:2.1534, emoji:'🌱', tags:['gratis','secreto'],
+    desc:'El jardín botánico original de 1930, distinto al nuevo. Pequeño, laberíntico, lleno de plantas mediterráneas. Completamente vacío.',
+    tip:'Está justo al lado del Teatre Grec pero nadie entra. En primavera huele increíble.',
+    horario:'Mar–Dom 10–17h', precio:'Gratis', tipo:'Jardín histórico',
+    maps:'https://maps.google.com/?q=Jardí+Botànic+Històric+Barcelona' },
+
+  { id:34, name:'Biblioteca de Catalunya', barrio:'El Raval',           cat:'secreto', lat:41.3810, lng:2.1710, emoji:'📚', tags:['gratis','secreto','cultura'],
+    desc:'El interior del antiguo Hospital de la Santa Creu — uno de los más bellos de Europa. Entrada libre. Los barceloneses vienen a estudiar aquí.',
+    tip:'El patio interior en verano es el sitio más tranquilo de Barcelona. Lleva un libro.',
+    horario:'Lun–Vie 9–20h / Sáb 9–14h', precio:'Gratis', tipo:'Patrimonio arquitectónico',
+    maps:'https://maps.google.com/?q=Biblioteca+de+Catalunya+Barcelona' },
+
+  { id:35, name:'Plaça de la Virreina',    barrio:'Gràcia',             cat:'secreto', lat:41.4033, lng:2.1560, emoji:'🌳', tags:['local','secreto'],
+    desc:'La plaza donde vive Gràcia de verdad. Terrazas de bar con vecinos jugando a cartas, niños en bicicleta, conversaciones hasta las 2h de la mañana.',
+    tip:'El bar del fondo de la plaza sirve el vermut más barato de Gràcia. Sin carta, sin menú, sin pretensiones.',
+    horario:'Siempre animada', precio:'Gratis / ~4€ vermut', tipo:'Plaza de barrio',
+    maps:'https://maps.google.com/?q=Plaça+de+la+Virreina+Barcelona' },
+
+  { id:36, name:'Can Framis',             barrio:'Poblenou',            cat:'secreto', lat:41.3994, lng:2.2008, emoji:'🖼️', tags:['secreto','cultura'],
+    desc:'Museo de pintura del siglo XVIII en una masía del XV dentro del 22@. La Barcelona medieval metida en el distrito tecnológico. Solo 6€.',
+    tip:'La colección de retratos históricos catalanes es única en el mundo y nadie la conoce. Ve un martes que está vacío.',
+    horario:'Mar–Sáb 11–18h / Dom 11–14h', precio:'6€/persona', tipo:'Museo',
+    maps:'https://maps.google.com/?q=Museu+Can+Framis+Barcelona' },
+
+  { id:37, name:'Cementiri de Poblenou',  barrio:'Poblenou',            cat:'secreto', lat:41.3987, lng:2.2043, emoji:'🕊️', tags:['secreto','cultura'],
+    desc:'El cementerio más antiguo de Barcelona (1775). Esculturas de mármol del XIX impresionantes. Los barceloneses vienen a pasear — silencioso y bello.',
+    tip:'La escultura del "El Petó de la Mort" (el beso de la muerte) es una de las más inquietantes de Europa.',
+    horario:'Lun–Dom 8–18h', precio:'Gratis', tipo:'Patrimonio histórico',
+    maps:'https://maps.google.com/?q=Cementiri+de+Poblenou+Barcelona' },
+
+  // GRATIS (7 spots)
+  { id:38, name:'Música a la Fresca',     barrio:'Barri Gòtic',         cat:'gratis',  lat:41.3845, lng:2.1769, emoji:'🎵', tags:['gratis','cultura'],
+    desc:'Conciertos gratuitos de jazz, clásica y flamenco en el Pati de la Llimona durante el verano. Reserva gratis online — los locales llevan su propia bebida.',
+    tip:'Las sesiones de jazz del miércoles son las más desconocidas y las de mejor nivel.',
+    horario:'Jul–Ago: varios días/semana', precio:'Gratis (reserva online)', tipo:'Concierto gratuito',
+    maps:'https://maps.google.com/?q=Pati+de+la+Llimona+Barcelona' },
+
+  { id:39, name:'Parc de la Ciutadella',  barrio:'El Born',             cat:'gratis',  lat:41.3872, lng:2.1899, emoji:'🌳', tags:['gratis'],
+    desc:'El parque de los barceloneses. Los domingos: grupos tocando música, familias con picnic, gente leyendo. El lago con barcas cuesta 6€ pero el resto es libre.',
+    tip:'El invernadero de hierro del siglo XIX al fondo del parque casi nadie lo visita y es extraordinario.',
+    horario:'8h–22h', precio:'Gratis', tipo:'Parque urbano',
+    maps:'https://maps.google.com/?q=Parc+de+la+Ciutadella+Barcelona' },
+
+  { id:40, name:'Sant Pau Recinte Modernista',barrio:'Eixample',        cat:'gratis',  lat:41.4139, lng:2.1747, emoji:'🏥', tags:['cultura','secreto'],
+    desc:'El edificio más impresionante de Barcelona después de la Sagrada Família. Sin colas, sin masas. El exterior es completamente libre. Interior 15€.',
+    tip:'El exterior vale el trayecto — los jardines son acceso libre y las fachadas son tan impresionantes como el interior.',
+    horario:'Nov–Mar 10–16:30h / Abr–Oct 10–18:30h', precio:'15€ interior / gratis exterior', tipo:'Arquitectura modernista',
+    maps:'https://maps.google.com/?q=Sant+Pau+Recinte+Modernista+Barcelona' },
+
+  { id:41, name:'Grec Festival (verano)',  barrio:'Montjuïc',            cat:'gratis',  lat:41.3685, lng:2.1542, emoji:'🎭', tags:['gratis','cultura','verano'],
+    desc:'El festival de verano de Barcelona. Teatro, danza y música en el anfiteatro romano de Montjuïc. Algunas actuaciones son gratuitas.',
+    tip:'Los ensayos generales abiertos al público son completamente gratis — misma calidad, sin pagar.',
+    horario:'Jul–Ago: consultar programa', precio:'Gratis (algunas) / 15–40€', tipo:'Festival cultural',
+    maps:'https://maps.google.com/?q=Teatre+Grec+Barcelona' },
+
+  { id:42, name:'Fàbrica Moritz',         barrio:'Eixample Esquerra',   cat:'gratis',  lat:41.3795, lng:2.1601, emoji:'🍺', tags:['gratis','local'],
+    desc:'La fábrica de cerveza Moritz reconvertida en espacio cultural y bar. Visitas a la fábrica gratuitas los fines de semana. Cerveza de barril directo de producción.',
+    tip:'La visita gratuita de sábado a las 12h incluye degustación — reservar online con antelación.',
+    horario:'Lun–Dom 9h–02h', precio:'Gratis / cerveza ~3.50€', tipo:'Fábrica-bar',
+    maps:'https://maps.google.com/?q=Fàbrica+Moritz+Barcelona' },
+
+  { id:43, name:'Disseny Hub Barcelona',  barrio:'Glòries',             cat:'gratis',  lat:41.4031, lng:2.1909, emoji:'🎨', tags:['gratis','cultura'],
+    desc:'Museo del diseño de Barcelona. La colección permanente de moda, artes aplicadas y diseño industrial es completamente gratuita.',
+    tip:'La colección de indumentaria histórica en el sótano es una de las mejores de Europa y nadie la conoce.',
+    horario:'Mar–Dom 10–20h', precio:'Gratis (colección permanente)', tipo:'Museo de diseño',
+    maps:'https://maps.google.com/?q=Museu+del+Disseny+Barcelona' },
+
+  { id:44, name:'Mercat de Sant Antoni',  barrio:'Sant Antoni',         cat:'gratis',  lat:41.3784, lng:2.1611, emoji:'📚', tags:['gratis','local'],
+    desc:'Los domingos por la mañana: mercado de libros de segunda mano, cómics y revistas. Los coleccionistas barceloneses llevan aquí décadas.',
+    tip:'Las mejores piezas aparecen a las 8h. Si llegas a las 11h solo quedan los restos.',
+    horario:'Dom 8:30–14h (mercado libros)', precio:'Gratis (entrada)', tipo:'Mercado dominical',
+    maps:'https://maps.google.com/?q=Mercat+de+Sant+Antoni+Barcelona' },
+
+  // NOCHE (6 spots)
+  { id:45, name:'Moog Club',              barrio:'El Raval',            cat:'noche',   lat:41.3790, lng:2.1745, emoji:'🎧', tags:['noche'],
+    desc:'Sala pequeña y legendaria de techno y electrónica. Los DJs de la escena barcelonesa pasan por aquí. Interior solo 300 personas — íntimo y sudado.',
+    tip:'Llega después de las 2h — antes la pista está vacía aunque la música sea buena.',
+    horario:'Vie–Sáb 24h–05h', precio:'~10€ entrada', tipo:'Club electrónica',
+    maps:'https://maps.google.com/?q=Moog+Club+Barcelona' },
+
+  { id:46, name:'Bar Mariatchi',          barrio:'El Raval',            cat:'noche',   lat:41.3790, lng:2.1688, emoji:'🎸', tags:['noche','local'],
+    desc:'Bar de música en directo sin cover charge. Rock, blues, jazz según el día. La cosa se anima a partir de las 23h.',
+    tip:'Los miércoles tienen sesión de jazz improvisado — músicos del Liceu vienen a tocar sin anunciarse.',
+    horario:'Mié–Dom 20h–03h', precio:'~8€ consumición', tipo:'Bar con música',
+    maps:'https://maps.google.com/?q=Bar+Mariatchi+Barcelona' },
+
+  { id:47, name:'Terraza del BARTS',      barrio:'Montjuïc',            cat:'noche',   lat:41.3720, lng:2.1560, emoji:'🌙', tags:['noche','vista'],
+    desc:'La sala de conciertos de Montjuïc tiene terraza de verano con vistas al puerto. Conciertos más pequeños y precios más accesibles que el Palau.',
+    tip:'La terraza del bar exterior está abierta aunque no tengas entrada para el concierto de dentro.',
+    horario:'Varía según programación', precio:'Desde 15€ concierto', tipo:'Sala de conciertos',
+    maps:'https://maps.google.com/?q=BARTS+Barcelona' },
+
+  { id:48, name:'El Raval de noche',      barrio:'El Raval',            cat:'noche',   lat:41.3795, lng:2.1680, emoji:'🌃', tags:['noche','local'],
+    desc:'El barrio que nunca duerme. Bar London, Bar Almeria, Bar Marsella — un circuito de bares históricos donde los barceloneses beben desde hace décadas.',
+    tip:'Empieza en el Bar Marsella (absenta), sigue en el London (gin-tonic), termina en La Confitería (cócteles).',
+    horario:'De 22h a amanecer', precio:'~6-10€ copa', tipo:'Ruta de bares',
+    maps:'https://maps.google.com/?q=El+Raval+Barcelona' },
+
+  { id:49, name:'La Terrazza',            barrio:'Montjuïc',            cat:'noche',   lat:41.3693, lng:2.1499, emoji:'🪩', tags:['noche','verano'],
+    desc:'Club al aire libre en Montjuïc, abierto solo en verano. House y techno con la ciudad iluminada de fondo. El verano barcelonés por excelencia.',
+    tip:'Las primeras semanas de junio están menos masificadas y la programación es igual de buena.',
+    horario:'May–Sep: Jue–Sáb 24h–06h', precio:'~15–20€ entrada', tipo:'Club al aire libre',
+    maps:'https://maps.google.com/?q=La+Terrazza+Barcelona' },
+
+  { id:50, name:'Bar London',             barrio:'El Raval',            cat:'noche',   lat:41.3798, lng:2.1701, emoji:'🥃', tags:['noche','local','secreto'],
+    desc:'El bar de los músicos, artistas y noctámbulos barceloneses desde 1910. Gin-tonic de la casa en copa balón. La decoración no ha cambiado en 50 años.',
+    tip:'La barra de la izquierda es donde siempre hay conversación. La derecha es para los que quieren tranquilidad.',
+    horario:'Lun–Dom 18h–03h', precio:'~8€ gin-tonic', tipo:'Bar histórico',
+    maps:'https://maps.google.com/?q=Bar+London+Raval+Barcelona' },
+
+];
+
+let map, markers = [], activeFilter = 'todos', activeSpot = null;
+
+function renderList(data) {
+  const list = document.getElementById('spotsList');
+  list.innerHTML = '';
+  document.getElementById('countShown').textContent = data.length;
+  document.getElementById('headerCount').textContent = data.length;
+
+  data.forEach(spot => {
+    const card = document.createElement('div');
+    card.className = 'spot-card' + (activeSpot?.id === spot.id ? ' active' : '');
+    card.dataset.id = spot.id;
+    card.innerHTML = `
+      <div class="spot-icon">${spot.emoji}</div>
+      <div class="spot-info">
+        <div class="spot-name">${spot.name}</div>
+        <div class="spot-barrio">${spot.barrio}</div>
+        <div class="spot-tags">${spot.tags.map(t=>`<span class="tag tag-${t}">${t}</span>`).join('')}</div>
+      </div>
+      <div class="spot-meta">
+        <div class="spot-price">${spot.precio}</div>
+      </div>`;
+    card.onclick = (e) => selectSpot(spot, card);
+    list.appendChild(card);
+  });
+}
+
+function filterSpots(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = cat;
+  const filtered = cat === 'todos' ? spots : spots.filter(s => s.cat === cat || s.tags.includes(cat));
+  renderList(filtered);
+  updateMarkers(filtered);
+  closeDetail();
+}
+
+function selectSpot(spot, card) {
+  activeSpot = spot;
+  document.querySelectorAll('.spot-card').forEach(c => c.classList.remove('active'));
+  if (card) card.classList.add('active');
+
+  if (map) {
+    map.panTo({ lat: spot.lat, lng: spot.lng });
+    map.setZoom(16);
+  }
+
+  document.getElementById('dCat').textContent = spot.tipo;
+  document.getElementById('dName').textContent = spot.name;
+  document.getElementById('dBarrio').textContent = `📍 ${spot.barrio}`;
+  document.getElementById('dDesc').textContent = spot.desc;
+
+  const tipEl = document.getElementById('dTip');
+  if (spot.tip) {
+    tipEl.innerHTML = `<strong>💡 Local tip:</strong> ${spot.tip}`;
+    tipEl.style.display = 'block';
+  } else {
+    tipEl.style.display = 'none';
+  }
+
+  document.getElementById('dInfo').innerHTML = `
+    <div class="info-item"><div class="info-label">Horario</div><div class="info-value">${spot.horario}</div></div>
+    <div class="info-item"><div class="info-label">Precio</div><div class="info-value">${spot.precio}</div></div>`;
+
+  document.getElementById('dActions').innerHTML = `
+    <a class="btn-action btn-primary" href="${spot.maps}" target="_blank">Abrir en Google Maps →</a>
+    <button class="btn-action btn-secondary" onclick="closeDetail()">Cerrar</button>`;
+
+  document.getElementById('detailPanel').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detailPanel').classList.remove('open');
+  activeSpot = null;
+  document.querySelectorAll('.spot-card').forEach(c => c.classList.remove('active'));
+}
+
+function updateMarkers(data) {
+  markers.forEach(m => m.setMap(null));
+  markers = [];
+  data.forEach(spot => {
+    const marker = new google.maps.Marker({
+      position: { lat: spot.lat, lng: spot.lng },
+      map,
+      title: spot.name,
+      label: { text: spot.emoji, fontSize: '16px' },
+      icon: {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 16,
+        fillColor: '#C9A84C',
+        fillOpacity: 0.12,
+        strokeColor: '#C9A84C',
+        strokeWeight: 1.5,
+      }
+    });
+    marker.addListener('click', () => {
+      const card = document.querySelector(`[data-id="${spot.id}"]`);
+      selectSpot(spot, card);
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    markers.push(marker);
+  });
+}
+
+function initMap() {
+  const darkStyle = [
+    { elementType:'geometry', stylers:[{color:'#1a1612'}] },
+    { elementType:'labels.text.stroke', stylers:[{color:'#1a1612'}] },
+    { elementType:'labels.text.fill', stylers:[{color:'#8a7d6b'}] },
+    { featureType:'administrative.locality', elementType:'labels.text.fill', stylers:[{color:'#c9a84c'}] },
+    { featureType:'poi', elementType:'labels.text.fill', stylers:[{color:'#5a5248'}] },
+    { featureType:'poi.park', elementType:'geometry', stylers:[{color:'#1e1c17'}] },
+    { featureType:'road', elementType:'geometry', stylers:[{color:'#2c2520'}] },
+    { featureType:'road', elementType:'geometry.stroke', stylers:[{color:'#1a1612'}] },
+    { featureType:'road', elementType:'labels.text.fill', stylers:[{color:'#6b6356'}] },
+    { featureType:'road.highway', elementType:'geometry', stylers:[{color:'#38312a'}] },
+    { featureType:'road.highway', elementType:'labels.text.fill', stylers:[{color:'#8a7d6b'}] },
+    { featureType:'transit', elementType:'geometry', stylers:[{color:'#2c2520'}] },
+    { featureType:'transit.station', elementType:'labels.text.fill', stylers:[{color:'#c9a84c'}] },
+    { featureType:'water', elementType:'geometry', stylers:[{color:'#0d1117'}] },
+    { featureType:'water', elementType:'labels.text.fill', stylers:[{color:'#3a4a5a'}] },
+  ];
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 41.3874, lng: 2.1686 },
+    zoom: 14,
+    styles: darkStyle,
+    disableDefaultUI: true,
+    zoomControl: true,
+    zoomControlOptions: { position: google.maps.ControlPosition.RIGHT_BOTTOM },
+    gestureHandling: 'greedy',
+  });
+
+  renderList(spots);
+  updateMarkers(spots);
+}
+</script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLtwz2xJ4NON6sApzjvTYwpO_zydi6-yU&callback=initMap"></script>
+</body>
+</html>

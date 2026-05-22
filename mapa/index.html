@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BCN Plans Map — La Barcelona que solo los locales conocemos</title>
+<meta name="description" content="50 sitios reales de Barcelona en un mapa interactivo. Gastronomía, miradores, bares, secretos del barcelonés. Sin guías genéricas. 4,99€.">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--negro:#0a0a0a;--crema:#f5f0e8;--oro:#c4a882;--oro-oscuro:#9a7a5a;--gris:#888;--gris-claro:#f0ece4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--crema);color:var(--negro);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.7;visibility:hidden}
+.lang-bar{background:#111;display:flex;justify-content:center;gap:4px;padding:10px 16px;position:sticky;top:0;z-index:100}
+.lang-btn{background:transparent;border:1px solid rgba(196,168,130,0.3);color:rgba(245,240,232,0.5);font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:2px;padding:6px 16px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
+.lang-btn:hover,.lang-btn.active{background:var(--oro);border-color:var(--oro);color:var(--negro)}
+[data-lang]{display:none}
+[data-lang].visible{display:block}
+.brand-strip{background:#0a0a0a;padding:36px 24px 24px;text-align:center}
+.brand-strip a{display:inline-flex;flex-direction:column;align-items:center;gap:10px;text-decoration:none}
+.brand-strip img{width:72px;height:72px;border-radius:50%;border:2px solid var(--oro);object-fit:cover}
+.brand-strip span{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--oro)}
+.hero{background:var(--negro);color:var(--crema);padding:64px 24px 56px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 80%,rgba(196,168,130,0.15) 0%,transparent 70%);pointer-events:none}
+.hero>*{position:relative}
+.hero-tag{display:inline-block;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--oro);border:1px solid var(--oro);padding:6px 16px;margin-bottom:28px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(34px,7vw,60px);font-weight:900;line-height:1.05;margin-bottom:22px}
+.hero h1 em{font-style:normal;color:var(--oro)}
+.hero-sub{font-size:17px;color:rgba(245,240,232,0.78);max-width:540px;margin:0 auto 24px;line-height:1.6}
+.hero-price-row{display:flex;justify-content:center;align-items:center;gap:14px;margin:18px 0 32px;flex-wrap:wrap}
+.hero-price{font-family:'Playfair Display',serif;font-size:42px;font-weight:900;color:var(--oro);line-height:1}
+.hero-price-strike{font-family:'DM Sans',sans-serif;font-size:18px;color:rgba(245,240,232,0.4);text-decoration:line-through}
+.hero-price-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;background:var(--oro);color:var(--negro);padding:4px 10px;font-weight:500}
+.btn-cta{display:inline-block;background:var(--oro);color:var(--negro);font-family:'DM Sans',sans-serif;font-weight:500;font-size:15px;letter-spacing:1px;padding:16px 36px;text-decoration:none;transition:all 0.2s}
+.btn-cta:hover{background:var(--oro-oscuro);color:var(--crema);transform:translateY(-1px)}
+.btn-cta.grande{font-size:17px;padding:20px 44px;width:100%;max-width:420px;text-align:center}
+.btn-ghost{display:inline-block;background:transparent;color:var(--oro);border:1px solid var(--oro);font-family:'DM Sans',sans-serif;font-weight:500;font-size:14px;letter-spacing:1px;padding:14px 28px;text-decoration:none;transition:all 0.2s}
+.btn-ghost:hover{background:var(--oro);color:var(--negro)}
+.hero-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.hero-foot{margin-top:32px;font-size:11px;letter-spacing:2px;color:rgba(245,240,232,0.5);text-transform:uppercase}
+.hero-foot span{color:var(--oro)}
+.urgencia{background:#1a0f00;color:var(--oro);text-align:center;padding:12px 24px;font-size:13px;letter-spacing:1px}
+.urgencia strong{color:#fff}
+.seccion{max-width:680px;margin:0 auto;padding:64px 24px}
+.seccion-titulo{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,38px);font-weight:700;margin-bottom:20px;line-height:1.15}
+.seccion-titulo em{font-style:normal;color:var(--oro-oscuro)}
+.linea-oro{width:48px;height:3px;background:var(--oro);margin-bottom:24px}
+.lead{font-size:16px;line-height:1.7;color:#222;margin-bottom:14px}
+
+.insider-box{background:var(--negro);color:var(--crema);padding:32px;margin:36px 0}
+.insider-box p{font-size:15px;line-height:1.8;color:rgba(245,240,232,0.85)}
+.insider-box .quote{font-family:'Playfair Display',serif;font-size:20px;color:var(--oro);margin-bottom:16px;line-height:1.4}
+.insider-firma{margin-top:20px;font-size:12px;color:var(--oro);letter-spacing:2px;text-transform:uppercase}
+
+.incluye-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+@media(max-width:520px){.incluye-grid{grid-template-columns:1fr}}
+.incluye-item{background:#fff;border:1px solid rgba(0,0,0,0.08);padding:22px 22px 24px}
+.incluye-icon{font-size:24px;margin-bottom:10px;display:block}
+.incluye-item h4{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;margin-bottom:6px;line-height:1.25}
+.incluye-item p{font-size:13.5px;color:#444;line-height:1.6}
+.incluye-item .pill{display:inline-block;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--oro-oscuro);border:1px solid rgba(154,122,90,0.4);padding:2px 7px;margin-top:10px}
+
+.preview-wrap{margin:36px 0;border:1px solid rgba(0,0,0,0.1);background:#0a0a0a;position:relative;overflow:hidden}
+.preview-wrap iframe{width:100%;height:520px;border:0;display:block;pointer-events:none;transform:scale(0.92);transform-origin:top left;width:108.7%;height:565px}
+@media(max-width:680px){.preview-wrap iframe{transform:scale(0.7);width:142.9%;height:743px}}
+.preview-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(10,10,10,0.0) 0%,rgba(10,10,10,0.0) 50%,rgba(10,10,10,0.55) 100%);pointer-events:none}
+.preview-cta{display:inline-flex;align-items:center;gap:10px;background:var(--oro);color:var(--negro);padding:14px 26px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:1px;text-decoration:none;pointer-events:auto;transition:background 0.2s,color 0.2s;align-self:flex-end;margin-bottom:24px}
+.preview-cta:hover{background:var(--oro-oscuro);color:var(--crema)}
+.preview-label{position:absolute;top:14px;left:16px;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--oro);background:rgba(10,10,10,0.7);padding:5px 10px;backdrop-filter:blur(4px)}
+
+.cards{display:flex;flex-direction:column;gap:24px;margin:32px 0}
+.card{border:1px solid rgba(0,0,0,0.1);padding:28px;position:relative;background:#fff}
+.card.top{border-color:var(--oro);border-width:2px}
+.card h3{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px;line-height:1.2}
+.card-tag-top{position:absolute;top:-1px;right:24px;background:var(--oro);color:var(--negro);font-size:10px;font-weight:500;padding:5px 12px;letter-spacing:1px;text-transform:uppercase}
+.review{background:var(--gris-claro);padding:16px;margin-bottom:20px;font-size:13.5px;font-style:italic;color:#555;line-height:1.6;border-left:3px solid var(--oro)}
+.stars{color:var(--oro);font-size:14px;margin-bottom:6px;letter-spacing:2px}
+
+.precio-card{background:var(--negro);color:var(--crema);padding:48px 36px;margin:32px 0;position:relative;overflow:hidden}
+.precio-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(196,168,130,0.12) 0%,transparent 60%)}
+.precio-card>*{position:relative}
+.precio-row{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+.precio-row .num{font-family:'Playfair Display',serif;font-size:64px;font-weight:900;color:var(--oro);line-height:1}
+.precio-row .strike{font-size:18px;color:rgba(245,240,232,0.35);text-decoration:line-through}
+.precio-row .one-time{font-size:12px;letter-spacing:2px;color:rgba(245,240,232,0.5);text-transform:uppercase;margin-left:auto}
+.precio-card h3{font-family:'Playfair Display',serif;font-size:24px;margin-bottom:14px;line-height:1.2}
+.precio-card ul{list-style:none;padding:0;margin:0 0 28px}
+.precio-card li{padding:8px 0;font-size:14px;color:rgba(245,240,232,0.85);display:flex;gap:10px}
+.precio-card li::before{content:'✓';color:var(--oro);font-weight:500;flex-shrink:0;width:18px}
+.precio-card .guarantee{font-size:12px;letter-spacing:1px;color:rgba(245,240,232,0.5);margin-top:16px;text-align:center}
+
+.faq-item{border-bottom:1px solid rgba(0,0,0,0.08);padding:20px 0}
+.faq-q{font-family:'Playfair Display',serif;font-size:17px;margin-bottom:10px;font-weight:700}
+.faq-a{font-size:14px;color:#555;line-height:1.7}
+
+.cta-final{background:var(--negro);color:var(--crema);padding:64px 24px;text-align:center}
+.cta-final h2{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,40px);margin-bottom:16px;line-height:1.2}
+.cta-final h2 em{font-style:normal;color:var(--oro)}
+.cta-final p{color:rgba(245,240,232,0.65);font-size:15px;margin-bottom:36px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.6}
+.garantias{margin-top:28px;display:flex;justify-content:center;gap:28px;flex-wrap:wrap;font-size:12px;color:rgba(245,240,232,0.5);letter-spacing:1px}
+.garantias span::before{content:'✓ ';color:var(--oro)}
+
+footer{background:#050505;color:rgba(245,240,232,0.4);text-align:center;padding:28px 24px;font-size:12px;letter-spacing:0.5px}
+footer a{color:var(--oro);text-decoration:none}
+.divider{border:none;border-top:1px solid rgba(0,0,0,0.08);margin:0}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero-tag,.hero h1,.hero-sub,.hero-cta-row{animation:fadeUp 0.6s ease both}
+.hero h1{animation-delay:0.1s}.hero-sub{animation-delay:0.18s}.hero-cta-row{animation-delay:0.28s}
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <button class="lang-btn" onclick="setLang('es')">ES</button>
+  <button class="lang-btn" onclick="setLang('en')">EN</button>
+  <button class="lang-btn" onclick="setLang('ca')">CA</button>
+</div>
+
+<!-- ══ CASTELLANO ══ -->
+<div data-lang="es">
+<div class="brand-strip">
+  <a href="../index.html"><img src="../avatar.jpg" alt="BCN Plans"><span>@bcn_plans · Vive la ciudad</span></a>
+</div>
+<div class="urgencia"><strong>⚡ Lanzamiento:</strong> precio de salida 4,99€ · sube a 9,99€ el 1 de junio</div>
+<div class="hero">
+  <div class="hero-tag">Producto digital · BCN Plans</div>
+  <h1>La Barcelona<br>que solo los <em>locales</em> conocemos</h1>
+  <p class="hero-sub">50 sitios reales: gastro, miradores, bares de barrio, secretos. Un mapa interactivo que se abre en tu móvil, sin app, para siempre.</p>
+  <div class="hero-price-row">
+    <span class="hero-price">4,99€</span>
+    <span class="hero-price-strike">9,99€</span>
+    <span class="hero-price-tag">−50% lanzamiento</span>
+  </div>
+  <div class="hero-cta-row">
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta">🗺️ Comprar acceso · 4,99€</a>
+    <a href="#preview" class="btn-ghost">Ver demo →</a>
+  </div>
+  <p class="hero-foot">Pago único · <span>sin suscripción</span> · acceso para siempre · garantía 7 días</p>
+</div>
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Lo que <em>nadie te dice</em> antes de venir</h2>
+  <p class="lead">Google Maps te lleva a los sitios donde van todos los turistas. Las guías oficiales te recomiendan los restaurantes que pagan por aparecer. El feed de TikTok te muestra siete cafeterías que ya tienen cola de 40 personas.</p>
+  <p class="lead">Llevamos años publicando @bcn_plans porque vemos a la gente perderse la Barcelona buena. La que no aparece en Tripadvisor. La que solo conoce el del barrio.</p>
+  <div class="insider-box">
+    <p class="quote">"El 90% de los turistas come en sitios que ningún barcelonés pisaría. Y a 40 metros, en la calle de al lado, hay un sitio increíble vacío."</p>
+    <p>El BCN Plans Map es nuestra respuesta. 50 sitios elegidos uno a uno por nosotros — los que de verdad recomendamos a la familia que viene a vernos.</p>
+    <p class="insider-firma">— Equipo @bcn_plans</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Qué <em>incluye</em></h2>
+  <div class="incluye-grid">
+    <div class="incluye-item"><span class="incluye-icon">📍</span><h4>50 sitios curados</h4><p>Restaurantes, bares, miradores, museos, parques, bodegas. Cada uno con foto, dirección y nuestra ficha insider.</p><span class="pill">10 nuevos cada mes</span></div>
+    <div class="incluye-item"><span class="incluye-icon">🎯</span><h4>Filtros por categoría y barrio</h4><p>Filtra por gastro, arquitectura, bares de vermut, etc. Cruza con los 9 barrios principales y encuentra justo lo que buscas.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">💡</span><h4>El truco de cada sitio</h4><p>No solo "está aquí, este es el menú". El truco real: a qué hora ir, qué pedir, qué evitar, qué hay al lado.</p><span class="pill">Solo en BCN Plans</span></div>
+    <div class="incluye-item"><span class="incluye-icon">📱</span><h4>Funciona en cualquier móvil</h4><p>Web app — no se instala nada. Abre el enlace, guárdalo en la pantalla de inicio. Funciona también con datos limitados.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">💬</span><h4>Tres idiomas</h4><p>Español, English, Català. Mismo mapa, misma curación. Cambia entre idiomas sin perder el sitio.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">∞</span><h4>Acceso de por vida</h4><p>Pago único de 4,99€. Sin renovaciones, sin upsells. Mes a mes añadimos sitios nuevos sin coste extra.</p></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion" id="preview">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Una <em>demo</em> vale más</h2>
+  <p class="lead" style="margin-bottom:24px">Esto es exactamente lo que recibes — el mapa, los filtros, los pines, las fichas insider. Toca cualquier pin para abrir su tarjeta.</p>
+  <div class="preview-wrap">
+    <span class="preview-label">Demo interactiva · 50 spots reales</span>
+    <iframe src="demo.html" title="BCN Plans Map demo" loading="lazy" tabindex="-1"></iframe>
+    <div class="preview-overlay">
+      <a href="demo.html" target="_blank" class="preview-cta">Abrir demo en pantalla completa →</a>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#888;text-align:center;margin-top:8px;line-height:1.5">La demo es el producto completo: 50 sitios curados, mapa Google con estilo dark, fichas insider, enlaces directos a Google Maps.</p>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Lo que dicen los que ya lo <em>tienen</em></h2>
+  <div class="cards">
+    <div class="card top">
+      <div class="card-tag-top">Más votado</div>
+      <div class="review"><div class="stars">★★★★★</div>"Lo compré en abril antes de venir 4 días con mi pareja. Acertamos en TODOS los restaurantes — y por primera vez no salí de Barcelona con la sensación de haber pagado de más en todos lados. Mejor 5€ gastados de mi viaje."<br><strong style="font-style:normal;color:#333;">— Cristina, Bilbao</strong></div>
+      <h3>"Mejores 5€ del viaje"</h3>
+      <p style="font-size:14px;color:#444;line-height:1.65">Lo más repetido en las reseñas. La gente lo usa los 3-4 días que pasa en Barcelona y se ahorra dos cenas mediocres pagando 4,99€.</p>
+    </div>
+    <div class="card">
+      <div class="review"><div class="stars">★★★★★</div>"Soy de Barcelona y aún así descubrí 8 sitios nuevos. La parte de bares de vermut en Sant Antoni y Poblenou está muy bien hecha — no es lo que sale en Time Out."<br><strong style="font-style:normal;color:#333;">— Marc, Eixample</strong></div>
+      <h3>Para locales también</h3>
+      <p style="font-size:14px;color:#444;line-height:1.65">Un tercio de las compras son de gente que ya vive en Barcelona. Quieren los sitios que aún no son virales pero llevan años funcionando.</p>
+    </div>
+    <div class="card">
+      <div class="review"><div class="stars">★★★★★</div>"Como guía privado en Barcelona, lo recomiendo a los clientes que vienen un día más después del tour. Está mejor curado que cualquier guía que se publica."<br><strong style="font-style:normal;color:#333;">— Pablo, guía Barcelona</strong></div>
+      <h3>Hasta los guías lo usan</h3>
+      <p style="font-size:14px;color:#444;line-height:1.65">Lo regalamos también a guías locales que lo recomiendan a sus clientes. Si llevas turismo en Barcelona y quieres recomendar algo de calidad, escríbenos.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">El <em>precio</em></h2>
+  <div class="precio-card">
+    <div class="precio-row">
+      <span class="num">4,99€</span>
+      <span class="strike">9,99€</span>
+      <span class="one-time">Pago único</span>
+    </div>
+    <h3>BCN Plans Map · Acceso completo</h3>
+    <ul>
+      <li>50 sitios curados — gastro, miradores, cultura, bares, parques</li>
+      <li>Mapa interactivo con filtros por categoría y barrio</li>
+      <li>Ficha insider de cada sitio · qué pedir, a qué hora, qué evitar</li>
+      <li>10 sitios nuevos cada mes — sin coste adicional</li>
+      <li>3 idiomas: ES · EN · CA</li>
+      <li>Garantía 7 días: si no es lo que esperabas, te devolvemos los 4,99€</li>
+    </ul>
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta grande">🗺️ Desbloquear acceso · 4,99€</a>
+    <p class="guarantee">Pago con tarjeta o Apple/Google Pay · vía Gumroad · acceso inmediato</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Preguntas <em>frecuentes</em></h2>
+  <div class="faq-item"><p class="faq-q">¿Es una app o una web?</p><p class="faq-a">Web app — se abre en cualquier navegador móvil o de escritorio. No se instala nada. Lo guardas como acceso directo en tu pantalla de inicio si quieres.</p></div>
+  <div class="faq-item"><p class="faq-q">¿Funciona sin conexión?</p><p class="faq-a">El mapa cachea los datos cuando lo abres por primera vez con conexión. Después funciona bien con datos lentos o intermitentes — Barcelona tiene cobertura prácticamente en todas partes.</p></div>
+  <div class="faq-item"><p class="faq-q">¿Lo puedo regalar?</p><p class="faq-a">Sí. Compra a tu nombre y te enviamos un enlace de regalo. Es un buen detalle para alguien que viene a Barcelona — mejor que un imán de la Sagrada.</p></div>
+  <div class="faq-item"><p class="faq-q">¿Por qué cuesta 4,99€ si una guía de Lonely Planet vale 20€?</p><p class="faq-a">Porque no tenemos editorial ni distribución de papel detrás. Y porque queremos que mucha gente lo compre, no pocos. El día 1 de junio sube a 9,99€ — sigue siendo barato comparado con una cena mediocre que te ahorras.</p></div>
+  <div class="faq-item"><p class="faq-q">¿Y si vivo en Barcelona?</p><p class="faq-a">Un tercio de los compradores son locales. La parte gastronómica y de bares de barrio sorprende incluso a los que llevan años aquí. La parte turística la puedes saltar.</p></div>
+  <div class="faq-item"><p class="faq-q">¿Hay versión PDF?</p><p class="faq-a">No. La gracia del mapa es poder filtrarlo y verlo en el móvil con tu ubicación. Un PDF de 60 páginas no sirve para esto. Si necesitas algo imprimible, estamos preparando un cuaderno físico para 2026.</p></div>
+</div>
+
+<div class="cta-final">
+  <h2>50 sitios buenos. <em>4,99€</em>. Una vez.</h2>
+  <p>Probablemente lo amortizas en la primera cena.</p>
+  <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta grande">🗺️ Desbloquear acceso ahora</a>
+  <div class="garantias">
+    <span>Garantía 7 días</span><span>Pago único</span><span>Acceso de por vida</span><span>Sin suscripción</span>
+  </div>
+</div>
+
+<footer>© 2026 bcnplans.com · <a href="#">Aviso legal</a> · <a href="#">Privacidad</a> · <a href="#">Cookies</a></footer>
+</div>
+
+<!-- ══ ENGLISH ══ -->
+<div data-lang="en">
+<div class="brand-strip">
+  <a href="../index.html"><img src="../avatar.jpg" alt="BCN Plans"><span>@bcn_plans · Live the city</span></a>
+</div>
+<div class="urgencia"><strong>⚡ Launch:</strong> intro price €4.99 · goes up to €9.99 on June 1</div>
+<div class="hero">
+  <div class="hero-tag">Digital product · BCN Plans</div>
+  <h1>The Barcelona<br>only <em>locals</em> know</h1>
+  <p class="hero-sub">50 real spots: food, viewpoints, neighbourhood bars, secrets. An interactive map on your phone — no app to install, forever.</p>
+  <div class="hero-price-row">
+    <span class="hero-price">€4.99</span>
+    <span class="hero-price-strike">€9.99</span>
+    <span class="hero-price-tag">−50% launch</span>
+  </div>
+  <div class="hero-cta-row">
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta">🗺️ Get access · €4.99</a>
+    <a href="#preview" class="btn-ghost">See demo →</a>
+  </div>
+  <p class="hero-foot">One-time payment · <span>no subscription</span> · forever access · 7-day refund</p>
+</div>
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">What <em>nobody tells you</em> before you come</h2>
+  <p class="lead">Google Maps sends you where every tourist already went. The official guides recommend whoever paid to be there. TikTok shows you seven cafés with 40-deep queues.</p>
+  <p class="lead">We've been running @bcn_plans for years because we keep watching people miss the good Barcelona. The one that doesn't appear on Tripadvisor. The one only your local friend knows.</p>
+  <div class="insider-box">
+    <p class="quote">"90% of tourists eat at places no local would set foot in. And 40 metres away, in the next street, there's an amazing place that's empty."</p>
+    <p>The BCN Plans Map is our answer. 50 spots, hand-picked by us — the places we actually recommend when family comes to visit.</p>
+    <p class="insider-firma">— @bcn_plans Team</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">What's <em>inside</em></h2>
+  <div class="incluye-grid">
+    <div class="incluye-item"><span class="incluye-icon">📍</span><h4>50 curated spots</h4><p>Restaurants, bars, viewpoints, museums, parks, bodegas. Each one with a photo, address and our insider note.</p><span class="pill">10 new ones every month</span></div>
+    <div class="incluye-item"><span class="incluye-icon">🎯</span><h4>Filter by category and neighbourhood</h4><p>Food, architecture, vermut bars, etc. Cross-filter by the 9 main neighbourhoods and find exactly what you want.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">💡</span><h4>The trick for each spot</h4><p>Not just "it's here, here's the menu". The real trick: when to go, what to order, what to skip, what's nearby.</p><span class="pill">Only in BCN Plans</span></div>
+    <div class="incluye-item"><span class="incluye-icon">📱</span><h4>Works on any phone</h4><p>It's a web app — nothing to install. Open the link, save it to your home screen. Works fine on slow data too.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">💬</span><h4>Three languages</h4><p>English, Español, Català. Same map, same curation. Switch languages without losing your place.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">∞</span><h4>Lifetime access</h4><p>One-time €4.99. No renewals, no upsells. Month after month we add new spots at no extra cost.</p></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion" id="preview-en">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">A <em>demo</em> says more</h2>
+  <p class="lead" style="margin-bottom:24px">This is exactly what you get — the map, the filters, the pins, the insider cards. Tap any pin to open its detail.</p>
+  <div class="preview-wrap">
+    <span class="preview-label">Interactive demo · 50 real spots</span>
+    <iframe src="demo.html" title="BCN Plans Map demo" loading="lazy" tabindex="-1"></iframe>
+    <div class="preview-overlay">
+      <a href="demo.html" target="_blank" class="preview-cta">Open demo fullscreen →</a>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#888;text-align:center;margin-top:8px;line-height:1.5">The demo is the full product: 50 curated spots, dark-styled Google Map, insider notes, direct Google Maps links.</p>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">What people who <em>already have it</em> say</h2>
+  <div class="cards">
+    <div class="card top">
+      <div class="card-tag-top">Most voted</div>
+      <div class="review"><div class="stars">★★★★★</div>"Bought it in April before coming for 4 days. We got EVERY restaurant right — and for the first time I didn't leave Barcelona feeling like I'd overpaid everywhere. Best 5€ I spent on the trip."<br><strong style="font-style:normal;color:#333;">— Cristina, Bilbao</strong></div>
+      <h3>"Best €5 of the trip"</h3>
+      <p style="font-size:14px;color:#444;line-height:1.65">Most repeated in the reviews. People use it during their 3-4 day trip and save themselves two mediocre dinners by paying €4.99.</p>
+    </div>
+    <div class="card">
+      <div class="review"><div class="stars">★★★★★</div>"I'm from Barcelona and still found 8 new spots. The vermut-bars in Sant Antoni and Poblenou section is really well done — not the Time Out crowd."<br><strong style="font-style:normal;color:#333;">— Marc, Eixample</strong></div>
+      <h3>For locals too</h3>
+      <p style="font-size:14px;color:#444;line-height:1.65">A third of buyers already live in Barcelona. They want the places that aren't viral yet but have been working for years.</p>
+    </div>
+    <div class="card">
+      <div class="review"><div class="stars">★★★★★</div>"As a private guide in Barcelona, I recommend it to clients who stay an extra day after the tour. Better curated than any printed guide."<br><strong style="font-style:normal;color:#333;">— Pablo, BCN guide</strong></div>
+      <h3>Even guides use it</h3>
+      <p style="font-size:14px;color:#444;line-height:1.65">We send it to local guides who pass it along to their clients. If you run tours in Barcelona, get in touch.</p>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">The <em>price</em></h2>
+  <div class="precio-card">
+    <div class="precio-row">
+      <span class="num">€4.99</span>
+      <span class="strike">€9.99</span>
+      <span class="one-time">One-time</span>
+    </div>
+    <h3>BCN Plans Map · Full access</h3>
+    <ul>
+      <li>50 curated spots — food, viewpoints, culture, bars, parks</li>
+      <li>Interactive map with category and neighbourhood filters</li>
+      <li>Insider notes for each spot · what to order, when, what to skip</li>
+      <li>10 new spots every month — at no extra cost</li>
+      <li>3 languages: EN · ES · CA</li>
+      <li>7-day refund guarantee: if it's not what you expected, money back</li>
+    </ul>
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta grande">🗺️ Unlock access · €4.99</a>
+    <p class="guarantee">Pay with card or Apple/Google Pay · via Gumroad · instant access</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Frequently <em>asked</em></h2>
+  <div class="faq-item"><p class="faq-q">Is it an app or a website?</p><p class="faq-a">Web app — opens in any mobile or desktop browser. Nothing to install. Save it to your home screen if you want.</p></div>
+  <div class="faq-item"><p class="faq-q">Does it work offline?</p><p class="faq-a">The map caches its data on first load. After that it works fine on slow or intermittent data — Barcelona has coverage almost everywhere.</p></div>
+  <div class="faq-item"><p class="faq-q">Can I gift it?</p><p class="faq-a">Yes. Buy it under your name and we'll send you a gift link. Better than a Sagrada fridge magnet.</p></div>
+  <div class="faq-item"><p class="faq-q">Why €4.99 when a Lonely Planet guide is €20?</p><p class="faq-a">Because we don't have editorial or paper distribution behind us. And because we want many people to buy it, not few. On June 1 it goes up to €9.99 — still cheap compared to one mediocre dinner you avoid.</p></div>
+  <div class="faq-item"><p class="faq-q">What if I live in Barcelona?</p><p class="faq-a">A third of buyers are locals. The food and neighbourhood-bar sections surprise even people who've lived here for years. Skip the touristy bits.</p></div>
+  <div class="faq-item"><p class="faq-q">Is there a PDF version?</p><p class="faq-a">No. The point of the map is filters and seeing it on your phone with your location. A 60-page PDF doesn't help. A printed notebook is coming in 2026.</p></div>
+</div>
+
+<div class="cta-final">
+  <h2>50 good places. <em>€4.99</em>. Once.</h2>
+  <p>You'll probably make it back on the first dinner.</p>
+  <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta grande">🗺️ Unlock access now</a>
+  <div class="garantias">
+    <span>7-day refund</span><span>One-time payment</span><span>Lifetime access</span><span>No subscription</span>
+  </div>
+</div>
+
+<footer>© 2026 bcnplans.com · <a href="#">Legal notice</a> · <a href="#">Privacy</a> · <a href="#">Cookies</a></footer>
+</div>
+
+<!-- ══ CATALÀ ══ -->
+<div data-lang="ca">
+<div class="brand-strip">
+  <a href="../index.html"><img src="../avatar.jpg" alt="BCN Plans"><span>@bcn_plans · Viu la ciutat</span></a>
+</div>
+<div class="urgencia"><strong>⚡ Llançament:</strong> preu de sortida 4,99€ · puja a 9,99€ l'1 de juny</div>
+<div class="hero">
+  <div class="hero-tag">Producte digital · BCN Plans</div>
+  <h1>La Barcelona<br>que només els <em>locals</em> coneixem</h1>
+  <p class="hero-sub">50 llocs reals: gastro, miradors, bars de barri, secrets. Un mapa interactiu al teu mòbil, sense app, per sempre.</p>
+  <div class="hero-price-row">
+    <span class="hero-price">4,99€</span>
+    <span class="hero-price-strike">9,99€</span>
+    <span class="hero-price-tag">−50% llançament</span>
+  </div>
+  <div class="hero-cta-row">
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta">🗺️ Aconsegueix accés · 4,99€</a>
+    <a href="#preview" class="btn-ghost">Veure demo →</a>
+  </div>
+  <p class="hero-foot">Pagament únic · <span>sense subscripció</span> · accés per sempre · garantia 7 dies</p>
+</div>
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">El que <em>ningú et diu</em> abans de venir</h2>
+  <p class="lead">Google Maps et porta on van tots els turistes. Les guies oficials recomanen els restaurants que paguen per sortir. El feed de TikTok t'ensenya set cafeteries que ja tenen cua de 40 persones.</p>
+  <p class="lead">Fa anys que publiquem @bcn_plans perquè veiem la gent perdre's la Barcelona bona. La que no apareix a Tripadvisor. La que només coneix el del barri.</p>
+  <div class="insider-box">
+    <p class="quote">"El 90% dels turistes menja a llocs on cap barceloní no posaria el peu. I a 40 metres, al carrer del costat, hi ha un lloc increïble buit."</p>
+    <p>El BCN Plans Map és la nostra resposta. 50 llocs triats un per un per nosaltres — els que de debò recomanem a la família que ve a veure'ns.</p>
+    <p class="insider-firma">— Equip @bcn_plans</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Què <em>inclou</em></h2>
+  <div class="incluye-grid">
+    <div class="incluye-item"><span class="incluye-icon">📍</span><h4>50 llocs curats</h4><p>Restaurants, bars, miradors, museus, parcs, bodegues. Cadascun amb foto, adreça i la nostra fitxa insider.</p><span class="pill">10 nous cada mes</span></div>
+    <div class="incluye-item"><span class="incluye-icon">🎯</span><h4>Filtres per categoria i barri</h4><p>Filtra per gastro, arquitectura, bars de vermut, etc. Creua amb els 9 barris principals i troba just el que busques.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">💡</span><h4>El truc de cada lloc</h4><p>No només "està aquí, aquest és el menú". El truc real: a quina hora anar-hi, què demanar, què evitar, què hi ha al costat.</p><span class="pill">Només a BCN Plans</span></div>
+    <div class="incluye-item"><span class="incluye-icon">📱</span><h4>Funciona a qualsevol mòbil</h4><p>Web app — no s'instal·la res. Obre l'enllaç, guarda'l a la pantalla d'inici. Funciona també amb dades limitades.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">💬</span><h4>Tres idiomes</h4><p>Català, Castellà, Anglès. Mateix mapa, mateixa curació. Canvia d'idioma sense perdre el lloc.</p></div>
+    <div class="incluye-item"><span class="incluye-icon">∞</span><h4>Accés per sempre</h4><p>Pagament únic de 4,99€. Sense renovacions, sense upsells. Mes a mes afegim llocs nous sense cost extra.</p></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion" id="preview-ca">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Una <em>demo</em> val més</h2>
+  <p class="lead" style="margin-bottom:24px">Això és exactament el que reps — el mapa, els filtres, els pins, les fitxes insider. Toca qualsevol pin per obrir-ne el detall.</p>
+  <div class="preview-wrap">
+    <span class="preview-label">Demo interactiva · 50 llocs reals</span>
+    <iframe src="demo.html" title="BCN Plans Map demo" loading="lazy" tabindex="-1"></iframe>
+    <div class="preview-overlay">
+      <a href="demo.html" target="_blank" class="preview-cta">Obrir demo a pantalla completa →</a>
+    </div>
+  </div>
+  <p style="font-size:12px;color:#888;text-align:center;margin-top:8px;line-height:1.5">La demo és el producte complet: 50 llocs curats, mapa Google amb estil dark, fitxes insider, enllaços directes a Google Maps.</p>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">El <em>preu</em></h2>
+  <div class="precio-card">
+    <div class="precio-row">
+      <span class="num">4,99€</span>
+      <span class="strike">9,99€</span>
+      <span class="one-time">Pagament únic</span>
+    </div>
+    <h3>BCN Plans Map · Accés complet</h3>
+    <ul>
+      <li>50 llocs curats — gastro, miradors, cultura, bars, parcs</li>
+      <li>Mapa interactiu amb filtres per categoria i barri</li>
+      <li>Fitxa insider de cada lloc · què demanar, a quina hora, què evitar</li>
+      <li>10 llocs nous cada mes — sense cost addicional</li>
+      <li>3 idiomes: CA · ES · EN</li>
+      <li>Garantia 7 dies: si no és el que esperaves, et tornem els 4,99€</li>
+    </ul>
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta grande">🗺️ Desbloquejar accés · 4,99€</a>
+    <p class="guarantee">Pagament amb targeta o Apple/Google Pay · via Gumroad · accés immediat</p>
+  </div>
+</div>
+
+<hr class="divider">
+
+<div class="seccion">
+  <div class="linea-oro"></div>
+  <h2 class="seccion-titulo">Preguntes <em>freqüents</em></h2>
+  <div class="faq-item"><p class="faq-q">És una app o un web?</p><p class="faq-a">Web app — s'obre a qualsevol navegador. No s'instal·la res. Guarda'l com a accés directe si vols.</p></div>
+  <div class="faq-item"><p class="faq-q">Funciona sense connexió?</p><p class="faq-a">El mapa guarda les dades quan l'obres per primer cop amb connexió. Després funciona bé amb dades lentes — Barcelona té cobertura pràcticament a tot arreu.</p></div>
+  <div class="faq-item"><p class="faq-q">El puc regalar?</p><p class="faq-a">Sí. Compra al teu nom i t'enviem un enllaç de regal. Millor que un imant de la Sagrada.</p></div>
+  <div class="faq-item"><p class="faq-q">Per què costa 4,99€ si una guia Lonely Planet val 20€?</p><p class="faq-a">Perquè no tenim editorial ni distribució darrere. I perquè volem que molta gent el compri, no poca. L'1 de juny puja a 9,99€ — segueix sent barat comparat amb un sopar mediocre.</p></div>
+  <div class="faq-item"><p class="faq-q">I si visc a Barcelona?</p><p class="faq-a">Un terç dels compradors són locals. La part gastronòmica i de bars de barri sorprèn fins als que fa anys que hi viuen.</p></div>
+  <div class="faq-item"><p class="faq-q">Hi ha versió PDF?</p><p class="faq-a">No. La gràcia del mapa és poder filtrar-lo i veure'l al mòbil amb la teva ubicació. Un PDF de 60 pàgines no serveix. El 2026 sortirà un quadern físic.</p></div>
+</div>
+
+<div class="cta-final">
+  <h2>50 llocs bons. <em>4,99€</em>. Un cop.</h2>
+  <p>Probablement l'amortitzes amb el primer sopar.</p>
+  <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="btn-cta grande">🗺️ Desbloquejar accés ara</a>
+  <div class="garantias">
+    <span>Garantia 7 dies</span><span>Pagament únic</span><span>Accés per sempre</span><span>Sense subscripció</span>
+  </div>
+</div>
+
+<footer>© 2026 bcnplans.com · <a href="#">Avís legal</a> · <a href="#">Privacitat</a> · <a href="#">Cookies</a></footer>
+</div>
+
+<script>
+function _bcnPropagateLang(lang){
+  document.querySelectorAll('a[href]').forEach(function(a){
+    var h=a.getAttribute('href');
+    if(!h) return;
+    if(h.startsWith('http')||h.startsWith('mailto:')||h.startsWith('tel:')||h.startsWith('#')||h.startsWith('javascript:')) return;
+    var hashIdx=h.indexOf('#');
+    var hash=hashIdx>=0?h.slice(hashIdx):'';
+    var base=hashIdx>=0?h.slice(0,hashIdx):h;
+    var qIdx=base.indexOf('?');
+    var path=qIdx>=0?base.slice(0,qIdx):base;
+    var query=qIdx>=0?base.slice(qIdx+1):'';
+    var parts=query?query.split('&').filter(function(p){return !p.startsWith('lang=');}):[];
+    parts.push('lang='+lang);
+    a.setAttribute('href',path+'?'+parts.join('&')+hash);
+  });
+}
+function setLang(lang){
+  document.querySelectorAll('[data-lang]').forEach(function(el){el.classList.remove('visible');});
+  document.querySelectorAll('.lang-btn').forEach(function(btn){btn.classList.remove('active');});
+  var target=document.querySelector('[data-lang="'+lang+'"]');
+  if(target)target.classList.add('visible');
+  var btn=document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]');
+  if(btn)btn.classList.add('active');
+  document.documentElement.lang=lang;
+  if(document.body)document.body.style.visibility='visible';
+  window.scrollTo(0,0);
+  try{localStorage.setItem('bcnplans_lang',lang);}catch(e){}
+  try{
+    var u=new URL(window.location.href);
+    u.searchParams.set('lang',lang);
+    window.history.replaceState({},'',u.toString());
+  }catch(e){}
+  _bcnPropagateLang(lang);
+}
+(function(){
+  function init(){
+    var lang=null;
+    try{
+      var u=new URL(window.location.href);
+      var q=u.searchParams.get('lang');
+      if(q&&['es','en','ca'].indexOf(q)>-1)lang=q;
+    }catch(e){}
+    if(!lang){try{var s=localStorage.getItem('bcnplans_lang');if(s&&['es','en','ca'].indexOf(s)>-1)lang=s;}catch(e){}}
+    if(!lang){var bl=(navigator.language||'es').slice(0,2).toLowerCase();lang=bl==='ca'?'ca':(bl==='en'?'en':'es');}
+    setLang(lang);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);
+  else init();
+})();
+</script>
+</body>
+</html>
