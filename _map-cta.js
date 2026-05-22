@@ -35,7 +35,7 @@
       price:   '4,99€',
       priceOld:'9,99€',
       cta:     'Ver el mapa →',
-      foot:    'Pago único · sin suscripción · garantía 7 días',
+      foot:    'Pago único · sin suscripción',
     },
     en: {
       eyebrow: 'Digital product',
@@ -44,7 +44,7 @@
       price:   '€4.99',
       priceOld:'€9.99',
       cta:     'See the map →',
-      foot:    'One-time payment · no subscription · 7-day refund',
+      foot:    'One-time payment · no subscription',
     },
     ca: {
       eyebrow: 'Producte digital',
@@ -53,7 +53,7 @@
       price:   '4,99€',
       priceOld:'9,99€',
       cta:     'Veure el mapa →',
-      foot:    'Pagament únic · sense subscripció · garantia 7 dies',
+      foot:    'Pagament únic · sense subscripció',
     },
   };
 
