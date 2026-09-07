@@ -5,7 +5,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BCN Plans — Barcelona sin filtros</title>
-<meta name="description" content="Barcelona sin filtros. Entradas sin colas, guías insider y los mejores planes de la ciudad.">
+<meta name="description" content="Planes, escapadas y datos de Barcelona para los que vivimos aquí. La agenda del finde, cada viernes en tu correo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -151,6 +151,42 @@ body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weig
 .footer-legal a{color:rgba(196,168,130,0.25);text-decoration:none;transition:color 0.2s}
 .footer-legal a:hover{color:#c4a882}
 
+/* ── Agenda / newsletter ── */
+.section-agenda{background:#0d0d0d;border-top:1px solid rgba(196,168,130,0.1);border-bottom:1px solid rgba(196,168,130,0.1)}
+.agenda-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(26px,7vw,36px);color:#f5f0e8;line-height:1.12;margin-bottom:12px}
+.agenda-title em{font-style:italic;color:#c4a882}
+.agenda-body{font-size:14px;line-height:1.65;color:rgba(245,240,232,0.6);margin-bottom:22px}
+.agenda-form{display:flex;flex-direction:column;gap:9px}
+.agenda-input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(196,168,130,0.25);color:#f5f0e8;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:300;padding:14px 16px;transition:border-color 0.2s}
+.agenda-input::placeholder{color:rgba(245,240,232,0.3)}
+.agenda-input:focus{outline:none;border-color:#c4a882}
+.agenda-btn{background:#c4a882;color:#0a0a0a;border:none;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:15px 24px;cursor:pointer;transition:background 0.2s,color 0.2s}
+.agenda-btn:hover{background:#9a7a5a;color:#f5f0e8}
+.agenda-embed{min-height:120px}
+.agenda-note{font-size:11px;color:rgba(245,240,232,0.3);line-height:1.6;margin-top:12px}
+.agenda-ok{display:none;border:1px solid rgba(196,168,130,0.35);padding:16px;font-size:14px;color:#c4a882;line-height:1.55}
+.agenda-ok.show{display:block}
+.agenda-form.hide{display:none}
+
+/* ── Escapadas ── */
+.escapada-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.escapada-item{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid rgba(196,168,130,0.1);padding-bottom:10px}
+.escapada-num{font-family:'Playfair Display',serif;font-size:14px;color:rgba(196,168,130,0.5);min-width:22px}
+.escapada-name{font-size:15px;color:rgba(245,240,232,0.85);flex:1}
+.escapada-meta{font-size:11px;color:rgba(245,240,232,0.35);letter-spacing:0.3px;text-align:right}
+.escapada-cta{display:inline-block;border:1px solid rgba(196,168,130,0.55);color:#c4a882;padding:13px 28px;font-size:12px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;text-decoration:none;transition:all 0.2s}
+.escapada-cta:hover{background:#c4a882;color:#0a0a0a}
+
+/* ── Negocios / media kit ── */
+.section-negocio{background:#0a0a0a;border-top:1px solid rgba(196,168,130,0.08)}
+.negocio-title{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(24px,6.5vw,33px);color:#f5f0e8;line-height:1.15;margin-bottom:14px}
+.negocio-title em{font-style:italic;color:#c4a882}
+.negocio-body{font-size:14px;line-height:1.65;color:rgba(245,240,232,0.6);margin-bottom:24px}
+.negocio-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(196,168,130,0.15);margin-bottom:24px}
+.negocio-stat{background:#0a0a0a;padding:18px 14px}
+.negocio-stat-num{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(22px,6vw,28px);color:#c4a882;line-height:1;margin-bottom:6px}
+.negocio-stat-label{font-size:10px;letter-spacing:1px;color:rgba(245,240,232,0.4);line-height:1.4}
+
 /* ── Animations ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .hero-eyebrow{animation:fadeUp 0.55s 0.1s ease both}
@@ -213,8 +249,8 @@ body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weig
     <h1 class="hero-h1" data-i18n-html="heroHeadline"></h1>
     <p class="hero-sub" data-i18n="heroSub"></p>
     <div class="hero-ctas">
-      <a href="#tickets" class="hero-btn" data-i18n="heroCta"></a>
-      <a href="#guias" class="hero-scroll" data-i18n="heroScroll"></a>
+      <a href="#agenda" class="hero-btn" data-i18n="heroCta"></a>
+      <a href="#escapadas" class="hero-scroll" data-i18n="heroScroll"></a>
     </div>
   </div>
 
@@ -222,6 +258,138 @@ body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weig
     <span data-i18n="collabLabel"></span>
     colaboraciones@bcnplans.com
   </a>
+</section>
+
+<!-- ── La agenda del finde (newsletter) ── -->
+<section class="section section-agenda" id="agenda">
+  <div class="gold-rule"></div>
+  <span class="opener-eyebrow" data-i18n="agendaEyebrow"></span>
+  <h2 class="agenda-title" data-i18n-html="agendaTitle"></h2>
+  <p class="agenda-body" data-i18n="agendaBody"></p>
+
+  <!-- Formulario de beehiiv (publicación BCN Plans, form "Agenda del finde - web").
+       Estilos configurados en beehiiv para que case con la web: fondo #0D0D0D, campo #161616,
+       botón #C4A882 y tipografía DM Sans. Doble opt-in activado. -->
+  <div class="agenda-embed">
+    <script async src="https://subscribe-forms.beehiiv.com/v3/loader.js" data-beehiiv-form="042b113b-99c9-4813-8c8b-83ebc7c207ec"></script>
+  </div>
+  <p class="agenda-note" data-i18n="agendaNote"></p>
+</section>
+
+<!-- ── Escapadas ── -->
+<section class="section section-dark" id="escapadas">
+  <div class="gold-rule"></div>
+  <span class="opener-eyebrow" data-i18n="escapadasEyebrow"></span>
+  <h2 class="agenda-title" data-i18n-html="escapadasTitle"></h2>
+  <p class="agenda-body" data-i18n="escapadasBody"></p>
+
+  <div class="escapada-list">
+    <div class="escapada-item">
+      <span class="escapada-num">01</span>
+      <span class="escapada-name" data-i18n="esc1Name"></span>
+      <span class="escapada-meta" data-i18n="esc1Meta"></span>
+    </div>
+    <div class="escapada-item">
+      <span class="escapada-num">02</span>
+      <span class="escapada-name" data-i18n="esc2Name"></span>
+      <span class="escapada-meta" data-i18n="esc2Meta"></span>
+    </div>
+    <div class="escapada-item">
+      <span class="escapada-num">03</span>
+      <span class="escapada-name" data-i18n="esc3Name"></span>
+      <span class="escapada-meta" data-i18n="esc3Meta"></span>
+    </div>
+    <div class="escapada-item">
+      <span class="escapada-num">04</span>
+      <span class="escapada-name" data-i18n="esc4Name"></span>
+      <span class="escapada-meta" data-i18n="esc4Meta"></span>
+    </div>
+  </div>
+
+  <a href="#agenda" class="escapada-cta" data-i18n="escapadasCta"></a>
+</section>
+
+<!-- ── Guías descargables (cream) ── -->
+<section class="section section-cream" id="guias">
+  <div class="guides-header">
+    <div class="gold-rule" style="background:#9a7a5a"></div>
+    <span class="opener-eyebrow opener-eyebrow-dark" data-i18n="guidesEyebrow"></span>
+    <h2 class="guides-title" data-i18n-html="guidesTitle"></h2>
+    <p class="opener-body" data-i18n="guidesSub"></p>
+  </div>
+
+  <div class="guide-grid">
+
+    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="guide-card">
+      <div class="guide-icon">🗺️</div>
+      <span class="guide-badge guide-badge-pop" data-i18n="mapBadge"></span>
+      <div class="guide-name" data-i18n="mapTitle"></div>
+      <div class="guide-sub" data-i18n="mapSub"></div>
+      <div class="guide-arrow">
+        <span class="guide-price" data-i18n="mapPrice"></span>
+        <span class="guide-arrow-icon">→</span>
+      </div>
+    </a>
+
+    <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="guide-card">
+      <div class="guide-icon">🏰</div>
+      <span class="guide-badge guide-badge-new" data-i18n="gothicBadge"></span>
+      <div class="guide-name" data-i18n="gothicTitle"></div>
+      <div class="guide-sub" data-i18n="gothicSub"></div>
+      <div class="guide-arrow">
+        <span class="guide-price" data-i18n="gothicPrice"></span>
+        <span class="guide-arrow-icon">→</span>
+      </div>
+    </a>
+
+    <a href="https://bcnplanner.gumroad.com/l/born" target="_blank" rel="noopener" class="guide-card">
+      <div class="guide-icon">⛪</div>
+      <span class="guide-badge guide-badge-new" data-i18n="bornBadge"></span>
+      <div class="guide-name" data-i18n="bornTitle"></div>
+      <div class="guide-sub" data-i18n="bornSub"></div>
+      <div class="guide-arrow">
+        <span class="guide-price" data-i18n="bornPrice"></span>
+        <span class="guide-arrow-icon">→</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ── Negocios / media kit ── -->
+<section class="section section-negocio" id="negocios">
+  <div class="gold-rule"></div>
+  <span class="opener-eyebrow" data-i18n="negocioEyebrow"></span>
+  <h2 class="negocio-title" data-i18n-html="negocioTitle"></h2>
+  <p class="negocio-body" data-i18n="negocioBody"></p>
+
+  <div class="negocio-stats">
+    <div class="negocio-stat">
+      <div class="negocio-stat-num">227.000</div>
+      <div class="negocio-stat-label" data-i18n="stat1"></div>
+    </div>
+    <div class="negocio-stat">
+      <div class="negocio-stat-num">70 %</div>
+      <div class="negocio-stat-label" data-i18n="stat2"></div>
+    </div>
+    <div class="negocio-stat">
+      <div class="negocio-stat-num">62 %</div>
+      <div class="negocio-stat-label" data-i18n="stat3"></div>
+    </div>
+    <div class="negocio-stat">
+      <div class="negocio-stat-num">7,7 %</div>
+      <div class="negocio-stat-label" data-i18n="stat4"></div>
+    </div>
+  </div>
+
+  <a href="mailto:colaboraciones@bcnplans.com?subject=Media%20kit%20@bcn_plans" class="escapada-cta" data-i18n="negocioCta"></a>
+</section>
+
+<!-- ── Instagram ── -->
+<section class="section-insta">
+  <span class="insta-eyebrow" data-i18n="instaEyebrow"></span>
+  <h2 class="insta-headline" data-i18n-html="instaHeadline"></h2>
+  <a href="https://www.instagram.com/bcn_plans/" target="_blank" rel="noopener" class="btn-outline" data-i18n="instaCta"></a>
 </section>
 
 <!-- ── Tickets & Tours ── -->
@@ -292,60 +460,6 @@ body{background:#0a0a0a;color:#f5f0e8;font-family:'DM Sans',sans-serif;font-weig
   </div>
 </section>
 
-<!-- ── Guías descargables (cream) ── -->
-<section class="section section-cream" id="guias">
-  <div class="guides-header">
-    <div class="gold-rule" style="background:#9a7a5a"></div>
-    <span class="opener-eyebrow opener-eyebrow-dark" data-i18n="guidesEyebrow"></span>
-    <h2 class="guides-title" data-i18n-html="guidesTitle"></h2>
-    <p class="opener-body" data-i18n="guidesSub"></p>
-  </div>
-
-  <div class="guide-grid">
-
-    <a href="https://bcnplanner.gumroad.com/l/bcn-plans-map" target="_blank" rel="noopener" class="guide-card">
-      <div class="guide-icon">🗺️</div>
-      <span class="guide-badge guide-badge-pop" data-i18n="mapBadge"></span>
-      <div class="guide-name" data-i18n="mapTitle"></div>
-      <div class="guide-sub" data-i18n="mapSub"></div>
-      <div class="guide-arrow">
-        <span class="guide-price" data-i18n="mapPrice"></span>
-        <span class="guide-arrow-icon">→</span>
-      </div>
-    </a>
-
-    <a href="https://bcnplanner.gumroad.com/l/guia-barrio-gotico" target="_blank" rel="noopener" class="guide-card">
-      <div class="guide-icon">🏰</div>
-      <span class="guide-badge guide-badge-new" data-i18n="gothicBadge"></span>
-      <div class="guide-name" data-i18n="gothicTitle"></div>
-      <div class="guide-sub" data-i18n="gothicSub"></div>
-      <div class="guide-arrow">
-        <span class="guide-price" data-i18n="gothicPrice"></span>
-        <span class="guide-arrow-icon">→</span>
-      </div>
-    </a>
-
-    <a href="https://bcnplanner.gumroad.com/l/born" target="_blank" rel="noopener" class="guide-card">
-      <div class="guide-icon">⛪</div>
-      <span class="guide-badge guide-badge-new" data-i18n="bornBadge"></span>
-      <div class="guide-name" data-i18n="bornTitle"></div>
-      <div class="guide-sub" data-i18n="bornSub"></div>
-      <div class="guide-arrow">
-        <span class="guide-price" data-i18n="bornPrice"></span>
-        <span class="guide-arrow-icon">→</span>
-      </div>
-    </a>
-
-  </div>
-</section>
-
-<!-- ── Instagram ── -->
-<section class="section-insta">
-  <span class="insta-eyebrow" data-i18n="instaEyebrow"></span>
-  <h2 class="insta-headline" data-i18n-html="instaHeadline"></h2>
-  <a href="https://www.instagram.com/bcn_plans/" target="_blank" rel="noopener" class="btn-outline" data-i18n="instaCta"></a>
-</section>
-
 <!-- ── Footer ── -->
 <footer class="footer">
   <div class="footer-inner">
@@ -372,12 +486,39 @@ var T = {
   es: {
     heroEyebrow:   'GUÍA INSIDER · BCN_PLANS',
     heroHeadline:  'Barcelona sin <em>filtros</em>',
-    heroSub:       'Las entradas, los planes y los secretos que los turistas no encuentran solos.',
-    heroCta:       '🎟️ Ver entradas',
-    heroScroll:    'Las guías ↓',
+    heroSub:       'Planes, escapadas y datos de la ciudad para los que vivimos aquí.',
+    heroCta:       '📩 Recibir la agenda',
+    heroScroll:    'Las escapadas ↓',
     collabLabel:   'Colaboraciones',
-    ticketsEyebrow:'ENTRADAS & TOURS',
-    ticketsQuote:  '"Reserva con 3 semanas de antelación o esperas 90 minutos en la calle."',
+    agendaEyebrow: 'LA AGENDA DEL FINDE',
+    agendaTitle:   'Cinco planes, <em>cada viernes</em>',
+    agendaBody:    'Escapadas en tren, mercados, fiestas de barrio y sitios donde todavía no hay cola. Un correo a la semana. Gratis.',
+    agendaPlaceholder:'tu@correo.com',
+    agendaBtn:     'Quiero la agenda',
+    agendaOk:      '¡Hecho! El viernes tendrás la primera agenda en tu correo.',
+    agendaNote:    'Sin spam. Un solo correo a la semana y te das de baja cuando quieras.',
+    escapadasEyebrow:'ESCAPADAS DESDE BARCELONA',
+    escapadasTitle:'Sin coche, <em>en tren</em>',
+    escapadasBody: 'Los destinos que caben en un sábado. Estamos preparando la guía completa, con horarios, precios y dónde comer.',
+    esc1Name:      'Calas del Maresme',
+    esc1Meta:      'R1 · 40 min',
+    esc2Name:      'Sitges',
+    esc2Meta:      'R2 Sud · 40 min',
+    esc3Name:      'Sant Sadurní y el Penedès',
+    esc3Meta:      'R4 · 45 min',
+    esc4Name:      'Vic',
+    esc4Meta:      'R3 · 1 h 20',
+    escapadasCta:  'Entrar en la lista',
+    negocioEyebrow:'¿TIENES UN NEGOCIO EN BARCELONA?',
+    negocioTitle:  'Te presentamos <em>a tu barrio</em>',
+    negocioBody:   'Nuestra audiencia no son turistas de paso: son personas que viven en Barcelona y alrededores y que organizan su fin de semana. Reels patrocinados, escapadas y espacio en la newsletter.',
+    stat1:         'personas alcanzadas al mes',
+    stat2:         'de la audiencia está en España',
+    stat3:         'son mujeres, la mayoría de más de 45',
+    stat4:         'de interacción sobre visualizaciones',
+    negocioCta:    'Pedir el media kit',
+    ticketsEyebrow:'¿VIENE ALGUIEN A VERTE?',
+    ticketsQuote:  '"Cuando vienen los de fuera el plan acaba siendo el mismo. Al menos, sin dos horas de cola."',
     ticketsCite:   '— Equipo @bcn_plans',
     sagradaTag:    '🏛️ SAGRADA FAMÍLIA',
     sagradaTitle:  'Sin 2 horas de cola',
@@ -417,12 +558,39 @@ var T = {
   en: {
     heroEyebrow:   'INSIDER GUIDE · BCN_PLANS',
     heroHeadline:  'Barcelona <em>unfiltered</em>',
-    heroSub:       'The tickets, plans and secrets tourists don\'t find on their own.',
-    heroCta:       '🎟️ See tickets',
-    heroScroll:    'The guides ↓',
+    heroSub:       'Plans, day trips and city facts for the people who actually live here.',
+    heroCta:       '📩 Get the agenda',
+    heroScroll:    'Day trips ↓',
     collabLabel:   'Partnerships',
-    ticketsEyebrow:'TICKETS & TOURS',
-    ticketsQuote:  '"Book 3 weeks ahead or wait 90 minutes outside."',
+    agendaEyebrow: 'THE WEEKEND AGENDA',
+    agendaTitle:   'Five plans, <em>every Friday</em>',
+    agendaBody:    'Train day trips, markets, neighbourhood festivals and places without a queue. One email a week. Free.',
+    agendaPlaceholder:'you@email.com',
+    agendaBtn:     'Send me the agenda',
+    agendaOk:      'Done! Your first agenda lands on Friday.',
+    agendaNote:    'No spam. One email a week, unsubscribe whenever you like.',
+    escapadasEyebrow:'DAY TRIPS FROM BARCELONA',
+    escapadasTitle:'No car, <em>just the train</em>',
+    escapadasBody: 'Destinations that fit into a Saturday. We are putting together the full guide, with timetables, prices and where to eat.',
+    esc1Name:      'Maresme coves',
+    esc1Meta:      'R1 · 40 min',
+    esc2Name:      'Sitges',
+    esc2Meta:      'R2 Sud · 40 min',
+    esc3Name:      'Sant Sadurní and the Penedès',
+    esc3Meta:      'R4 · 45 min',
+    esc4Name:      'Vic',
+    esc4Meta:      'R3 · 1 h 20',
+    escapadasCta:  'Join the list',
+    negocioEyebrow:'DO YOU RUN A BUSINESS IN BARCELONA?',
+    negocioTitle:  'We introduce you <em>to your neighbourhood</em>',
+    negocioBody:   'Our audience are not passing tourists: they live in and around Barcelona and they plan their weekends. Sponsored reels, day trips and newsletter placements.',
+    stat1:         'people reached per month',
+    stat2:         'of the audience is in Spain',
+    stat3:         'are women, most of them over 45',
+    stat4:         'interaction rate on views',
+    negocioCta:    'Request the media kit',
+    ticketsEyebrow:'GOT VISITORS COMING?',
+    ticketsQuote:  '"When friends visit, the plan is always the same one. At least without the two-hour queue."',
     ticketsCite:   '— Team @bcn_plans',
     sagradaTag:    '🏛️ SAGRADA FAMÍLIA',
     sagradaTitle:  'Skip the 2-hour queue',
@@ -462,12 +630,39 @@ var T = {
   ca: {
     heroEyebrow:   'GUIA INSIDER · BCN_PLANS',
     heroHeadline:  'Barcelona sense <em>filtres</em>',
-    heroSub:       'Les entrades, els plans i els secrets que els turistes no troben sols.',
-    heroCta:       '🎟️ Veure entrades',
-    heroScroll:    'Les guies ↓',
+    heroSub:       'Plans, escapades i dades de la ciutat per als qui hi vivim.',
+    heroCta:       '📩 Rebre l\'agenda',
+    heroScroll:    'Les escapades ↓',
     collabLabel:   'Col·laboracions',
-    ticketsEyebrow:'ENTRADES & TOURS',
-    ticketsQuote:  '"Reserva amb 3 setmanes d\'antelació o esperes 90 minuts al carrer."',
+    agendaEyebrow: 'L\'AGENDA DEL CAP DE SETMANA',
+    agendaTitle:   'Cinc plans, <em>cada divendres</em>',
+    agendaBody:    'Escapades en tren, mercats, festes de barri i llocs on encara no hi ha cua. Un correu a la setmana. Gratis.',
+    agendaPlaceholder:'el.teu@correu.com',
+    agendaBtn:     'Vull l\'agenda',
+    agendaOk:      'Fet! Divendres tindràs la primera agenda al correu.',
+    agendaNote:    'Sense spam. Un sol correu a la setmana i et dones de baixa quan vulguis.',
+    escapadasEyebrow:'ESCAPADES DES DE BARCELONA',
+    escapadasTitle:'Sense cotxe, <em>en tren</em>',
+    escapadasBody: 'Els destins que caben en un dissabte. Estem preparant la guia completa, amb horaris, preus i on menjar.',
+    esc1Name:      'Cales del Maresme',
+    esc1Meta:      'R1 · 40 min',
+    esc2Name:      'Sitges',
+    esc2Meta:      'R2 Sud · 40 min',
+    esc3Name:      'Sant Sadurní i el Penedès',
+    esc3Meta:      'R4 · 45 min',
+    esc4Name:      'Vic',
+    esc4Meta:      'R3 · 1 h 20',
+    escapadasCta:  'Entrar a la llista',
+    negocioEyebrow:'TENS UN NEGOCI A BARCELONA?',
+    negocioTitle:  'Et presentem <em>al teu barri</em>',
+    negocioBody:   'La nostra audiència no són turistes de pas: són persones que viuen a Barcelona i rodalia i que organitzen el seu cap de setmana. Reels patrocinats, escapades i espai a la newsletter.',
+    stat1:         'persones abastades cada mes',
+    stat2:         'de l\'audiència és a Espanya',
+    stat3:         'són dones, la majoria de més de 45',
+    stat4:         'd\'interacció sobre visualitzacions',
+    negocioCta:    'Demanar el media kit',
+    ticketsEyebrow:'VE ALGÚ A VEURE\'T?',
+    ticketsQuote:  '"Quan venen els de fora el pla acaba sent el mateix. Almenys, sense dues hores de cua."',
     ticketsCite:   '— Equip @bcn_plans',
     sagradaTag:    '🏛️ SAGRADA FAMÍLIA',
     sagradaTitle:  'Sense 2 hores de cua',
@@ -534,6 +729,10 @@ function setLang(lang) {
     var k = el.getAttribute('data-i18n-html');
     if (t[k] !== undefined) el.innerHTML = t[k];
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+    var k = el.getAttribute('data-i18n-placeholder');
+    if (t[k] !== undefined) el.setAttribute('placeholder', t[k]);
+  });
 
   document.querySelectorAll('.lang-btn').forEach(function(btn) { btn.classList.remove('active'); });
   var ab = document.querySelector('.lang-btn[onclick="setLang(\'' + lang + '\')"]');
@@ -572,6 +771,7 @@ function setLang(lang) {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
 })();
+
 </script>
 </body>
 </html>
